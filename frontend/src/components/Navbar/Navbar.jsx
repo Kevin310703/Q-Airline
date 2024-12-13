@@ -1,16 +1,20 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation  } from "react-router-dom";
 
 import { SiConsul } from 'react-icons/si';
 import { BsPhoneVibrate } from 'react-icons/bs';
 import { AiOutlineGlobal } from 'react-icons/ai';
 import { CgMenuGridO } from 'react-icons/cg';
 import { FaRegBell } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
 
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
+    const location = useLocation();
+
     const { user, dispatch } = useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
 
     // Remove the navbar in the small width screens
@@ -35,13 +39,14 @@ const Navbar = () => {
     window.addEventListener('scroll', addBgColor);
 
     const handleLogout = () => {
-        dispatch({ type: "LOGOUT" }); // Xử lý logout
-        localStorage.removeItem("authToken"); // Xóa token khỏi localStorage
+        logout();
     };
 
     const toggleDropdown = () => {
         setShowDropdown((prev) => !prev);
     };
+
+    const isActive = (path) => location.pathname === path;
 
     return (
         <div className="navBar flex">
@@ -59,6 +64,11 @@ const Navbar = () => {
                     {user ? (
                         // Nếu người dùng đã đăng nhập
                         <div className="userMenu flex">
+                            <div className="item">
+                                <LuShoppingCart  className="icon" />
+                                <div className="counter">1</div>
+                            </div>
+
                             <div className="item">
                                 <FaRegBell className="icon" />
                                 <div className="counter">1</div>
@@ -122,20 +132,20 @@ const Navbar = () => {
 
                 <div className={active}>
                     <ul className="menu flex">
-                        <li onClick={removeNavBar} className="listItem">
+                        <li onClick={removeNavBar} className={`listItem ${isActive("/") ? "active" : ""}`}>
                             <Link to="/">Home</Link>
                         </li>
-                        <li onClick={removeNavBar} className="listItem">
+                        <li onClick={removeNavBar} className={`listItem ${isActive("/about-us") ? "active" : ""}`}>
                             <Link to="/about-us">About</Link>
                         </li>
-                        <li onClick={removeNavBar} className="listItem">
+                        <li onClick={removeNavBar} className={`listItem ${isActive("/offers") ? "active" : ""}`}>
                             <Link to="">Offers</Link>
                         </li>
-                        <li onClick={removeNavBar} className="listItem">
+                        <li onClick={removeNavBar} className={`listItem ${isActive("/seats") ? "active" : ""}`}>
                             <Link to="">Seats</Link>
                         </li>
-                        <li onClick={removeNavBar} className="listItem">
-                            <Link to="">Destinations</Link>
+                        <li onClick={removeNavBar} className={`listItem ${isActive("/destinations") ? "active" : ""}`}>
+                            <Link to="/destinations">Destinations</Link>
                         </li>
                     </ul>
 

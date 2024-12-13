@@ -238,6 +238,17 @@ export const ticketInputs = [
     placeholder: "Select a flight",
   },
   {
+    id: "seat_class",
+    label: "Seat Class",
+    type: "select",
+    placeholder: "Select a class",
+    options: [
+      { value: "Economy", label: "Economy" },
+      { value: "Business", label: "Business" },
+      { value: "First", label: "First" },
+    ],
+  },
+  {
     id: "seat_number",
     label: "Seat Number",
     type: "select",

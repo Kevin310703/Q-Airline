@@ -7,20 +7,31 @@ export const getAllTickets = async (req, res) => {
             SELECT 
                 t.ticket_id AS id,
                 t.seat_number,
+                t.seat_class,
                 t.price,
-                b.status,
-                b.booking_date,
-                u.full_name AS customer_name,
+                IFNULL(b.status, 'N/A') AS booking_status,
+                IFNULL(b.booking_date, 'N/A') AS booking_date,
+                IFNULL(u.full_name, 'N/A') AS customer_name,
                 f.flight_id,
-                a1.name AS departure_airport,
-                a2.name AS arrival_airport,
                 f.departure_time,
-                f.arrival_time
+                f.arrival_time,
+                f.status AS flight_status,
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a1.country AS departure_country,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                a2.country AS arrival_country,
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration_number,
+                ap.manufacturer AS airplane_manufacturer,
+                ap.capacity AS airplane_capacity,
+                ap.status AS airplane_status
             FROM 
                 tickets t
-            JOIN 
+            LEFT JOIN 
                 bookings b ON t.booking_id = b.booking_id
-            JOIN 
+            LEFT JOIN 
                 users u ON b.user_id = u.user_id
             JOIN 
                 flights f ON t.flight_id = f.flight_id
@@ -28,8 +39,10 @@ export const getAllTickets = async (req, res) => {
                 airports a1 ON f.departure_airport_id = a1.airport_id
             JOIN 
                 airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
             ORDER BY 
-                t.ticket_id DESC;
+                t.ticket_id ASC;
         `);
         res.status(200).json(result);
     } catch (error) {
@@ -45,20 +58,33 @@ export const getTicketById = async (req, res) => {
     try {
         const [result] = await pool.query(`
             SELECT 
-                t.ticket_id,
+                t.ticket_id AS id,
                 t.seat_number,
+                t.seat_class,
                 t.price,
-                u.full_name AS customer_name,
+                IFNULL(b.status, 'N/A') AS booking_status,
+                IFNULL(b.booking_date, 'N/A') AS booking_date,
+                IFNULL(u.full_name, 'N/A') AS customer_name,
                 f.flight_id,
-                a1.name AS departure_airport,
-                a2.name AS arrival_airport,
                 f.departure_time,
-                f.arrival_time
+                f.arrival_time,
+                f.status AS flight_status,
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a1.country AS departure_country,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                a2.country AS arrival_country,
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration_number,
+                ap.manufacturer AS airplane_manufacturer,
+                ap.capacity AS airplane_capacity,
+                ap.status AS airplane_status
             FROM 
                 tickets t
-            JOIN 
+            LEFT JOIN 
                 bookings b ON t.booking_id = b.booking_id
-            JOIN 
+            LEFT JOIN 
                 users u ON b.user_id = u.user_id
             JOIN 
                 flights f ON t.flight_id = f.flight_id
@@ -66,6 +92,8 @@ export const getTicketById = async (req, res) => {
                 airports a1 ON f.departure_airport_id = a1.airport_id
             JOIN 
                 airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
             WHERE 
                 t.ticket_id = ?
         `, [ticket_id]);
@@ -83,6 +111,31 @@ export const getTicketById = async (req, res) => {
 
 // Tạo (thêm) vé
 export const addTicket = async (req, res) => {
+    const { flight_id, seat_number, seat_class, price } = req.body;
+
+    console.log(flight_id, seat_number, seat_class, price);
+
+    try {
+        const [ticketResult] = await pool.query(
+            `
+            INSERT INTO tickets (flight_id, seat_number, seat_class, price)
+            VALUES (?, ?, ?, ?)
+            `,
+            [flight_id, seat_number, seat_class, price]
+        );
+
+        // Trả về kết quả
+        res.status(200).json({
+            message: "Ticket created successfully",
+            ticket_id: ticketResult.insertId,
+        });
+    } catch (error) {
+        console.error("Error creating ticket:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+export const addTicketAndBooking = async (req, res) => {
     const { user_id, flight_id, seat_number, price } = req.body;
 
     try {

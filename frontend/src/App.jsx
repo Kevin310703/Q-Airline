@@ -17,6 +17,11 @@ import AboutPage from './components/pages/about-us/about-us';
 import { AuthContext } from './components/context/AuthContext';
 import FlightsList from './components/pages/flight/flight-list';
 import AirplaneDetails from './components/pages/airplane/airplane-detail';
+import Destinations from './components/pages/destination/destination';
+import SearchResults from './components/search/search-result';
+import TicketList from './components/pages/ticket/ticket-list';
+import BookTicket from './components/pages/book-ticket/booking-ticket';
+import VerifyEmail from './components/auth/verify-email/verify-email';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -60,6 +65,17 @@ const App = () => {
         />
 
         <Route
+          path="/destinations"
+          element={
+            <>
+              <Navbar />
+              <Destinations />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
           path="/signin"
           element={
             <>
@@ -82,11 +98,55 @@ const App = () => {
         />
 
         <Route
+          path="/search-results"
+          element={
+            <>
+              <Navbar />
+              <SearchResults />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
           path="/flight-list"
           element={
             <>
               <Navbar />
               <FlightsList />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/ticket-list"
+          element={
+            <>
+              <Navbar />
+              <TicketList />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/book-ticket/:id"
+          element={
+            <>
+              <Navbar />
+              <BookTicket />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/verify-email"
+          element={
+            <>
+              <Navbar />
+              <VerifyEmail />
               <Footer />
             </>
           }

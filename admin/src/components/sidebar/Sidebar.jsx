@@ -11,6 +11,9 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
+import AirlinesIcon from '@mui/icons-material/Airlines';
+
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext, useState } from "react";
@@ -60,13 +63,13 @@ const Sidebar = () => {
           </Link>
           <Link to="/airplanes" style={{ textDecoration: "none" }}>
             <li>
-              <AirplanemodeActiveIcon className="icon" />
+              <AirlinesIcon className="icon" />
               <span>Planes</span>
             </li>
           </Link>
           <Link to="/airplane-flights" style={{ textDecoration: "none" }}>
             <li>
-              <CreditCardIcon className="icon" />
+              <AirplanemodeActiveIcon className="icon" />
               <span>Flights</span>
             </li>
           </Link>
@@ -80,6 +83,12 @@ const Sidebar = () => {
             <li>
               <AirplaneTicketIcon className="icon" />
               <span>Tickets</span>
+            </li>
+          </Link>
+          <Link to="/tickets" style={{ textDecoration: "none" }}>
+            <li>
+              <MdOutlineAirlineSeatReclineExtra className="icon" />
+              <span>Booking</span>
             </li>
           </Link>
           <p className="title">USEFUL</p>

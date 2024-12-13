@@ -26,7 +26,6 @@ interface Country {
     cca2: string; // Mã quốc gia 2 ký tự (ISO Alpha-2 code)
 }
 
-
 const SignUp = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -118,11 +117,8 @@ const SignUp = () => {
             const res = await axiosInstance.post("/auth/register", formData);
             console.log(res);
 
-            if (res.status === 201) {
-                toast.success("Registration successful! Redirecting to sign-in page...");
-                setTimeout(() => {
-                    navigate("/signin");
-                }, 4000);
+            if (res.status === 200) {
+                navigate("/verify-email");
             }
         } catch (err) {
             if (err.response && err.response.status === 400) {
@@ -172,16 +168,16 @@ const SignUp = () => {
             newErrors.password = "Password is required.";
         } else if (formData.password.length < 8) {
             newErrors.password = "Password must be at least 8 characters long.";
-        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])/.test(formData.password)) {
-            newErrors.password = "Password must include at least one uppercase letter, one lowercase letter, and one special character.";
+        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*\d)/.test(formData.password)) {
+            newErrors.confirmPassword = "Password must include at least one uppercase letter, one lowercase letter, one special character, and one number.";
         }
 
         if (!formData.confirmPassword) {
             newErrors.confirmPassword = "Password is required.";
         } else if (formData.confirmPassword.length < 8) {
             newErrors.confirmPassword = "Password must be at least 8 characters long.";
-        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])/.test(formData.confirmPassword)) {
-            newErrors.confirmPassword = "Password must include at least one uppercase letter, one lowercase letter, and one special character.";
+        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*\d)/.test(formData.confirmPassword)) {
+            newErrors.confirmPassword = "Password must include at least one uppercase letter, one lowercase letter, one special character, and one number.";
         } else if (formData.confirmPassword !== formData.password) {
             newErrors.confirmPassword = "Passwords do not match.";
         }

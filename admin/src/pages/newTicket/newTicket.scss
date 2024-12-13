@@ -61,18 +61,24 @@
             }
           }
 
-          button {
-            width: 150px;
-            padding: 10px;
-            border: none;
-            background-color: teal;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+          .doubleButton {
+            button:first-child {
+              margin-right: 2rem;
+            }
 
-            &:hover {
-              background-color: rgb(33, 137, 137);
+            button {
+              width: 150px;
+              padding: 10px;
+              border: none;
+              background-color: teal;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+              margin-top: 10px;
+
+              &:hover {
+                background-color: rgb(33, 137, 137);
+              }
             }
           }
         }
@@ -103,17 +109,13 @@
         .detailRow {
           display: flex;
           justify-content: space-between;
-          /* Đặt hai trường ở hai đầu dòng */
           padding: 5px 0;
           border-bottom: 1px solid #ddd;
-          /* Tùy chọn: thêm đường kẻ dưới mỗi dòng */
         }
 
         .detailRow span:first-child {
           font-weight: bold;
-          /* Tô đậm nhãn (label) */
           color: #333;
-          /* Tô màu nhãn */
         }
 
         .detailRow span:last-child {

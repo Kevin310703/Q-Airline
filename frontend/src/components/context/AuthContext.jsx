@@ -43,12 +43,12 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(state.user)) 
-    || sessionStorage.setItem("user", JSON.stringify(state.user));
+    localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
 
   const logout = () => {
     localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
   };
 

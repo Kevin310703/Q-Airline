@@ -18,36 +18,12 @@ CREATE TABLE users (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Quản lý phiên làm việc
-CREATE TABLE sessions (
-    session_id CHAR(36) PRIMARY KEY,
+CREATE TABLE email_verifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    ip_address VARCHAR(45),
-    user_agent TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    expires_at DATETIME NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- Quản lý đặt lại mật khẩu
-CREATE TABLE password_resets (
-    reset_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    token CHAR(64) NOT NULL,
-    expires_at DATETIME NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- Xác thực hai yếu tố
-CREATE TABLE two_factor_auth (
-    tfa_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    secret_key VARCHAR(255) NOT NULL,
-    is_enabled BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    token VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- Vai trò trong hệ thống
@@ -141,6 +117,7 @@ CREATE TABLE tickets (
     booking_id INT NOT NULL,
     flight_id INT NOT NULL,
     seat_number VARCHAR(10),
+    seat_class ENUM('Economy', 'Business', 'First') DEFAULT 'Economy',
     price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (booking_id) REFERENCES bookings(booking_id),
     FOREIGN KEY (flight_id) REFERENCES flights(flight_id)

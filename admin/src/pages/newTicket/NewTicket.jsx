@@ -16,6 +16,7 @@ const NewTicket = ({ inputs, title }) => {
     const [preBooking, setPreBooking] = useState(null); // Lưu trữ thông tin booking tạm thời
     const [flights, setFlights] = useState([]);
     const [seats, setSeats] = useState([]);
+    const [allSeats, setAllSeats] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedFlight, setSelectedFlight] = useState(null);
 
@@ -55,16 +56,15 @@ const NewTicket = ({ inputs, title }) => {
             try {
                 const res = await axiosInstance.get(`/api/airplane-seats/${selectedFlight}`);
                 console.log(res.data);
-                setSeats(
-                    res.data
-                        .filter((seat) => !seat.is_occupied) // Chỉ ghế trống
-                        .map((seat) => ({
-                            value: seat.seat_number,
-                            label: `${seat.seat_number} - ${seat.seat_class}`,
-                            price: seat.price,
-                            seat_class: seat.seat_class,
-                        }))
-                );
+                const allFetchedSeats = res.data.map((seat) => ({
+                    value: seat.seat_number,
+                    label: `${seat.seat_number} - ${seat.seat_class}`,
+                    price: seat.price,
+                    seat_class: seat.seat_class,
+                    is_occupied: seat.is_occupied,
+                }));
+                setAllSeats(allFetchedSeats);
+                setSeats(allFetchedSeats.filter((seat) => !seat.is_occupied));
             } catch (error) {
                 console.error("Failed to fetch seats:", error);
                 toast.error("Failed to fetch seats. Please try again.");
@@ -133,6 +133,19 @@ const NewTicket = ({ inputs, title }) => {
             }
         }
 
+        if (id === "seat_class") {
+            const filteredSeats = allSeats.filter((seat) => seat.seat_class === value);
+            console.log(filteredSeats);
+            setSeats(
+                filteredSeats.map((seat) => ({
+                    value: seat.value,
+                    label: `${seat.value} - ${seat.seat_class}`,
+                    price: seat.price,
+                    seat_class: seat.seat_class,
+                }))
+            );
+        }
+
         if (id === "seat_number") {
             const selectedSeat = seats.find((seat) => seat.value === value);
             if (selectedSeat) {
@@ -159,13 +172,33 @@ const NewTicket = ({ inputs, title }) => {
         }
     };
 
+    const handleCreateTicket = async (e) => {
+        e.preventDefault();
+
+        try {
+            await axiosInstance.post("/api/tickets", {
+                flight_id: info.flight_id,
+                seat_number: info.seat_number,
+                seat_class: info.seat_class,
+                price: info.price
+            });
+            toast.success("Ticket created successfully!");
+            setInfo({});
+            navigate("/tickets");
+        } catch (error) {
+            console.error("Error creating ticket:", error);
+            toast.error("Failed to create new ticket. Please try again.");
+        }
+    };
+
     const confirmBooking = async () => {
         console.log(preBooking);
         try {
-            await axiosInstance.post("/api/tickets", {
-                user_id: preBooking.user_id, 
-                flight_id: preBooking.flight_id, 
-                seat_number: preBooking.seat_number, 
+            await axiosInstance.post("/api/tickets-booking", {
+                user_id: preBooking.user_id,
+                flight_id: preBooking.flight_id,
+                seat_number: preBooking.seat_number,
+                seat_class: preBooking.seat_class,
                 price: preBooking.price
             }); // Gửi pre-booking chính thức
             toast.success("Ticket created successfully!");
@@ -225,11 +258,15 @@ const NewTicket = ({ inputs, title }) => {
                                                 onChange={handleChange}
                                             >
                                                 <option value="">{input.placeholder}</option>
-                                                {(input.id === "flight_id" ? flights : seats).map((option, index) => (
-                                                    <option key={option.value || index} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
+                                                {(input.id === "flight_id"
+                                                    ? flights
+                                                    : (input.id === "seat_number"
+                                                        ? seats
+                                                        : input.options)).map((option, index) => (
+                                                            <option key={option.value || index} value={option.value}>
+                                                                {option.label}
+                                                            </option>
+                                                        ))}
                                             </select>
                                         ) : (
                                             <input
@@ -247,7 +284,18 @@ const NewTicket = ({ inputs, title }) => {
                                         )}
                                     </div>
                                 ))}
-                                <button type="submit">Create Pre-Booking</button>
+
+                                <div className="doubleButton">
+                                    <button type="submit">Create Pre-Booking</button>
+
+                                    <button
+                                        type="button"
+                                        onClick={handleCreateTicket}
+                                        className="createTicketButton"
+                                    >
+                                        Create Ticket
+                                    </button>
+                                </div>
                             </form>
                         ) : (
                             <div className="preBooking">

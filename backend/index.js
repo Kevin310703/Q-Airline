@@ -10,6 +10,7 @@ import roleRoutes from "./Routes/roleRouters.js";
 import airplaneRoutes from "./Routes/airplaneRoutes.js";
 import airportRoutes from "./Routes/airportRoutes.js";
 import ticketRoutes from "./Routes/ticketRoutes.js";
+import searchRoutes from ".//Routes/searchRoutes.js";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors({
   origin: ["http://localhost:3000", "http://localhost:5173"], // Địa chỉ frontend và admin
-  credentials: true, // Nếu cần cookie hoặc thông tin xác thực
+  credentials: true,
 }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
@@ -32,12 +33,13 @@ app.use("/api", roleRoutes);
 app.use("/api", airplaneRoutes);
 app.use("/api", airportRoutes);
 app.use("/api", ticketRoutes);
+app.use("/api", searchRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Khởi chạy server
+// Running server
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

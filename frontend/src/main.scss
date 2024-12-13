@@ -116,6 +116,10 @@ h2 {
     color: var(--blackColor);
 }
 
+.Toastify__toast-container {
+    z-index: 9999 !important;
+}
+
 // NavBar section styling
 .navBar {
     position: fixed;
@@ -280,6 +284,17 @@ h2 {
             }
         }
 
+        .navBarMenu {
+            .menu {
+                .active {
+                    a {
+                        color: var(--PrimaryColor);
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+
         @media screen and (max-width: 768px) {
             .navBarMenu {
                 position: absolute;
@@ -306,6 +321,13 @@ h2 {
                         color: var(--blackColor);
 
                         &:hover {
+                            color: var(--PrimaryColor);
+                            font-weight: 700;
+                        }
+                    }
+
+                    .active {
+                        a {
                             color: var(--PrimaryColor);
                             font-weight: 700;
                         }
@@ -415,6 +437,13 @@ h2 {
                     font-weight: 500;
                     transition: .4s ease;
                 }
+
+                &.active {
+                    background: var(--PrimaryColor);
+                    color: var(--whiteColor);
+                    font-weight: 500;
+                    transition: .4s ease;
+                }
             }
 
             .active {
@@ -444,12 +473,22 @@ h2 {
                     }
                 }
 
+                .locationPopup {
+                    position: relative;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+
                 .texts {
                     h4 {
                         padding-top: 0;
                         padding-bottom: .7rem;
                         color: var(--blackColor);
                         font-weight: 700;
+                    }
+
+                    p {
+                        font-size: .9rem;
                     }
 
                     input {
@@ -459,10 +498,92 @@ h2 {
                         background: transparent;
 
                         &::placeholder {
-                            font-size: 12px;
+                            font-size: .9rem;
                             opacity: .5;
+                            color: var(--greyText);
                         }
                     }
+
+                    input[type="date"] {
+                        font-size: .9rem;
+                    }
+
+                    select {
+                        width: 95%;
+                        border: none;
+                        outline: none;
+                        background: transparent;
+                        font-size: 12px;
+                        opacity: .5;
+                    }
+                }
+            }
+
+            .locationDropdown {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 300px;
+                background: var(--whiteColor);
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 100;
+                padding: 15px;
+                border-radius: 1rem;
+                transition: all 0.3s ease-in-out;
+                overflow: hidden;
+                animation: fadeIn 0.3s ease-in-out;
+
+                .singleDropdown {
+                    margin-bottom: 15px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    h4 {
+                        margin: 0;
+                        font-size: .9rem;
+                        font-weight: 600;
+                        color: var(--blackColor);
+                    }
+
+                    select {
+                        width: 100%;
+                        padding: 10px 12px;
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                        font-size: .85rem;
+                        background-color: #f9f9f9;
+                        color: var(--textColor);
+                        font-weight: 500;
+                        outline: none;
+                        transition: border 0.3s ease;
+
+
+                        &:focus {
+                            border-color: #007BFF;
+                        }
+
+                        &:hover {
+                            background-color: #f1f1f1;
+                        }
+
+                        option {
+                            padding: 5px;
+                        }
+                    }
+                }
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
                 }
             }
 
@@ -1059,6 +1180,48 @@ h2 {
     }
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.modal-content p {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.modal-content .btn {
+    padding: 0.5rem 1.5rem;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.modal-content .btn:hover {
+    background: #0056b3;
+}
+
 // Media sreen styling
 @media screen and (min-width: 480px) {
 
@@ -1375,9 +1538,85 @@ h2 {
 
                 .singleInput {
                     .texts {
-                        input {
+
+                        input,
+                        select {
                             width: 100%;
                         }
+                    }
+
+                    .locationPopup {
+                        position: relative;
+                        display: inline-block;
+                        cursor: pointer;
+                    }
+                }
+
+                .locationDropdown {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    width: 300px;
+                    background: var(--whiteColor);
+                    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                    z-index: 100;
+                    padding: 15px;
+                    border-radius: 1rem;
+                    transition: all 0.3s ease-in-out;
+                    overflow: hidden;
+                    animation: fadeIn 0.3s ease-in-out;
+
+                    .singleDropdown {
+                        margin-bottom: 15px;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        h4 {
+                            margin: 0;
+                            font-size: .9rem;
+                            font-weight: 600;
+                            color: var(--blackColor);
+                        }
+
+                        select {
+                            width: 100%;
+                            padding: 10px 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 6px;
+                            font-size: .85rem;
+                            background-color: #f9f9f9;
+                            color: var(--textColor);
+                            font-weight: 500;
+                            outline: none;
+                            transition: border 0.3s ease;
+
+
+                            &:focus {
+                                border-color: #007BFF;
+                            }
+
+                            &:hover {
+                                background-color: #f1f1f1;
+                            }
+
+                            option {
+                                padding: 5px;
+                            }
+                        }
+                    }
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-10px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
                     }
                 }
             }
@@ -1691,6 +1930,57 @@ h2 {
         }
     }
 
+    .searchResults {
+        .searchResultContainer {
+            margin: 2rem auto;
+
+            h2 {
+                text-align: center;
+                font-size: 2rem;
+                margin-bottom: 2rem;
+                color: #1e40af;
+            }
+
+            .resultsGrid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+
+                .resultCard {
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                    h3 {
+                        color: #1f2937;
+                        font-size: 1.25rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    p {
+                        margin-bottom: 0.5rem;
+                        color: #6b7280;
+                    }
+
+                    .btn {
+                        background-color: #2563eb;
+                        color: white;
+                        padding: 0.5rem 1rem;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #1e3a8a;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Support section styling
     .support {
         .sectionContainer {
@@ -1913,14 +2203,20 @@ h2 {
             }
 
             .cta-button {
-                background-color: #2563eb;
-                color: white;
-                padding: 0.75rem 1.5rem;
-                border-radius: 9999px;
-                transition: background-color 0.3s ease;
+                background: var(--PrimaryColor);
+                color: var(--whiteColor);
+                padding: 0.8rem 1.5rem;
+                border-radius: 3rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                transition: background 0.3s ease, color 0.3s ease;
+                border-radius: 3rem;
+                border: none;
+                cursor: pointer;
 
                 &:hover {
-                    background-color: #1d4ed8;
+                    background: var(--HoverColor);
+                    color: white;
                 }
             }
         }
@@ -1937,6 +2233,129 @@ h2 {
     //         gap: 1.5rem;
     //     }
     // }
+
+    .destination {
+        .destinationContainer {
+            margin: 3rem auto;
+            padding: 2rem;
+            max-width: 1200px;
+
+            .destinationTitle {
+                text-align: center;
+                font-size: 2.8rem;
+                color: #1e293b;
+                font-weight: bold;
+                margin-bottom: 2.5rem;
+                text-transform: capitalize;
+                letter-spacing: 1px;
+            }
+
+            .destinationContent {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 2rem;
+                align-items: start;
+
+                .destinationList {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+
+                    .destinationCard {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        background: #ffffff;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        padding: 1rem;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        cursor: pointer;
+
+                        &:hover {
+                            transform: scale(1.05);
+                            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+                        }
+
+                        &.active {
+                            border: 2px solid #3498db;
+                        }
+
+                        .destinationImage {
+                            width: 80px;
+                            height: 80px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                            border: 3px solid #3498db;
+                        }
+
+                        .destinationInfo {
+                            display: flex;
+                            flex-direction: column;
+
+                            .destinationName {
+                                font-size: 1.2rem;
+                                font-weight: bold;
+                                color: #1f2937;
+                            }
+
+                            .destinationDescription {
+                                font-size: 0.95rem;
+                                color: #6b7280;
+                            }
+                        }
+                    }
+                }
+
+                .mapContainer {
+                    height: 650px;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    background-color: #f8f9fa;
+                }
+            }
+
+            .destinationCta {
+                text-align: center;
+                margin-top: 3rem;
+                background: var(--greyBg);
+                padding: 2rem;
+                border-radius: 8px;
+                color: var(--blackColor);
+
+                h3 {
+                    font-size: 2rem;
+                    margin-bottom: 1rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+
+                p {
+                    font-size: 1rem;
+                    margin-bottom: 1.5rem;
+                    letter-spacing: 0.5px;
+                }
+
+                .btnBookFlight {
+                    background: var(--PrimaryColor);
+                    color: var(--whiteColor);
+                    padding: 0.8rem 2rem;
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    border: none;
+                    border-radius: 3rem;
+                    cursor: pointer;
+                    transition: background 0.3s ease, color 0.3s ease;
+
+                    &:hover {
+                        background: var(--HoverColor);
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
 
     .flightList {
         .flightContainer {
@@ -2386,6 +2805,172 @@ h2 {
                                 opacity: 0.9;
                             }
 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ticketList {
+        background-color: var(--greyBg);
+
+        .ticketListContainer {
+            margin: 2rem auto;
+
+            .ticketsGrid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+
+                .ticketCard {
+                    background-color: var(--whiteColor);
+                    border-radius: 10px;
+                    padding: 1.5rem;
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+                    transition: var(--transition);
+
+                    &:hover {
+                        transform: translateY(-5px);
+                    }
+
+                    .ticketHeader {
+                        border-bottom: 1px solid var(--borderColor);
+                        padding-bottom: 1rem;
+                        margin-bottom: 1rem;
+
+                        h4 {
+                            color: var(--PrimaryColor);
+                            font-size: 1.2rem;
+                        }
+                    }
+
+                    .ticketDetails {
+                        p {
+                            margin: 0.5rem 0;
+                            color: var(--textColor);
+                        }
+                    }
+
+                    .btn {
+                        margin-top: 1rem;
+                        width: 100%;
+                        text-align: center;
+                        padding: 0.7rem;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .bookTicket {
+        .bookTicketContainer {
+            margin: 3rem auto;
+
+            h2 {
+                margin-bottom: 1rem;
+            }
+
+            .ticketDetails {
+                padding: 2rem;
+                border-radius: 3rem;
+                background: var(--SecondaryColor);
+                box-shadow: 0 4px 8px var(--boxShadow);
+
+                .ticketHeader {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #ccc;
+                    padding-bottom: 1rem;
+
+                    h4 {
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+
+                    .flightDuration {
+                        font-size: 14px;
+                        color: #777;
+                    }
+                }
+
+                .ticketContent {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 1rem 0;
+
+                    .flightInfo {
+                        flex: 1;
+
+                        p {
+                            margin: 0.5rem 0;
+                        }
+
+                        .seatClass {
+                            font-weight: bold;
+                            padding: 5px;
+                            border-radius: 5px;
+                            margin-left: 5px;
+                            text-transform: capitalize;
+                        }
+
+                        .economy {
+                            background-color: #f0f8ff;
+                            color: #000080;
+                        }
+
+                        .business {
+                            background-color: #fffacd;
+                            color: #8b4513;
+                        }
+
+                        .first {
+                            background-color: #ffe4e1;
+                            color: #b22222;
+                        }
+                    }
+
+                    .ticketPrice {
+                        flex: 0.3;
+                        text-align: right;
+
+                        p {
+                            font-size: 18px;
+                            font-weight: 700;
+                            color: #333;
+                        }
+                    }
+                }
+
+                .ticketActions {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 1rem;
+
+                    .btn {
+                        padding: 0.7rem 1.5rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        border: none;
+                        color: #fff;
+                        font-weight: 500;
+
+                        &.confirmBtn {
+                            background: #28a745;
+
+                            &:hover {
+                                background: #218838;
+                            }
+                        }
+
+                        &.cancelBtn {
+                            background: #dc3545;
+
+                            &:hover {
+                                background: #c82333;
+                            }
                         }
                     }
                 }

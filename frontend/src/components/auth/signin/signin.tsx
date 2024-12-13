@@ -16,17 +16,36 @@ const SignIn = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        console.log(token);
+    
+        const fetchUserData = async () => {
+            try {
+                if (token) {
+                    const res = await axiosInstance.get("/auth/user-info", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+    
+                    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+                    navigate("/");
+                }
+            } catch (err) {
+                console.error("Invalid token, logging out...");
+                localStorage.removeItem("authToken");
+                sessionStorage.removeItem("authToken");
+                dispatch({ type: "LOGOUT" });
+            }
+        };
+    
         if (token) {
-            dispatch({ type: "LOGIN_SUCCESS", payload: { token } });
-            navigate("/"); // Chuyển hướng nếu đã đăng nhập
+            fetchUserData();
         }
-    }, [dispatch, navigate]);  
+    }, [dispatch, navigate]);    
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         if (!validate()) {
             toast.error("Please fix the errors before submitting.");
@@ -44,6 +63,7 @@ const SignIn = () => {
                 localStorage.setItem("authToken", token);
             } else {
                 sessionStorage.setItem("authToken", token);
+                sessionStorage.setItem("user", JSON.stringify(user));
             }
             dispatch({ type: "LOGIN_SUCCESS", payload: user }); // Lưu thông tin người dùng vào AuthContext
 
@@ -74,8 +94,8 @@ const SignIn = () => {
             newErrors.password = "Password is required.";
         } else if (password.length < 8) {
             newErrors.password = "Password must be at least 8 characters long.";
-        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])/.test(password)) {
-            newErrors.password = "Password must include at least one uppercase letter, one lowercase letter, and one special character.";
+        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=.*\d)/.test(password)) {
+            newErrors.confirmPassword = "Password must include at least one uppercase letter, one lowercase letter, one special character, and one number.";
         }
 
         setErrors(newErrors);

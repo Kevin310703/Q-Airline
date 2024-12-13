@@ -56,3 +56,30 @@ export const assignRoleToUser = async (userId, roleName) => {
     );
     return result.insertId; // Trả về ID của user_role vừa tạo
 };
+
+export const updateUserPassword = async (userId, hashedPassword) => {
+    try {
+        const [result] = await pool.query(
+            `UPDATE users 
+             SET password_hash = ?, updated_at = NOW() 
+             WHERE user_id = ?`,
+            [hashedPassword, userId]
+        );
+        return result.affectedRows > 0;
+    } catch (error) {
+        console.error("Error updating user password:", error);
+        throw new Error("Unable to update password");
+    }
+};
+
+export const insertEmailVerificationToken = async (userId, token) => {
+    try {
+        await pool.query(
+            `INSERT INTO email_verifications (user_id, token) VALUES (?, ?)`,
+            [userId, token]
+        );
+    } catch (error) {
+        console.error('Lỗi khi lưu token xác thực:', error);
+        throw new Error('Không thể lưu token xác thực.');
+    }
+};

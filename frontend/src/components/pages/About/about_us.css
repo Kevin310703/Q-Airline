@@ -1,25 +1,123 @@
-.about-container {
-  font-family: 'Inter', sans-serif;
-  max-width: 1450px;
+:root {
+  --primary-color: #e1ecef;
+  --secondary-color: #2c3e50;
+  --background-color: #f4f5f7;
+  --text-color: #333;
+}
+
+.airline-about-wrapper {
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #ffffff;
-  overflow: hidden;
 }
 
-.about-header {
+.about-hero {
+  margin-top: 10rem;
+  color: #2c3e50;
+  padding: 6rem 2rem;
   text-align: center;
-  color: #1a2f4a;
 }
 
-.about-header h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-top: 10rem;
-    color: #2c3e50;
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.about-header p {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
+.about-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.about-section {
+  margin-bottom: 4rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.about-section:hover {
+  transform: translateY(-10px);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+}
+
+.section-icon-container {
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.section-icon {
+  color: white;
+  stroke-width: 1.5;
+}
+
+.section-content {
+  padding: 2rem;
+}
+
+.section-content h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.commitment-list {
+  list-style-type: none;
+}
+
+.commitment-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.commitment-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+.about-cta {
+  text-align: center;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 8px;
+}
+
+.cta-button {
+  background-color: white;
+  color: var(--primary-color);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-icon-container {
+    padding: 1rem;
+  }
 }

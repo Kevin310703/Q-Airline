@@ -16,7 +16,10 @@ const Footer = () => {
             <div className="sectionContainer container grid">
                 <div data-aos='fade-up' data-aos-duration='2500' className="gridOne">
                     <div className="logoDiv">
-                        <img src="/logo.png" alt="" className="Logo" />
+                    <div class="logoBlock">
+                    <img src="/logo.png" alt="" className="Logo" />
+                    </div>
+                    <div class="logoName">QAirLine</div>
                     </div>
                     <p>Your mind should be stronger than your feelings, fly!</p>
                     <div className="socialIcon flex">

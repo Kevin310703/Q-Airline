@@ -17,12 +17,21 @@ const Navbar = () => {
 
     // Remove the navbar in the small width screens
     const [active, setActive] = useState('navBarMenu');
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Trạng thái của menu
+
     const showNavBar = () => {
         setActive('navBarMenu showNavBar');
+        setIsMenuOpen(true); // Mở menu
     };
 
-    const removeNavBar = () => {
+    const hideNavBar = () => {
         setActive('navBarMenu');
+        setIsMenuOpen(false); // Đóng menu
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen); // Thay đổi trạng thái của menu khi nhấn icon
+        setActive(isMenuOpen ? 'navBarMenu' : 'navBarMenu showNavBar'); // Thay đổi class tương ứng
     };
 
     // Add a background color to the second NavBar
@@ -115,43 +124,49 @@ const Navbar = () => {
                         </div>
                     ) : (
                         // Nếu chưa đăng nhập
-                        <>
+                        <div>
                             <span>
                                 <Link to="/signin">Sign In</Link>
                             </span>
                             <span>
                                 <Link to="/signup">Sign Up</Link>
                             </span>
-                        </>
+                        </div>
                     )}
                 </div>
             </div>
 
             <div className={noBg}>
                 <div className="logoDiv">
-                    <img src="/logo.png" alt="" className="Logo" />
+                    <div className="logoBlock">
+                        <Link to="/" className="logoLink">
+                            <img src="/logo.png" alt="Logo" className="Logo" />
+                        </Link>
+                        <div className="logoSlogan">Euphoria in Every Flight</div>
+                    </div>
+                    <div className="logoName">QAirLine</div>
                 </div>
 
                 <div className={active}>
-                <ul className="menu flex">
-                    <li onClick={removeNavBar} className="listItem">
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li onClick={removeNavBar} className="listItem">
-                        <Link to="/about_us">About</Link>
-                    </li>
-                    <li onClick={removeNavBar} className="listItem">
-                        <Link to="/offers">Offers</Link>
-                    </li>
-                    <li onClick={removeNavBar} className="listItem">
-                        <Link to="/seats">Seats</Link>
-                    </li>
-                    <li onClick={removeNavBar} className="listItem">
-                        <Link to="/destinations">Destinations</Link>
-                    </li>
-                </ul>
+                    <ul className="menu flex">
+                        <li onClick={hideNavBar} className="listItem">
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li onClick={hideNavBar} className="listItem">
+                            <Link to="/about_us">About</Link>
+                        </li>
+                        <li onClick={hideNavBar} className="listItem">
+                            <Link to="/offers">Offers</Link>
+                        </li>
+                        <li onClick={hideNavBar} className="listItem">
+                            <Link to="/seats">Seats</Link>
+                        </li>
+                        <li onClick={hideNavBar} className="listItem">
+                            <Link to="/destinations">Destinations</Link>
+                        </li>
+                    </ul>
 
-                    <button onClick={removeNavBar} className="btn flex btnOne">
+                    <button onClick={hideNavBar} className="btn flex btnOne">
                         Contact
                     </button>
                 </div>
@@ -160,12 +175,12 @@ const Navbar = () => {
                     Contact
                 </button>
 
-                <div onClick={showNavBar} className="toggleIcon">
+                <div onClick={toggleMenu} className="toggleIcon">
                     <CgMenuGridO className="icon" />
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;

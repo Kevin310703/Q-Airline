@@ -41,6 +41,16 @@ export const userInputs = [
     placeholder: "Xuan Thuy, Cau Giay, Hanoi",
   },
   {
+    id: "gender",
+    label: "Gender",
+    type: "select",
+    options: [
+      { value: "Other", label: "Other" },
+      { value: "Male", label: "Male" },
+      { value: "Female", label: "Female" },
+    ],
+  },
+  {
     id: "role",
     label: "Role",
     type: "select",

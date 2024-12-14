@@ -83,3 +83,15 @@ export const insertEmailVerificationToken = async (userId, token) => {
         throw new Error('Không thể lưu token xác thực.');
     }
 };
+
+export const insertResetPasswordToken = async (userId, token) => {
+    try {
+        await pool.query(
+            `INSERT INTO password_reset (user_id, token) VALUES (?, ?)`,
+            [userId, token]
+        );
+    } catch (error) {
+        console.error('Lỗi khi lưu token xác thực:', error);
+        throw new Error('Không thể lưu token xác thực.');
+    }
+};

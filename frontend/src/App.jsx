@@ -22,6 +22,8 @@ import SearchResults from './components/search/search-result';
 import TicketList from './components/pages/ticket/ticket-list';
 import BookTicket from './components/pages/book-ticket/booking-ticket';
 import VerifyEmail from './components/auth/verify-email/verify-email';
+import ForgotPassword from './components/auth/forgot-password/forgot-password';
+import ResetPassword from './components/auth/forgot-password/reset-password';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -147,6 +149,28 @@ const App = () => {
             <>
               <Navbar />
               <VerifyEmail />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <>
+              <Navbar />
+              <ForgotPassword />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/reset-password"
+          element={
+            <>
+              <Navbar />
+              <ResetPassword />
               <Footer />
             </>
           }

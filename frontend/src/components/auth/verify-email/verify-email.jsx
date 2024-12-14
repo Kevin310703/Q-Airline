@@ -9,15 +9,14 @@ const VerifyEmail = () => {
     const navigate = useNavigate();
     const token = searchParams.get("token");
 
+    console.log(token);
+
     useEffect(() => {
         const verifyEmail = async () => {
             try {
                 setIsVerifying(true); // Bắt đầu xác thực
                 await axiosInstance.post("/auth/verify-email", { token });
                 setMessage("Your email has been successfully verified!");
-                // setTimeout(() => {
-                //     navigate("/signin");
-                // }, 44000);
             } catch (err) {
                 setMessage("Verification failed. The link may be expired or invalid.");
             } finally {
@@ -33,9 +32,12 @@ const VerifyEmail = () => {
     }, [token, navigate]);
 
     return (
-        <div className="email-verification">
-            <h1>{message}</h1>
-            {isVerifying && <p>Verifying your email, please wait...</p>}
+        <div className="emailVerify section">
+            <div className="emailVerifyContainer container">
+                <h2>Email Verification</h2>
+                <h4 className="text-center">{message}</h4>
+                {isVerifying && <p>Verifying your email, please wait...</p>}
+            </div>
         </div>
     );
 };

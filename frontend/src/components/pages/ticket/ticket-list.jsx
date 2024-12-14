@@ -53,7 +53,12 @@ const TicketList = () => {
                                 </div>
                                 <div className="ticketDetails">
                                     <p><strong>Airplane:</strong> {ticket.airplane_model}</p>
-                                    <p><strong>Seat:</strong> {ticket.seat_number} ({ticket.seat_class})</p>
+                                    <p>
+                                        <strong>Seat:</strong> {ticket.seat_number} 
+                                        <span className={`seatClass ${ticket.seat_class.toLowerCase()}`}>
+                                            ({ticket.seat_class})
+                                        </span>
+                                    </p>
                                     <p><strong>Price:</strong> ${ticket.price}</p>
                                     <p><strong>Departure:</strong> {new Date(ticket.departure_time).toLocaleString()}</p>
                                     <p><strong>Arrival:</strong> {new Date(ticket.arrival_time).toLocaleString()}</p>

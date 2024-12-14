@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toast } from "react-toastify";
 
 import { AuthContext } from "../../context/AuthContext";
 import axiosInstance from "../../../../../admin/src/config/axiosInstance";
@@ -30,6 +29,9 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const { loading, error, dispatch } = useContext(AuthContext);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -109,23 +111,24 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validate()) {
-            toast.error("Please fix the errors before submitting.");
+            setMessage("Please fix the errors before submitting.");
             return;
         }
 
+        setIsSubmitting(true);
         try {
             const res = await axiosInstance.post("/auth/register", formData);
             console.log(res);
 
-            if (res.status === 200) {
-                navigate("/verify-email");
-            }
+            navigate("/verify-email");
         } catch (err) {
             if (err.response && err.response.status === 400) {
-                toast.error(err.response.data.message || "Email is already in use.");
+                setMessage(err.response.data.message || "Email is already in use.");
             } else {
-                toast.error("An error occurred while registering. Please try again.");
+                setMessage("An error occurred while registering. Please try again.");
             }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -194,6 +197,12 @@ const SignUp = () => {
             <div className="auth-container">
                 <h2>Sign Up</h2>
                 <p>Create your account to get started!</p>
+
+                {message && (
+                    <p className={`message ${message.includes("failed") ? "error" : "success"}`}>
+                        {message}
+                    </p>
+                )}
 
                 <form onSubmit={handleSubmit} className="form">
                     <div className="inputGroup">
@@ -348,8 +357,8 @@ const SignUp = () => {
                         </div>
                         {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
                     </div>
-                    <button type="submit" className="btn" disabled={loading}>
-                        Sign Up
+                    <button id="submitButton" type="submit" className="btn" disabled={isSubmitting}>
+                        {isSubmitting ? "Submitting..." : "Sign Up"}
                     </button>
                 </form>
 

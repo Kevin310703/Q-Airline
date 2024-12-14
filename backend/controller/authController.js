@@ -7,10 +7,14 @@ import {
   assignRoleToUser,
   findUserById,
   updateUserPassword,
-  insertEmailVerificationToken
+  insertEmailVerificationToken,
+  insertResetPasswordToken,
 } from '../models/userModel.js';
+import pool from '../config/database.js';
 import { getUserRole } from '../data/getUserMeLoader.js';
 import { sendAccountVerificationEmail, sendPasswordResetEmail } from '../config/emailSender.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const register = async (req, res) => {
   const { full_name, email, password, phone, address, country, gender, dob, role, avatar } = req.body;
@@ -34,14 +38,21 @@ export const register = async (req, res) => {
     const roleAssigned = await assignRoleToUser(userId, roleToAssign);
     await insertEmailVerificationToken(userId, emailToken);
 
-    // Gửi email xác thực
     const emailResponse = await sendAccountVerificationEmail(email, full_name, emailToken);
+    console.log(emailResponse);
 
-    if (emailResponse.success) {
-      res.status(200).json({ message: 'Đăng ký thành công', userId, roleAssigned });
-    } else {
-      res.status(500).json({ message: 'Đăng ký thành công nhưng không thể gửi email xác nhận.', error: emailResponse.error });
-    }
+    // if (emailResponse.success) {
+    res.status(200).json({
+      message: 'Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.',
+      userId,
+      roleAssigned,
+    });
+    // } else {
+    //   res.status(500).json({
+    //     message: 'Đăng ký thành công nhưng không thể gửi email xác nhận.',
+    //     error: emailResponse.error,
+    //   });
+    // }
   } catch (error) {
     console.error('Lỗi khi đăng ký:', error);
     res.status(500).json({ message: 'Lỗi máy chủ' });
@@ -49,12 +60,12 @@ export const register = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  const { token } = req.query;
+  const { token } = req.body;
 
   try {
     const [result] = await pool.query("SELECT user_id FROM email_verifications WHERE token = ?", [token]);
     if (result.length === 0) {
-      return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn." });
+      return res.status(400).json({ message: "Invalid or expired token." });
     }
 
     const userId = result[0].user_id;
@@ -79,6 +90,10 @@ export const login = async (req, res) => {
     const user = await findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
+    }
+
+    if (!user.is_email_verified) {
+      return res.status(403).json({ message: "Email chưa được xác minh. Vui lòng kiểm tra email của bạn." });
     }
 
     const validPassword = await bcrypt.compare(password, user.password_hash);
@@ -110,34 +125,23 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Đăng nhập thành công",
+      message: 'Đăng nhập thành công',
       accessToken,
       user: {
         id: user.user_id,
         username: user.full_name,
         email: user.email,
+        avatar: user.avatar || null,
+        dob: user.birth_date || null,
+        phone: user.phone_number || null,
+        country: user.country || null,
+        address: user.address || null,
         role: role.role_name,
+        isEmailVerified: user.is_email_verified,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at,
       },
     });
-
-    // res.status(200).json({
-    //   message: 'Đăng nhập thành công',
-    //   token,
-    //   user: {
-    //     id: user.user_id,
-    //     username: user.full_name,
-    //     email: user.email,
-    //     avatar: user.avatar || null,
-    //     dob: user.birth_date || null,
-    //     phone: user.phone_number || null,
-    //     country: user.country || null,
-    //     address: user.address || null,
-    //     role: role.role_name,
-    //     isEmailVerified: user.is_email_verified,
-    //     createdAt: user.created_at,
-    //     updatedAt: user.updated_at,
-    //   },
-    // });
   } catch (error) {
     console.error('Lỗi khi đăng nhập:', error);
     res.status(500).json({ message: 'Lỗi máy chủ' });
@@ -174,49 +178,35 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: 'Email không tồn tại trong hệ thống' });
     }
 
-    // Tạo mật khẩu mới
-    const generateStrongPassword = () => {
-      const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      const lowercase = "abcdefghijklmnopqrstuvwxyz";
-      const digits = "0123456789";
-      const specialChars = "!@#$%^&*()_+[]{}|;:',.<>?";
-      const allChars = uppercase + lowercase + digits + specialChars;
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    await insertResetPasswordToken(user.user_id, resetToken);
+    await sendPasswordResetEmail(email, user.full_name, resetToken);
 
-      const getRandomChar = (charset) => charset[Math.floor(Math.random() * charset.length)];
-
-      let password = [
-        getRandomChar(uppercase),      // Ít nhất 1 chữ cái hoa
-        getRandomChar(lowercase),      // Ít nhất 1 chữ cái thường
-        getRandomChar(digits),         // Ít nhất 1 chữ số
-        getRandomChar(specialChars),   // Ít nhất 1 ký tự đặc biệt
-      ];
-
-      // Thêm các ký tự ngẫu nhiên để đạt chiều dài tối thiểu là 8
-      for (let i = password.length; i < 8; i++) {
-        password.push(getRandomChar(allChars));
-      }
-
-      // Trộn ngẫu nhiên mật khẩu để tăng tính bảo mật
-      return password.sort(() => Math.random() - 0.5).join('');
-    };
-
-    const newPassword = generateStrongPassword();
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-    // Cập nhật mật khẩu trong cơ sở dữ liệu
-    await updateUserPassword(user.user_id, hashedPassword);
-
-    // Gửi email với mật khẩu mới
-    const emailResponse = await sendPasswordResetEmail(email, user.full_name, newPassword);
-
-    if (emailResponse.success) {
-      res.status(200).json({ message: 'Mật khẩu mới đã được gửi đến email của bạn.' });
-    } else {
-      res.status(500).json({ message: 'Không thể gửi email đặt lại mật khẩu.', error: emailResponse.error });
-    }
+    res.status(200).json({ message: "Reset password email sent." });
   } catch (error) {
     console.error('Lỗi quên mật khẩu:', error);
     res.status(500).json({ message: 'Lỗi máy chủ' });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    const [result] = await pool.query("SELECT user_id FROM password_reset WHERE token = ?", [token]);
+    if (result.length === 0) {
+      return res.status(400).json({ message: "Invalid or expired token." });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    await updateUserPassword(result[0].user_id, hashedPassword);
+    await pool.query("DELETE FROM password_reset WHERE token = ?", [token]);
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Error in reset password:", error);
+    res.status(500).json({ message: "Server error." });
   }
 };

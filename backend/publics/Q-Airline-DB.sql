@@ -21,7 +21,15 @@ CREATE TABLE users (
 CREATE TABLE email_verifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    token VARCHAR(64) NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE password_reset (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );

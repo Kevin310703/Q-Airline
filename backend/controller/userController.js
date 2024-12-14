@@ -8,7 +8,7 @@ export const getUsers = async (req, res) => {
         const [rows] = await pool.query(
             `SELECT u.user_id AS id, u.full_name AS username, u.email, 
               u.avatar, u.birth_date, u.phone_number AS phone, 
-              u.country, u.address, u.is_email_verified, 
+              u.country, u.address, u.gender, u.is_email_verified, 
               ur.role_id, r.role_name AS role, 
               u.created_at, u.updated_at
              FROM users u
@@ -36,7 +36,7 @@ export const getUserById = async (req, res) => {
         const [rows] = await pool.query(
             `SELECT u.user_id AS id, u.full_name AS username, u.email, 
                 u.avatar, u.birth_date AS dob, u.phone_number AS phone, 
-                u.country, u.address, u.is_email_verified, 
+                u.country, u.address, u.gender, u.is_email_verified, 
                 ur.role_id, r.role_name AS role, 
                 u.created_at, u.updated_at
              FROM users u
@@ -65,7 +65,7 @@ export const updateUser = async (req, res) => {
         // Cập nhật thông tin người dùng
         const [result] = await pool.query(
             `UPDATE users SET full_name = ?, email = ?, avatar = ?, phone_number = ?, birth_date = ?, 
-            country = ?, address = ? WHERE user_id = ?`,
+            country = ?, address = ?, gender = ? WHERE user_id = ?`,
             [
                 updatedData.username,
                 updatedData.email,
@@ -74,6 +74,7 @@ export const updateUser = async (req, res) => {
                 updatedData.dob,
                 updatedData.country,
                 updatedData.address,
+                updatedData.gender,
                 id,
             ]
         );

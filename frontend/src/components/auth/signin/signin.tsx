@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axiosInstance from "../../../../../admin/src/config/axiosInstance";
-import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignIn = () => {
@@ -11,20 +10,24 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const { dispatch } = useContext(AuthContext);
+    const emailInputRef = useRef<HTMLInputElement>(null);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
         console.log(token);
-    
+
         const fetchUserData = async () => {
             try {
                 if (token) {
                     const res = await axiosInstance.get("/auth/user-info", {
                         headers: { Authorization: `Bearer ${token}` },
                     });
-    
+
                     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
                     navigate("/");
                 }
@@ -35,11 +38,17 @@ const SignIn = () => {
                 dispatch({ type: "LOGOUT" });
             }
         };
-    
+
         if (token) {
             fetchUserData();
         }
-    }, [dispatch, navigate]);    
+    }, [dispatch, navigate]);
+
+    useEffect(() => {
+        if (emailInputRef.current) {
+            emailInputRef.current.focus();
+        }
+    }, []);
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -48,11 +57,12 @@ const SignIn = () => {
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         if (!validate()) {
-            toast.error("Please fix the errors before submitting.");
+            setMessage("Please fix the errors before submitting.");
             return;
         }
 
         dispatch({ type: "LOGIN_START" });
+        setIsSubmitting(true);
 
         try {
             const res = await axiosInstance.post("/auth/login", { email, password });
@@ -67,17 +77,19 @@ const SignIn = () => {
             }
             dispatch({ type: "LOGIN_SUCCESS", payload: user }); // Lưu thông tin người dùng vào AuthContext
 
-            toast.success("Login successful! Redirecting to home page...");
+            setMessage("Login successful! Redirecting to home page...");
             setTimeout(() => {
                 navigate("/");
-            }, 4000);
+            }, 2000);
         } catch (err) {
-            toast.error("Login failed. Please check your email and password.");
+            setMessage("Login failed. Please check your email and password.");
             console.log(err);
             dispatch({
                 type: "LOGIN_FAILURE",
                 payload: err.response?.data || { message: "Đăng nhập thất bại" },
             });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -109,6 +121,12 @@ const SignIn = () => {
                 <h2>Sign In</h2>
                 <p>Welcome back! Please log in to your account.</p>
 
+                {message && (
+                    <p className={`message ${message.includes("failed") ? "error" : "success"}`}>
+                        {message}
+                    </p>
+                )}
+
                 <form onSubmit={handleSubmit} className="form">
                     <div className="inputGroup">
                         <label htmlFor="email">Email Address</label>
@@ -118,6 +136,7 @@ const SignIn = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
+                            ref={emailInputRef}
                             required
                         />
                         {errors.email && <span className="error-message">{errors.email}</span>}
@@ -152,8 +171,8 @@ const SignIn = () => {
                             Forgot Password?
                         </a>
                     </div>
-                    <button type="submit" className="btn">
-                        Log In
+                    <button type="submit" className="btn" disabled={isSubmitting}>
+                        {isSubmitting ? "Submitting..." : "Log In"}
                     </button>
                 </form>
 

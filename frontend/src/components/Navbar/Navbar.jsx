@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, useLocation  } from "react-router-dom";
+import { Link, useLocation, useNavigate  } from "react-router-dom";
 
 import { SiConsul } from 'react-icons/si';
 import { BsPhoneVibrate } from 'react-icons/bs';
@@ -12,6 +12,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const { user, dispatch } = useContext(AuthContext);
     const { logout } = useContext(AuthContext);
@@ -40,6 +41,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
+        navigate("/");
     };
 
     const toggleDropdown = () => {
@@ -84,7 +86,7 @@ const Navbar = () => {
                                     <div className="dropdownMenu">
                                         <span>{user.username}</span>
                                         <hr className="dropdownDivider" />
-                                        <Link to="/account" className="dropdownItem">
+                                        <Link to="/profile" className="dropdownItem">
                                             Profile
                                         </Link>
                                         <Link to="/settings" className="dropdownItem">
@@ -139,10 +141,10 @@ const Navbar = () => {
                             <Link to="/about-us">About</Link>
                         </li>
                         <li onClick={removeNavBar} className={`listItem ${isActive("/offers") ? "active" : ""}`}>
-                            <Link to="">Offers</Link>
+                            <Link to="/offers">Offers</Link>
                         </li>
                         <li onClick={removeNavBar} className={`listItem ${isActive("/seats") ? "active" : ""}`}>
-                            <Link to="">Seats</Link>
+                            <Link to="/seats">Seats</Link>
                         </li>
                         <li onClick={removeNavBar} className={`listItem ${isActive("/destinations") ? "active" : ""}`}>
                             <Link to="/destinations">Destinations</Link>

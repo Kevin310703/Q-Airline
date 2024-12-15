@@ -23,7 +23,14 @@ const SignIn = () => {
 
         const fetchUserData = async () => {
             try {
-                if (token) {
+
+                if (!token) {
+                    const res = await axiosInstance.post("/auth/refresh-token");
+                    localStorage.setItem("authToken", res.data.accessToken);
+                    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user });
+                }
+
+                if (token != null) {
                     const res = await axiosInstance.get("/auth/user-info", {
                         headers: { Authorization: `Bearer ${token}` },
                     });
@@ -39,7 +46,7 @@ const SignIn = () => {
             }
         };
 
-        if (token) {
+        if (token != null) {
             fetchUserData();
         }
     }, [dispatch, navigate]);
@@ -67,12 +74,12 @@ const SignIn = () => {
         try {
             const res = await axiosInstance.post("/auth/login", { email, password });
 
-            const { token, user } = res.data;
+            const { accessToken, user } = res.data;
 
             if (rememberMe) {
-                localStorage.setItem("authToken", token);
+                localStorage.setItem("authToken", accessToken);
             } else {
-                sessionStorage.setItem("authToken", token);
+                sessionStorage.setItem("authToken", accessToken);
                 sessionStorage.setItem("user", JSON.stringify(user));
             }
             dispatch({ type: "LOGIN_SUCCESS", payload: user }); // Lưu thông tin người dùng vào AuthContext

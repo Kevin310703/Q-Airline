@@ -24,6 +24,9 @@ import BookTicket from './components/pages/book-ticket/booking-ticket';
 import VerifyEmail from './components/auth/verify-email/verify-email';
 import ForgotPassword from './components/auth/forgot-password/forgot-password';
 import ResetPassword from './components/auth/forgot-password/reset-password';
+import Profile from './components/auth/profile/profile';
+import Offers from './components/pages/offer/offer';
+import Seats from './components/pages/seat/seat';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -61,6 +64,28 @@ const App = () => {
             <>
               <Navbar />
               <AboutPage />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/seats"
+          element={
+            <>
+              <Navbar />
+              <Seats />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/offers"
+          element={
+            <>
+              <Navbar />
+              <Offers />
               <Footer />
             </>
           }
@@ -171,6 +196,17 @@ const App = () => {
             <>
               <Navbar />
               <ResetPassword />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Navbar />
+              <Profile />
               <Footer />
             </>
           }

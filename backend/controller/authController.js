@@ -136,6 +136,7 @@ export const login = async (req, res) => {
         phone: user.phone_number || null,
         country: user.country || null,
         address: user.address || null,
+        gender: user.gender || null,
         role: role.role_name,
         isEmailVerified: user.is_email_verified,
         createdAt: user.created_at,
@@ -145,6 +146,26 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error('Lỗi khi đăng nhập:', error);
     res.status(500).json({ message: 'Lỗi máy chủ' });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (refreshToken) {
+      blacklist.add(refreshToken); // Thêm vào blacklist
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+    }
+
+    res.status(200).json({ message: "Đăng xuất thành công" });
+  } catch (error) {
+    console.error("Lỗi khi đăng xuất:", error);
+    res.status(500).json({ message: "Lỗi máy chủ" });
   }
 };
 
@@ -166,6 +187,29 @@ export const authenticateToken = async (req, res) => {
   } catch (error) {
     console.error("Error fetching user info:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const refreshToken = (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "No refresh token found." });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const accessToken = jwt.sign(
+      { id: decoded.id, role: decoded.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    console.error("Refresh token invalid:", error);
+    res.status(403).json({ message: "Invalid or expired refresh token." });
   }
 };
 

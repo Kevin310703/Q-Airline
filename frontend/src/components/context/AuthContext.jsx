@@ -28,7 +28,7 @@ const AuthReducer = (state, action) => {
         loading: false,
         error: action.payload,
       };
-    case "LOGOUT": 
+    case "LOGOUT":
       return {
         user: null,
         loading: false,
@@ -66,4 +66,3 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-  

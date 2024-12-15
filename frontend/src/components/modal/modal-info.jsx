@@ -2,8 +2,8 @@ import React from "react";
 
 const Modal = ({ message, onClose }) => {
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
+        <div className="modalOverlay">
+            <div className="modalContent">
                 <p>{message}</p>
                 <button className="btn" onClick={onClose}>
                     Close

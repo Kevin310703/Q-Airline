@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 
 import authRoutes from './Routes/authRoutes.js';
 import userRoutes from "./Routes/userRoutes.js";
@@ -24,6 +25,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+app.use(cookieParser());
 
 // Routes
 app.use('/auth', authRoutes);

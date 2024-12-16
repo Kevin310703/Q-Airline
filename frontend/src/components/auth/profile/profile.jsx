@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import dayjs from "dayjs";
 
 import { AuthContext } from "../../context/AuthContext";
 import axiosInstance from "../../config/axiosInstance";
@@ -13,7 +14,6 @@ const Profile = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-    const [previewAvatar, setPreviewAvatar] = useState(user.avatar || "/default-avatar.png");
     const [message, setMessage] = useState("");
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -116,71 +116,22 @@ const Profile = () => {
         }
     };
 
-    const handleAvatarUpload = async (e) => {
-        e.preventDefault();
-        if (!selectedAvatar) {
-            setMessage("Please select an avatar to upload.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("avatar", selectedAvatar);
-
-        setIsSubmitting(true);
-        try {
-            const res = await axiosInstance.put(`/api/users/${user.id}/avatar`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-
-            dispatch({ type: "UPDATE_AVATAR", payload: res.data.avatar });
-            setMessage("Avatar updated successfully!");
-        } catch (error) {
-            setMessage("Failed to upload avatar. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-
-    const handleAvatarChange = (e) => {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith("image/")) {
-            setSelectedAvatar(file);
-            setPreviewAvatar(URL.createObjectURL(file));
-        } else {
-            setMessage("Please upload a valid image file.");
-        }
-    };
-
     return (
         <div className="profile-page section container">
             <div className="profile-container">
                 <h2>Your Profile</h2>
                 <div className="profile-info">
                     <div className="avatar">
-                        <img src={previewAvatar} alt="User Avatar" />
-                        <form onSubmit={handleAvatarUpload} className="avatar-form">
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleAvatarChange}
-                                className="file-input"
-                            />
-                            <button type="submit" className="btn" disabled={isSubmitting}>
-                                {isSubmitting ? "Uploading..." : "Update Avatar"}
-                            </button>
-                        </form>
+                        <img src={user.avatar || "/default-avatar.png"} alt="User Avatar" />
                     </div>
                     <div className="details">
                         <p><strong>Name:</strong> {user.username}</p>
                         <p><strong>Email:</strong> {user.email}</p>
                         <p><strong>Phone:</strong> {user.phone || "Not provided"}</p>
+                        <p><strong>Birthday:</strong> {dayjs(user.dob).format("DD-MM-YYYY") || "Not provided"}</p>
                         <p><strong>Address:</strong> {user.address || "Not provided"}</p>
                         <p><strong>Country:</strong> {user.country || "Not provided"}</p>
                         <p><strong>Gender:</strong> {user.gender}</p>
-                        <p><strong>Role:</strong> {user.role}</p>
                         <Link to="/edit-profile" className="btn edit-btn">Edit Profile</Link>
                     </div>
                 </div>

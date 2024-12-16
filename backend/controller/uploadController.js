@@ -3,6 +3,8 @@ import cloudinary from "../config/cloudinary.js";
 export const uploadAvatarImage = async (req, res) => {
     try {
         const { image, name_folder } = req.body;
+        console.log(image, name_folder);
+        
         if (!image) {
             return res.status(400).json({ message: "Không có hình ảnh được tải lên" });
         }

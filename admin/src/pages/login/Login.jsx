@@ -24,16 +24,12 @@ const Login = () => {
     try {
       const res = await axiosInstance.post("/auth/login", credentials);
 
-      const { token, user } = res.data;
-
-      // Lưu token vào localStorage
-      localStorage.setItem("authToken", token);
-
-      // Lưu thông tin người dùng vào AuthContext
-      dispatch({ type: "LOGIN_SUCCESS", payload: user });
+      const { accessToken, user } = res.data;
 
       // Điều hướng dựa trên vai trò
       if (user.role === "Admin") {
+        localStorage.setItem("authToken", accessToken);
+        dispatch({ type: "LOGIN_SUCCESS", payload: user });
         navigate("/");
       } else {
         navigate("/login");

@@ -27,6 +27,7 @@ import ResetPassword from './components/auth/forgot-password/reset-password';
 import Profile from './components/auth/profile/profile';
 import Offers from './components/pages/offer/offer';
 import Seats from './components/pages/seat/seat';
+import EditProfile from './components/auth/profile/edit-profile';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -207,6 +208,17 @@ const App = () => {
             <>
               <Navbar />
               <Profile />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/edit-profile"
+          element={
+            <>
+              <Navbar />
+              <EditProfile />
               <Footer />
             </>
           }

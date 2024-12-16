@@ -16,6 +16,8 @@ import { sendAccountVerificationEmail, sendPasswordResetEmail } from '../config/
 import dotenv from 'dotenv';
 dotenv.config();
 
+const blacklist = new Set();
+
 export const register = async (req, res) => {
   const { full_name, email, password, phone, address, country, gender, dob, role, avatar } = req.body;
 

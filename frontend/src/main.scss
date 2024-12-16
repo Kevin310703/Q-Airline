@@ -1223,12 +1223,13 @@ h2 {
 
         .profile-info {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap;
+            align-items: flex-start;
             margin-bottom: 2rem;
 
             .avatar {
-                position: relative;
+                flex: 1;
+                text-align: center;
 
                 img {
                     width: 120px;
@@ -1237,38 +1238,14 @@ h2 {
                     border: 2px solid var(--PrimaryColor);
                     object-fit: cover;
                 }
-
-                .avatar-form {
-                    margin-top: 1rem;
-
-                    .file-input {
-                        margin-bottom: 1rem;
-                    }
-
-                    button {
-                        background: var(--PrimaryColor);
-                        color: var(--whiteColor);
-                        padding: 0.8rem 1.5rem;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-
-                        &:hover {
-                            background: var(--HoverColor);
-                        }
-
-                        &:disabled {
-                            background: var(--greyColor);
-                            cursor: not-allowed;
-                        }
-                    }
-                }
             }
 
             .details {
+                flex: 2;
+
                 p {
                     margin: 0.5rem 0;
-                    font-size: 14px;
+                    font-size: 1rem;
 
                     strong {
                         color: var(--PrimaryColor);
@@ -1392,6 +1369,133 @@ h2 {
                     color: #721c24;
                     border: 1px solid #f5c6cb;
                 }
+            }
+        }
+    }
+}
+
+// Edit profile page styling
+.edit-profile-page {
+    .edit-profile-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        background: var(--SecondaryColor);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .inputGroup {
+            margin-bottom: 1rem;
+
+            .avatar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+
+                img {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    border: 2px solid var(--PrimaryColor);
+                    object-fit: cover;
+                    margin-bottom: 2rem;
+                }
+            }
+
+            label {
+                display: block;
+                font-size: 14px;
+                margin-bottom: 0.5rem;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid var(--borderColor);
+                border-radius: 5px;
+                background: var(--whiteColor);
+                color: var(--textColor);
+                font-size: 14px;
+
+                &:focus {
+                    outline: none;
+                    border: 1px solid var(--PrimaryColor);
+                    box-shadow: 0 0 4px var(--PrimaryColor);
+                }
+            }
+
+            .error-message {
+                color: red;
+                font-size: 12px;
+                margin-top: 0.3rem;
+                display: block;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .back-btn {
+            background: var(--greyColor);
+            color: var(--PrimaryColor);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background: var(--HoverColor);
+            }
+        }
+
+        .btn {
+            background: var(--PrimaryColor);
+            color: var(--whiteColor);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background: var(--HoverColor);
+            }
+
+            &:disabled {
+                background: var(--greyColor);
+                cursor: not-allowed;
+            }
+        }
+
+        .message {
+            margin: 1rem auto;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+
+            &.success {
+                background-color: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            &.error {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
             }
         }
     }

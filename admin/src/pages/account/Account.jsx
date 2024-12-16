@@ -7,7 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./account.css";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { AuthContext } from "./../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import axiosInstance from "../../config/axiosInstance";
 
 const Account = () => {
@@ -15,6 +15,26 @@ const Account = () => {
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({});
   const [roles, setRoles] = useState([]);
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch("https://restcountries.com/v3.1/all");
+        const data = await res.json();
+
+        // Sắp xếp quốc gia theo tên
+        const sortedCountries = data.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
+      } catch (err) {
+        console.error("Failed to fetch countries:", err);
+      }
+    };
+    fetchCountries();
+  }, []);
+
   const [errors, setErrors] = useState({});
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -52,6 +72,8 @@ const Account = () => {
       country: user.country || "",
       phone: user.phone || "",
       img: user.avatar || "",
+      isEmailVerified: user.isEmailVerified || "",
+      gender: user.gender || "",
       role: user?.role || "",
     });
   }, [user]);
@@ -93,7 +115,7 @@ const Account = () => {
           const base64 = await toBase64(file);
 
           // Gửi Base64 tới API upload
-          const uploadRes = await axiosInstance.post("/api/upload", { image: base64 });
+          const uploadRes = await axiosInstance.post("/api/upload-avatar", { image: base64, name_folder: "user_uploads" });
 
           imageUrl = uploadRes.data.url;
         }
@@ -111,6 +133,8 @@ const Account = () => {
       phone: info.phone,
       country: info.country,
       address: info.address || "",
+      isEmailVerified: info.isEmailVerified,
+      gender: info.gender,
       role: info.role,
       isEmailVerified: user.is_email_verified,
       createdAt: user.created_at,
@@ -227,8 +251,10 @@ const Account = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true nếu không có lỗi
+    return Object.keys(newErrors).length === 0;
   };
+
+  console.log(file);
 
   return (
     <div className="list">
@@ -298,7 +324,7 @@ const Account = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="country">Date of Birth</label>
+              <label htmlFor="dateOfBirth">Date of Birth</label>
               <input
                 type="date"
                 id="dob"
@@ -309,7 +335,7 @@ const Account = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="country">Address</label>
+              <label htmlFor="address">Address</label>
               <input
                 type="text"
                 id="address"
@@ -321,13 +347,22 @@ const Account = () => {
 
             <div className="form-group">
               <label htmlFor="country">Country</label>
-              <input
-                type="text"
+              <select
                 id="country"
+                name="country"
                 className="ip-acc"
                 value={info.country || ""}
                 onChange={handleChange}
-              />
+              >
+                <option value="" disabled>
+                  Select your country
+                </option>
+                {countries.map((country) => (
+                  <option key={country.cca2} value={country.name.common}>
+                    {country.name.common}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">
@@ -340,6 +375,21 @@ const Account = () => {
                 onChange={handleChange}
               />
               {errors.phone && <span className="error-message">{errors.phone}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="gender">Gender</label>
+              <select
+                id="gender"
+                className="ip-acc"
+                value={info.gender || ""}
+                onChange={handleChange}
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <button className="btn-acc">
@@ -361,6 +411,7 @@ const Account = () => {
                   type={showPasswords.oldPassword ? "text" : "password"}
                   id="oldPassword"
                   className="ip-acc"
+                  placeholder="Enter current password"
                   value={passwordData.oldPassword}
                   onChange={handlePasswordChange}
                 />
@@ -385,6 +436,7 @@ const Account = () => {
                   type={showPasswords.newPassword ? "text" : "password"}
                   id="newPassword"
                   className="ip-acc"
+                  placeholder="Enter new password"
                   value={passwordData.newPassword}
                   onChange={handlePasswordChange}
                 />
@@ -409,6 +461,7 @@ const Account = () => {
                   type={showPasswords.confirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   className="ip-acc"
+                  placeholder="Enter confirm password"
                   value={passwordData.confirmPassword}
                   onChange={handlePasswordChange}
                 />

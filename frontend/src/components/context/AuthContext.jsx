@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-
+import axiosInstance from "../config/axiosInstance";
 const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   loading: false,
@@ -47,8 +47,9 @@ export const AuthContextProvider = ({ children }) => {
   }, [state.user]);
 
   const logout = () => {
-    localStorage.removeItem("user");
-    sessionStorage.removeItem("user");
+    localStorage.clear();
+    sessionStorage.clear();
+    axiosInstance.post("/auth/logout");
     dispatch({ type: "LOGOUT" });
   };
 

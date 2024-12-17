@@ -440,7 +440,9 @@ export const getFlights = async (req, res) => {
                 f.arrival_time,
                 f.status,
                 dep_airport.name AS departure_airport, -- Tên sân bay khởi hành
+                dep_airport.city AS departure_city,    -- Thành phố khởi hành
                 arr_airport.name AS arrival_airport,   -- Tên sân bay đến
+                arr_airport.city AS arrival_city,      -- Thành phố đến
                 a.model AS airplane_model,            -- Model máy bay
                 a.registration_number AS airplane_registration -- Số đăng ký máy bay
             FROM flights f
@@ -472,7 +474,9 @@ export const getFlightsByAirplaneId = async (req, res) => {
                 TIMESTAMPDIFF(MINUTE, f.departure_time, f.arrival_time) AS duration_minutes,
                 f.status,
                 a1.name AS departure_airport,
+                a1.city AS departure_city,   -- Thành phố khởi hành
                 a2.name AS arrival_airport,
+                a2.city AS arrival_city,     -- Thành phố đến
                 ap.model AS airplane_model,
                 ap.registration_number AS airplane_registration_number
             FROM flights f

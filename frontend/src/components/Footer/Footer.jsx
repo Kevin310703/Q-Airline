@@ -1,14 +1,14 @@
-import React, {useEffect} from "react"
-
-import {TiSocialFacebook,} from "react-icons/ti"
-import {AiOutlineTwitter, AiFillYoutube, AiFillGoogleCircle} from "react-icons/ai"
+import React, { useEffect } from "react"
+import { Link } from "react-router-dom";
+import { TiSocialFacebook, } from "react-icons/ti"
+import { AiOutlineTwitter, AiFillYoutube, AiFillGoogleCircle } from "react-icons/ai"
 
 import Aos from "aos"
 import "aos/dist/aos.css"
 
 const Footer = () => {
     useEffect(() => {
-        Aos.init({duration: 2000})
+        Aos.init({ duration: 2000 })
     }, []);
 
     return (
@@ -16,7 +16,10 @@ const Footer = () => {
             <div className="sectionContainer container grid">
                 <div data-aos='fade-up' data-aos-duration='2500' className="gridOne">
                     <div className="logoDiv">
-                        <img src="/logo.png" alt="" className="Logo" />
+                        <Link to="/" className="logoLink">
+                            <img src="/logo.png" alt="" className="Logo" />
+                            <div class="logoName">Q-AirLine</div>
+                        </Link>
                     </div>
                     <p>Your mind should be stronger than your feelings, fly!</p>
                     <div className="socialIcon flex">
@@ -63,7 +66,7 @@ const Footer = () => {
                     <li>
                         <a href="">How to</a>
                     </li>
-                    
+
                     <li>
                         <a href="">Features</a>
                     </li>
@@ -90,7 +93,7 @@ const Footer = () => {
                     <li>
                         <a href="/ticket-list">Ticket</a>
                     </li>
-                    
+
                     <li>
                         <a href="">Features</a>
                     </li>
@@ -110,7 +113,7 @@ const Footer = () => {
             </div>
 
             <div className="copyRightDiv flex">
-                <p>Courtesy Design | Developed by <a href="">Team 11</a></p>
+                <p>INT3306_7 | Developed by <a href="">Team 11</a></p>
             </div>
         </div>
     )

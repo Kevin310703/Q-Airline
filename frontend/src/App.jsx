@@ -28,6 +28,8 @@ import Profile from './components/auth/profile/profile';
 import Offers from './components/pages/offer/offer';
 import Seats from './components/pages/seat/seat';
 import EditProfile from './components/auth/profile/edit-profile';
+import NewBookTicket from './components/pages/book-ticket/new-booking-ticket-custom';
+import MyTickets from './components/auth/tickets/my-tickets';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -164,6 +166,28 @@ const App = () => {
             <>
               <Navbar />
               <BookTicket />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/book-ticket"
+          element={
+            <>
+              <Navbar />
+              <NewBookTicket />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/my-ticket"
+          element={
+            <>
+              <Navbar />
+              <MyTickets />
               <Footer />
             </>
           }

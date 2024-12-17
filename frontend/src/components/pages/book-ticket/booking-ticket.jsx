@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
 import axiosInstance from "../../config/axiosInstance";
+import { AuthContext } from "../../context/AuthContext";
 
 const BookTicket = () => {
     const { id } = useParams();
+    const { user, dispatch, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [ticket, setTicket] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const fetchTicketDetails = async () => {
@@ -16,7 +20,7 @@ const BookTicket = () => {
                 setTicket(res.data);
                 setLoading(false);
             } catch (err) {
-                setError("Failed to fetch ticket details. Please try again later.");
+                setMessage("Failed to fetch ticket details. Please try again later.");
                 setLoading(false);
             }
         };
@@ -24,22 +28,34 @@ const BookTicket = () => {
         fetchTicketDetails();
     }, [id]);
 
-    const handleConfirmBooking = async () => {
+    const handleConfirmBooking = async (e) => {
+        e.preventDefault();
+
+        setIsSubmitting(true);
         try {
-            await axiosInstance.post(`/api/confirm-booking`, { ticketId: id });
-            alert("Booking confirmed successfully!");
-            navigate("/tickets"); // Redirect to ticket list or another page
+            await axiosInstance.post("/api/tickets-booking", {
+                user_id: user.id,
+                flight_id: ticket.flight_id,
+                seat_number: ticket.seat_number,
+                seat_class: ticket.seat_class,
+                price: ticket.price
+            });
+
+            setMessage("Booking ticket confirmed successfully!");
+
+            window.setTimeout(() => {
+                navigate("/my-ticket");
+            }, 2000);
         } catch (err) {
-            alert("Failed to confirm booking. Please try again.");
+            console.log(err);
+            setMessage("Failed to confirm booking ticket. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     if (loading) {
         return <p>Loading ticket details...</p>;
-    }
-
-    if (error) {
-        return <p>{error}</p>;
     }
 
     console.log(ticket);
@@ -48,6 +64,13 @@ const BookTicket = () => {
         <div className="bookTicket section">
             <div className="bookTicketContainer container">
                 <h2>Book Ticket</h2>
+
+                {message && (
+                    <p className={`message ${message.includes("Failed") ? "error" : "success"}`}>
+                        {message}
+                    </p>
+                )}
+
                 {ticket ? (
                     <div className="ticketDetails">
                         <div className="ticketHeader flex">
@@ -85,7 +108,9 @@ const BookTicket = () => {
                             </div>
                         </div>
                         <div className="ticketActions flex">
-                            <button className="btn confirmBtn" onClick={handleConfirmBooking}>Confirm Booking</button>
+                            <button className="btn confirmBtn" onClick={handleConfirmBooking}>
+                                {isSubmitting ? "Confirming..." : " Confirm Booking"}
+                            </button>
                             <button className="btn cancelBtn" onClick={() => navigate(-1)}>Cancel</button>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ const AirplaneDetails = () => {
     const [flights, setFlights] = useState([]);
 
     const [selectedSeat, setSelectedSeat] = useState(null);
+    const [selectedFlights, setSelectedFlights] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -36,6 +37,20 @@ const AirplaneDetails = () => {
         fetchData();
     }, [airplaneId]);
 
+    const handleSelectFlight = (flight) => {
+        setSelectedFlights((prev) => {
+            if (prev[selectedSeat.seat_id]?.id === flight.id) {
+                // Nếu chọn lại chuyến bay đã chọn trước đó, hủy chọn
+                const updated = { ...prev };
+                delete updated[selectedSeat.seat_id];
+                return updated;
+            }
+
+            // Cập nhật chuyến bay được chọn cho ghế hiện tại
+            return { ...prev, [selectedSeat.seat_id]: flight };
+        });
+    };
+
     const openModal = (seat) => {
         setSelectedSeat(seat);
         setIsModalOpen(true);
@@ -44,23 +59,26 @@ const AirplaneDetails = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedSeat(null);
+        setSelectedFlights((prev) => {
+            const updated = { ...prev };
+            delete updated[selectedSeat?.seat_id];
+            return updated;
+        });
     };
 
-    const handleBookSeat = async () => {
-        try {
-            const response = await axiosInstance.post(`/api/airplane-seats/book`, {
-                seat_id: selectedSeat.seat_id,
-                passenger_id: user.id, // ID người dùng hiện tại
-            });
-
-            if (response.status === 200) {
-                toast.success("Seat booked successfully!");
-                closeModal();
-            }
-        } catch (error) {
-            console.error("Error booking seat:", error);
-            toast.error("Failed to book seat. Please try again.");
+    const handleBookTicket = async () => {
+        if (!selectedFlights || !selectedSeat) {
+            alert("Please select a flight and a seat before booking.");
+            return;
         }
+    
+        navigate(`/book-ticket`, {
+            state: {
+                airplane,
+                selectedFlights: selectedFlights[selectedSeat.seat_id],
+                selectedSeat,
+            },
+        });
     };
 
     if (!airplane) {
@@ -73,9 +91,9 @@ const AirplaneDetails = () => {
 
     return (
         <div className="airplaneDetail section">
+            <h2>Airplane Details</h2>
+            
             <div className="airplaneDetailContainer container">
-                <h2>Airplane Details</h2>
-
                 <section className="basicInfo">
                     <h3>Basic Information</h3>
                     <div className="infoContainer">
@@ -151,9 +169,29 @@ const AirplaneDetails = () => {
                                     <li><strong>Notes:</strong> {selectedSeat.notes || "N/A"}</li>
                                 </ul>
                                 {!selectedSeat.is_occupied && (
-                                    <button className="bookButton" onClick={handleBookSeat}>
-                                        Book seat
-                                    </button>
+                                    <>
+                                        <h3>Select a Flight</h3>
+                                        <div className="flightsList">
+                                            {flights.map((flight) => (
+                                                <div
+                                                    key={flight.id}
+                                                    className={`flightOption ${selectedFlights[selectedSeat.seat_id]?.id === flight.id ? "selected" : ""
+                                                        }`}
+                                                    onClick={() => handleSelectFlight(flight)}
+                                                >
+                                                    <p><strong>{flight.departure_airport}</strong> → <strong>{flight.arrival_airport}</strong></p>
+                                                    <p>{new Date(flight.departure_time).toLocaleString()} - {new Date(flight.arrival_time).toLocaleString()}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <button
+                                            className="bookButton"
+                                            onClick={handleBookTicket}
+                                            disabled={!selectedFlights}
+                                        >
+                                            Book ticket
+                                        </button>
+                                    </>
                                 )}
                             </div>
                             <div className="modalOverlay" onClick={closeModal}></div>

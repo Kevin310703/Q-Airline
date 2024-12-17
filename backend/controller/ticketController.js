@@ -9,6 +9,7 @@ export const getAllTickets = async (req, res) => {
                 t.seat_number,
                 t.seat_class,
                 t.price,
+                b.booking_id,
                 IFNULL(b.status, 'N/A') AS booking_status,
                 IFNULL(b.booking_date, 'N/A') AS booking_date,
                 IFNULL(u.full_name, 'N/A') AS customer_name,
@@ -136,7 +137,7 @@ export const addTicket = async (req, res) => {
 };
 
 export const addTicketAndBooking = async (req, res) => {
-    const { user_id, flight_id, seat_number, price } = req.body;
+    const { user_id, flight_id, seat_number, seat_class, price } = req.body;
 
     try {
         // Tạo booking
@@ -165,10 +166,10 @@ export const addTicketAndBooking = async (req, res) => {
         // Tạo ticket
         const [ticketResult] = await pool.query(
             `
-        INSERT INTO tickets (booking_id, flight_id, seat_number, price)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO tickets (booking_id, flight_id, seat_number, price, seat_class)
+        VALUES (?, ?, ?, ?, ?)
         `,
-            [booking_id, flight_id, seat_number, price]
+            [booking_id, flight_id, seat_number, price, seat_class]
         );
 
         // Cập nhật trạng thái ghế
@@ -239,6 +240,8 @@ export const deleteTicket = async (req, res) => {
 export const cancelBooking = async (req, res) => {
     const { id } = req.params;
 
+    console.log(id);
+
     try {
         const [result] = await pool.query(
             `
@@ -253,9 +256,84 @@ export const cancelBooking = async (req, res) => {
             return res.status(404).json({ message: "Booking not found" });
         }
 
+        await pool.query(
+            `
+            UPDATE airplane_seats AS seats
+            JOIN tickets AS t ON seats.seat_number = t.seat_number
+            SET seats.is_occupied = false, seats.passenger_id = NULL
+            WHERE t.booking_id = ?
+            `,
+            [id]
+        );
+
         res.status(200).json({ message: "Booking canceled successfully" });
     } catch (error) {
         console.error("Error canceling booking:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// Số lượng vé của người dùng
+export const getUserBookingCount = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const [result] = await pool.query(
+            `SELECT COUNT(*) AS bookingCount 
+             FROM bookings 
+             WHERE user_id = ? AND status = 'Confirmed'`,
+            [user_id]
+        );
+
+        res.status(200).json({ bookingCount: result[0].bookingCount });
+    } catch (error) {
+        console.error("Error fetching user booking count:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+export const getUserTickets = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const [tickets] = await pool.query(
+            `SELECT 
+                t.ticket_id AS id,
+                t.seat_number,
+                t.seat_class,
+                t.price,
+                f.departure_time,
+                f.arrival_time,
+                f.status AS flight_status,
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a1.country AS departure_country,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                a2.country AS arrival_country,
+                ap.model AS airplane_model
+            FROM 
+                tickets t
+            JOIN 
+                bookings b ON t.booking_id = b.booking_id
+            JOIN 
+                flights f ON t.flight_id = f.flight_id
+            JOIN 
+                airports a1 ON f.departure_airport_id = a1.airport_id
+            JOIN 
+                airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
+            WHERE 
+                b.user_id = ? AND b.status = 'Confirmed'
+            ORDER BY 
+                b.booking_date DESC, t.ticket_id DESC`,
+            [user_id]
+        );
+
+        res.status(200).json(tickets);
+    } catch (error) {
+        console.error("Error fetching user tickets:", error);
         res.status(500).json({ message: "Server error" });
     }
 };

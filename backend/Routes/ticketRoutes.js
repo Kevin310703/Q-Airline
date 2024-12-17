@@ -5,7 +5,9 @@ import { getAllTickets,
     updateTicket,
     deleteTicket,
     getTicketById,
-    cancelBooking
+    cancelBooking,
+    getUserBookingCount,
+    getUserTickets, 
  } from "../controller/ticketController.js";
 
 const router = express.Router();
@@ -17,5 +19,7 @@ router.post("/tickets-booking", addTicketAndBooking);
 router.put("/tickets/:ticket_id", updateTicket);
 router.delete("/tickets/:ticket_id", deleteTicket);
 router.put("/tickets/:id/cancel", cancelBooking);
+router.get("/tickets/booking/count/:user_id", getUserBookingCount);
+router.get("/tickets/booking/user/:user_id", getUserTickets);
 
 export default router;

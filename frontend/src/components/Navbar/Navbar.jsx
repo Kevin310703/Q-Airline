@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Link, useLocation, useNavigate  } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { SiConsul } from 'react-icons/si';
 import { BsPhoneVibrate } from 'react-icons/bs';
@@ -9,6 +9,7 @@ import { FaRegBell } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 
 import { AuthContext } from "../context/AuthContext";
+import axiosInstance from "../config/axiosInstance";
 
 const Navbar = () => {
     const location = useLocation();
@@ -17,6 +18,22 @@ const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const { logout } = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [bookingCount, setBookingCount] = useState(0);
+
+    useEffect(() => {
+        const fetchBookingCount = async () => {
+            if (user) {
+                try {
+                    const res = await axiosInstance.get(`/api/tickets/booking/count/${user.id}`);
+                    setBookingCount(res.data.bookingCount);
+                } catch (error) {
+                    console.error("Error fetching booking count:", error);
+                }
+            }
+        };
+
+        fetchBookingCount();
+    }, [user]); // Chạy khi user thay đổi
 
     // Remove the navbar in the small width screens
     const [active, setActive] = useState('navBarMenu');
@@ -66,9 +83,9 @@ const Navbar = () => {
                     {user ? (
                         // Nếu người dùng đã đăng nhập
                         <div className="userMenu flex">
-                            <div className="item">
-                                <LuShoppingCart  className="icon" />
-                                <div className="counter">1</div>
+                            <div className="item" onClick={() => navigate("/my-ticket")}>
+                                <LuShoppingCart className="icon" />
+                                <div className="counter">{bookingCount}</div>
                             </div>
 
                             <div className="item">
@@ -129,7 +146,17 @@ const Navbar = () => {
 
             <div className={noBg}>
                 <div className="logoDiv">
-                    <img src="/logo.png" alt="" className="Logo" />
+                    <Link to="/" className="logoLink">
+                        <img src="/logo.png" alt="Logo" className="Logo" />
+                        <div className="slogan">
+                            <div className="logoName">
+                                Q-Airline
+                            </div>
+                            <div className="logoSlogan">
+                            Euphoria in Every Flight
+                            </div>
+                        </div>
+                    </Link>
                 </div>
 
                 <div className={active}>

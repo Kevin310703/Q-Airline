@@ -145,7 +145,7 @@ const Datatable = ({ columns }) => {
             {path === "tickets" && (
               <div
                 className="cancelBookingButton"
-                onClick={() => handleCancelBooking(params.row.id)}
+                onClick={() => handleCancelBooking(params.row.booking_id)}
               >
                 Cancel
               </div>

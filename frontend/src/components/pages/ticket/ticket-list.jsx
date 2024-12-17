@@ -16,7 +16,10 @@ const TicketList = () => {
         const fetchTickets = async () => {
             try {
                 const res = await axiosInstance.get("/api/tickets"); // Replace with your ticket API endpoint
-                setTickets(res.data);
+                const availableTickets = res.data.filter(
+                    (ticket) => ticket.booking_status === 'N/A' || ticket.booking_status !== 'Confirmed'
+                );
+                setTickets(availableTickets);
             } catch (error) {
                 console.error("Error fetching tickets:", error);
             }

@@ -166,7 +166,19 @@ CREATE TABLE announcements (
     announcement_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    sender_id INT DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE SET NULL
+);
+
+CREATE TABLE user_announcements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    announcement_id INT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE, -- Trạng thái thông báo: false = chưa đọc, true = đã đọc
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id) ON DELETE CASCADE
 );
 
 INSERT INTO roles (role_name)

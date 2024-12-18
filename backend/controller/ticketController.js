@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import { createAnnouncement } from '../models/announcementModel.js';
 
 // Danh sách vé
 export const getAllTickets = async (req, res) => {
@@ -140,6 +141,47 @@ export const addTicketAndBooking = async (req, res) => {
     const { user_id, flight_id, seat_number, seat_class, price } = req.body;
 
     try {
+        // Truy vết thông tin chuyến bay và máy bay
+        const [flightInfo] = await pool.query(
+            `
+            SELECT 
+                f.departure_time, 
+                f.arrival_time,
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration
+            FROM 
+                flights f
+            JOIN 
+                airports a1 ON f.departure_airport_id = a1.airport_id
+            JOIN 
+                airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
+            WHERE 
+                f.flight_id = ?
+            `,
+            [flight_id]
+        );
+
+        if (flightInfo.length === 0) {
+            return res.status(404).json({ message: "Flight not found" });
+        }
+
+        const {
+            departure_time,
+            arrival_time,
+            departure_airport,
+            departure_city,
+            arrival_airport,
+            arrival_city,
+            airplane_model,
+            airplane_registration,
+        } = flightInfo[0];
+
         // Tạo booking
         const [bookingResult] = await pool.query(
             `
@@ -181,6 +223,21 @@ export const addTicketAndBooking = async (req, res) => {
         `,
             [user_id, seat_number, flight_id]
         );
+
+        const title = "Ticket Booking Confirmation";
+        const content = `
+            Your ticket for flight ${airplane_model} (Registration: ${airplane_registration})
+            departing from ${departure_airport}, ${departure_city} to ${arrival_airport}, ${arrival_city}
+            has been successfully booked. Seat Number: ${seat_number}, Class: ${seat_class}.
+            Departure Time: ${new Date(departure_time).toLocaleString()}, Arrival Time: ${new Date(arrival_time).toLocaleString()}.
+        `;
+
+        await createAnnouncement({
+            title,
+            content,
+            user_ids: [user_id],
+            sender_id: null, // Hệ thống gửi
+        });
 
         res.status(201).json({
             message: "Ticket created successfully",
@@ -240,9 +297,52 @@ export const deleteTicket = async (req, res) => {
 export const cancelBooking = async (req, res) => {
     const { id } = req.params;
 
-    console.log(id);
-
     try {
+        const [bookingInfo] = await pool.query(
+            `
+            SELECT 
+                b.user_id, 
+                b.flight_id, 
+                f.departure_time, 
+                f.arrival_time, 
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration
+            FROM 
+                bookings b
+            JOIN 
+                flights f ON b.flight_id = f.flight_id
+            JOIN 
+                airports a1 ON f.departure_airport_id = a1.airport_id
+            JOIN 
+                airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
+            WHERE 
+                b.booking_id = ?
+            `,
+            [id]
+        );
+
+        if (bookingInfo.length === 0) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        const {
+            user_id,
+            departure_time,
+            arrival_time,
+            departure_airport,
+            departure_city,
+            arrival_airport,
+            arrival_city,
+            airplane_model,
+            airplane_registration,
+        } = bookingInfo[0];
+
         const [result] = await pool.query(
             `
             UPDATE bookings
@@ -265,6 +365,22 @@ export const cancelBooking = async (req, res) => {
             `,
             [id]
         );
+
+        const title = "Booking Cancellation";
+        const content = `
+            Your booking for flight ${airplane_model} (Registration: ${airplane_registration}) 
+            departing from ${departure_airport}, ${departure_city} 
+            to ${arrival_airport}, ${arrival_city} 
+            has been successfully canceled. Departure Time: ${new Date(departure_time).toLocaleString()}, 
+            Arrival Time: ${new Date(arrival_time).toLocaleString()}.
+        `;
+
+        await createAnnouncement({
+            title,
+            content,
+            user_ids: [user_id],
+            sender_id: null, // Hệ thống gửi
+        });
 
         res.status(200).json({ message: "Booking canceled successfully" });
     } catch (error) {

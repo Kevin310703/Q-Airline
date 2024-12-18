@@ -11,7 +11,9 @@ import roleRoutes from "./Routes/roleRouters.js";
 import airplaneRoutes from "./Routes/airplaneRoutes.js";
 import airportRoutes from "./Routes/airportRoutes.js";
 import ticketRoutes from "./Routes/ticketRoutes.js";
+import bookingRoutes from "./Routes/bookingRoutes.js";
 import searchRoutes from ".//Routes/searchRoutes.js";
+import announcementRoutes from "./Routes/announcementRoutes.js";
 
 dotenv.config();
 
@@ -35,7 +37,9 @@ app.use("/api", roleRoutes);
 app.use("/api", airplaneRoutes);
 app.use("/api", airportRoutes);
 app.use("/api", ticketRoutes);
+app.use("/api", bookingRoutes);
 app.use("/api", searchRoutes);
+app.use("/api", announcementRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');

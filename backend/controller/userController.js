@@ -1,6 +1,7 @@
 import pool from "../config/database.js";
 import bcrypt from 'bcryptjs';
 import { findUserById } from '../models/userModel.js';
+import { createAnnouncement } from '../models/announcementModel.js';
 
 export const getUsers = async (req, res) => {
     try {
@@ -126,6 +127,13 @@ export const updateUser = async (req, res) => {
             );
         }
 
+        await createAnnouncement({
+            title: "Profile update successful",
+            content: "Your account information has been updated successfully.",
+            user_ids: [id],
+            sender_id: null,
+        });
+
         // Gửi phản hồi thành công sau khi tất cả các thao tác hoàn tất
         res.status(200).json({ message: "Cập nhật thông tin người dùng thành công" });
     } catch (err) {
@@ -157,6 +165,13 @@ export const updatePassword = async (req, res) => {
             return res.status(500).json({ message: "Cập nhật mật khẩu thất bại." });
         }
 
+        await createAnnouncement({
+            title: "Password changed",
+            content: "Your account password has been successfully updated.",
+            user_ids: [id],
+            sender_id: null,
+        });
+
         res.status(200).json({ message: "Mật khẩu đã được thay đổi!" });
     } catch (err) {
         console.error(err);
@@ -183,6 +198,13 @@ export const deleteUser = async (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(400).json({ message: "Không thể xóa người dùng." });
         }
+
+        await createAnnouncement({
+            title: "Account deletion",
+            content: "Your account has been deleted from the system.",
+            user_ids: [id],
+            sender_id: null,
+        });
 
         res.status(200).json({ message: "Xóa người dùng thành công." });
     } catch (error) {

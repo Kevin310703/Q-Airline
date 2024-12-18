@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { SiConsul } from 'react-icons/si';
@@ -14,11 +14,14 @@ import axiosInstance from "../config/axiosInstance";
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const dropdownRef = useRef(null);
 
     const { user, dispatch } = useContext(AuthContext);
     const { logout } = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const [bookingCount, setBookingCount] = useState(0);
+    const [announcements, setAnnouncements] = useState([]);
+    const [showAnnouncements, setShowAnnouncements] = useState(false);
 
     useEffect(() => {
         const fetchBookingCount = async () => {
@@ -32,8 +35,32 @@ const Navbar = () => {
             }
         };
 
+        const fetchAnnouncements = async () => {
+            if (user) {
+                try {
+                    const res = await axiosInstance.get(`/api/announcements/user/${user.id}`);
+                    setAnnouncements(res.data);
+                } catch (error) {
+                    console.error("Error fetching notifications:", error);
+                }
+            }
+        };
+
         fetchBookingCount();
+        fetchAnnouncements();
     }, [user]); // Chạy khi user thay đổi
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                // Nếu click nằm ngoài dropdown, ẩn dropdown
+                setShowAnnouncements(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
 
     // Remove the navbar in the small width screens
     const [active, setActive] = useState('navBarMenu');
@@ -67,6 +94,18 @@ const Navbar = () => {
 
     const isActive = (path) => location.pathname === path;
 
+    const markAsRead = async (id) => {
+        try {
+            await axiosInstance.put(`/api/announcements/mark-read/${id}`);
+            setAnnouncements((prev) =>
+                prev.map((noti) => (noti.id === id ? { ...noti, is_read: true } : noti))
+            );
+        } catch (error) {
+            console.error("Error marking notification as read:", error);
+        }
+    };
+
+    console.log(announcements);
     return (
         <div className="navBar flex">
             <div className="navBarOne flex">
@@ -88,10 +127,46 @@ const Navbar = () => {
                                 <div className="counter">{bookingCount}</div>
                             </div>
 
-                            <div className="item">
-                                <FaRegBell className="icon" />
-                                <div className="counter">1</div>
+                            <div className="item" onClick={(e) => {
+                                e.stopPropagation();
+                                setShowAnnouncements((prev) => !prev);
+                            }}>
+                                <FaRegBell className={`icon ${showAnnouncements ? "activeBell" : ""}`} />
+                                <div className="counter">
+                                    {announcements.filter((n) => !n.is_read).length}
+                                </div>
                             </div>
+
+                            {showAnnouncements && (
+                                <div className="announcementsDropdown" ref={dropdownRef}>
+                                    {announcements.length > 0 ? (
+                                        announcements.map((noti) => (
+                                            <div
+                                                key={noti.user_notification_id}
+                                                className={`announcementItem ${noti.is_read ? "read" : "unread"}`}
+                                            >
+                                                <div className="announcementContent">
+                                                    <h4 className="announcementTitle">{noti.title}</h4>
+                                                    <p className="announcementMessage">{noti.content}</p>
+                                                    <span className="announcementTime">
+                                                        {new Date(noti.created_at).toLocaleString()}
+                                                    </span>
+                                                </div>
+                                                {!noti.is_read && (
+                                                    <button
+                                                        onClick={() => markAsRead(noti.user_notification_id)}
+                                                        className="markReadBtn"
+                                                    >
+                                                        Mark as Read
+                                                    </button>
+                                                )}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No announcements</p>
+                                    )}
+                                </div>
+                            )}
 
                             <div className="avatarWrapper" onClick={toggleDropdown}>
                                 <img
@@ -153,7 +228,7 @@ const Navbar = () => {
                                 Q-Airline
                             </div>
                             <div className="logoSlogan">
-                            Euphoria in Every Flight
+                                Euphoria in Every Flight
                             </div>
                         </div>
                     </Link>

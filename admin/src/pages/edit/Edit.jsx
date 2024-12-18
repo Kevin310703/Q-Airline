@@ -24,11 +24,35 @@ const Edit = ({ inputs, title }) => {
   const [airplaneRes, setAirplaneRes] = useState([]); // State lưu dữ liệu máy bay
   const [airportRes, setAirportRes] = useState([]);   // State lưu dữ liệu sân bay
   const [inputsState, setInputsState] = useState(inputs);
+  const [userOptions, setUserOptions] = useState([]);
 
   const location = useLocation();
   const id = location.pathname.split("/")[3];
   const path = location.pathname.split("/")[1];
   const { data, loading, error } = useFetch(`/api/${path}/${id}`);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const { data } = await axiosInstance.get("/api/users");
+        const options = data.map((user) => ({
+          value: user.id,
+          label: user.username + " (" + user.role + ")",
+        }));
+
+        setUserOptions(options);
+
+        setInputsState((prevInputs) =>
+          prevInputs.map((input) =>
+            input.id === "sender_name" ? { ...input, options } : input
+          )
+        );
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -112,6 +136,10 @@ const Edit = ({ inputs, title }) => {
         )?.id || "",
 
         status: data.status,
+      });
+    } else if (path === "announcements" && data) {
+      setInfo({
+        ...data,
       });
     } else if (data) {
       setInfo({
@@ -436,7 +464,7 @@ const Edit = ({ inputs, title }) => {
           </button>
         </div>
         <div className="bottom">
-          {path === "airports" || path === "airplane-flights" ? (
+          {path === "airports" || path === "airplane-flights" || path === "announcements" ? (
             <></>
           ) : (
             <>
@@ -454,7 +482,7 @@ const Edit = ({ inputs, title }) => {
           )}
           <div className="right">
             <form onSubmit={handleClick}>
-              {path === "airports" || path === "airplane-flights" ? (
+              {path === "airports" || path === "airplane-flights" || path === "announcements" ? (
                 <></>
               ) : (
                 <>
@@ -544,8 +572,8 @@ const Edit = ({ inputs, title }) => {
                             onChange={handleChange}
                           >
                             <option value="">Select {input.label}</option>
-                            {input.options.map((option) => (
-                              <option key={option.value} value={option.value}>
+                            {input.options.map((option, index) => (
+                              <option key={option.value || index} value={option.value}>
                                 {option.label}
                               </option>
                             ))}

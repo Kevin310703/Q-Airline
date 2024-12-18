@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import { createAnnouncement } from '../models/announcementModel.js';
 
 // Tạo máy bay
 export const createAirplane = async (req, res) => {
@@ -617,6 +618,56 @@ export const updateFlightDepartureTime = async (req, res) => {
     const { new_departure_time, new_arrival_time } = req.body;
 
     try {
+        // Truy vết thông tin chuyến bay và danh sách hành khách
+        const [flightInfo] = await pool.query(
+            `
+            SELECT 
+                f.departure_time, 
+                f.arrival_time,
+                a1.name AS departure_airport,
+                a1.city AS departure_city,
+                a2.name AS arrival_airport,
+                a2.city AS arrival_city,
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration
+            FROM 
+                flights f
+            JOIN 
+                airports a1 ON f.departure_airport_id = a1.airport_id
+            JOIN 
+                airports a2 ON f.arrival_airport_id = a2.airport_id
+            JOIN 
+                airplanes ap ON f.airplane_id = ap.airplane_id
+            WHERE 
+                f.flight_id = ?
+            `,
+            [flight_id]
+        );
+
+        if (flightInfo.length === 0) {
+            return res.status(404).json({ message: "Flight not found" });
+        }
+
+        const {
+            departure_airport,
+            departure_city,
+            arrival_airport,
+            arrival_city,
+            airplane_model,
+            airplane_registration,
+        } = flightInfo[0];
+
+        // Lấy danh sách hành khách
+        const [passengerIds] = await pool.query(
+            `
+            SELECT user_id FROM bookings
+            WHERE flight_id = ? AND status = 'Confirmed'
+            `,
+            [flight_id]
+        );
+
+        const user_ids = passengerIds.map((p) => p.user_id);
+
         const [result] = await pool.query(
             `
             UPDATE flights 
@@ -633,6 +684,21 @@ export const updateFlightDepartureTime = async (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Flight not found" });
         }
+
+        const title = "Flight Delay Notification";
+        const content = `
+            The departure time for flight ${airplane_model} (Registration: ${airplane_registration})
+            departing from ${departure_airport}, ${departure_city} to ${arrival_airport}, ${arrival_city}
+            has been updated to ${new Date(new_departure_time).toLocaleString()}.
+            Please adjust your schedule accordingly.
+        `;
+
+        await createAnnouncement({
+            title,
+            content,
+            user_ids,
+            sender_id: null, // Hệ thống gửi
+        });
 
         res.status(200).json({ message: "Flight times updated successfully" });
     } catch (error) {

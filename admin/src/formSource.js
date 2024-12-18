@@ -273,17 +273,32 @@ export const ticketInputs = [
   },
 ];
 
-export const NotificationInputs = [
+export const announcementInputs = [
   {
     id: "title",
     label: "Title",
     type: "text",
-    placeholder: "We're have notify for you",
+    placeholder: "Enter the announcement title",
   },
   {
-    id: "message",
-    label: "Message",
-    type: "text",
-    placeholder: "How are you today?",
+    id: "content",
+    label: "Content",
+    type: "textarea",
+    placeholder: "Enter the announcement message",
+  },
+  {
+    id: "sender_name",
+    label: "Sender Name",
+    type: "select",
+    options: [],
+  },
+  {
+    id: "is_read",
+    label: "Read Status",
+    type: "select",
+    options: [
+      { value: "1", label: "Read" },
+      { value: "0", label: "Unread" },
+    ],
   },
 ];

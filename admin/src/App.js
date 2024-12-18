@@ -5,7 +5,7 @@ import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
-  NotificationInputs,
+  announcementInputs,
   planeInputs,
   seatInputs,
   userInputs,
@@ -19,11 +19,12 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import {
   planeColumns,
-  notificationColumns,
   flightColumns,
   ticketColumns,
   userColumns,
   airportColumns,
+  bookingColumns,
+  announcementsColumns,
 } from "./datatablesource";
 import Account from "./pages/account/Account";
 import Log from "./pages/log/Log";
@@ -250,6 +251,26 @@ function App() {
               />
             </Route>
 
+            <Route path="booking-tickets">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={bookingColumns} />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="new"
+                element={
+                  <ProtectedRoute>
+                    <NewTicket inputs={ticketInputs} title="Add New Ticket" />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+
             <Route path="account">
               <Route
                 index
@@ -273,28 +294,29 @@ function App() {
             />
           </Route>
 
-          <Route path="notifications">
+          <Route path="announcements">
             <Route
               index
               element={
                 <ProtectedRoute>
-                  <List columns={notificationColumns} />
+                  <List columns={announcementsColumns} />
                 </ProtectedRoute>
               }
             />
             <Route
-              path=":notificationId"
+              path="edit/:notificationId"
               element={
                 <ProtectedRoute>
-                  <Single />
+                  <Edit inputs={announcementInputs} title="Edit Announcement" />
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="new"
               element={
                 <ProtectedRoute>
-                  <NewNotify inputs={NotificationInputs} title="Add New User" />
+                  <NewNotify inputs={announcementInputs} title="Add New Announcemens" />
                 </ProtectedRoute>
               }
             />

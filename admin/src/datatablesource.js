@@ -274,3 +274,135 @@ export const ticketColumns = [
     },
   },
 ];
+
+export const bookingColumns = [
+  { field: "id", headerName: "Booking ID", width: 110 },
+  {
+    field: "customer_name",
+    headerName: "Customer Name",
+    width: 200,
+    renderCell: (params) => params.row.customer_name || "N/A",
+  },
+  {
+    field: "email",
+    headerName: "Customer Email",
+    width: 230,
+    renderCell: (params) => params.row.customer_email || "N/A",
+  },
+  {
+    field: "flight_details",
+    headerName: "Flight Details",
+    width: 600,
+    renderCell: (params) =>
+      `${params.row.departure_airport} → ${params.row.arrival_airport} (${params.row.airplane_model})`,
+  },
+  {
+    field: "departure_time",
+    headerName: "Departure Time",
+    width: 190,
+    renderCell: (params) => {
+      const depTime = new Date(params.row.departure_time);
+      return depTime.toLocaleString();
+    },
+  },
+  {
+    field: "arrival_time",
+    headerName: "Arrival Time",
+    width: 190,
+    renderCell: (params) => {
+      const depTime = new Date(params.row.arrival_time);
+      return depTime.toLocaleString();
+    },
+  },
+  { field: "seat_number", headerName: "Seat Number", width: 100 },
+  { field: "seat_class", headerName: "Seat Class", width: 100 },
+  { field: "price", headerName: "Price ($)", width: 100 },
+  {
+    field: "booking_date",
+    headerName: "Booking Date",
+    width: 190,
+    renderCell: (params) => {
+      const bookTime = new Date(params.row.booking_date);
+      return bookTime.toLocaleString();
+    },
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 150,
+    renderCell: (params) => {
+      const statusColors = {
+        Confirmed: "#4caf50", // Green
+        Canceled: "#f44336", // Red
+      };
+      return (
+        <span
+          style={{
+            color: "#fff",
+            backgroundColor: statusColors[params.row.status] || "#757575",
+            padding: "5px 10px",
+            borderRadius: "5px",
+            textAlign: "center",
+          }}
+        >
+          {params.row.status}
+        </span>
+      );
+    },
+  },
+];
+
+export const announcementsColumns = [
+  { field: "id", headerName: "ID", width: 100 },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 250,
+    renderCell: (params) => params.row.title || "N/A",
+  },
+  {
+    field: "content",
+    headerName: "Content",
+    width: 400,
+    renderCell: (params) => params.row.content || "N/A",
+  },
+  {
+    field: "sender_name",
+    headerName: "Sender",
+    width: 200,
+    renderCell: (params) => params.row.sender_name === null ? "System" : params.row.sender_name,
+  },
+  {
+    field: "created_at",
+    headerName: "Date Created",
+    width: 190,
+    renderCell: (params) => {
+      const createdAt = new Date(params.row.created_at);
+      return createdAt.toLocaleString();
+    },
+  },
+  {
+    field: "is_read",
+    headerName: "Read Status",
+    width: 150,
+    renderCell: (params) => {
+      const statusColors = {
+        true: "#4caf50", // Green for read
+        false: "#f44336", // Red for unread
+      };
+      return (
+        <span
+          style={{
+            color: "#fff",
+            backgroundColor: params.row.is_read ? statusColors["true"] : statusColors["false"],
+            padding: "5px 10px",
+            borderRadius: "5px",
+            textAlign: "center",
+          }}
+        >
+          {params.row.is_read ? "Read" : "Unread"}
+        </span>
+      );
+    },
+  },
+];

@@ -121,9 +121,16 @@ const Datatable = ({ columns }) => {
         console.log(params);
         return (
           <div className="cellAction">
-            <Link to={`/${path}/${params.row.id}`} style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
+            {path === "announcements" ? (
+              <Link to={`/${path}/edit/${params.row.id}`} style={{ textDecoration: "none" }}>
+                <div className="viewButton">Edit</div>
+              </Link>
+            ) : (
+              <Link to={`/${path}/${params.row.id}`} style={{ textDecoration: "none" }}>
+                <div className="viewButton">View</div>
+              </Link>
+            )}
+
             <div
               className="deleteButton"
               onClick={() => openModal(params.row.id)}

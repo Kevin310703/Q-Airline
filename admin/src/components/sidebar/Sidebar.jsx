@@ -85,7 +85,7 @@ const Sidebar = () => {
               <span>Tickets</span>
             </li>
           </Link>
-          <Link to="/tickets" style={{ textDecoration: "none" }}>
+          <Link to="/booking-tickets" style={{ textDecoration: "none" }}>
             <li>
               <MdOutlineAirlineSeatReclineExtra className="icon" />
               <span>Booking</span>
@@ -94,8 +94,8 @@ const Sidebar = () => {
           <p className="title">USEFUL</p>
           <li>
             <NotificationsNoneIcon className="icon" />
-            <Link to="/notifications" style={{ textDecoration: "none" }}>
-              <span>Notifications</span>
+            <Link to="/announcements" style={{ textDecoration: "none" }}>
+              <span>Announcemens</span>
             </Link>
           </li>
           <p className="title">SERVICE</p>

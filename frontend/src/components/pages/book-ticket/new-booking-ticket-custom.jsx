@@ -80,8 +80,8 @@ const NewBookTicket = () => {
                                     ({selectedSeat.seat_class})
                                 </span>
                             </p>
-                            <p><strong>Departure airport:</strong> {selectedFlights.departure_airport}, {selectedFlights.departure_country}</p>
-                            <p><strong>Arrival:</strong> {selectedFlights.arrival_airport}, {selectedFlights.arrival_country}</p>
+                            <p><strong>Departure airport:</strong> {selectedFlights.departure_airport}, {selectedFlights.departure_city}</p>
+                            <p><strong>Arrival airport:</strong> {selectedFlights.arrival_airport}, {selectedFlights.arrival_city}</p>
                         </div>
                         <div className="ticketPrice">
                             <p><strong>Total price:</strong> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(selectedSeat.price)}</p>

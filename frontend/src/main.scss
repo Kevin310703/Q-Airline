@@ -208,7 +208,7 @@ h2 {
                 .announcementsDropdown {
                     position: absolute;
                     top: 50px;
-                    right: 10px;
+                    right: 5rem;
                     background-color: #ffffff;
                     border: 1px solid #ddd;
                     border-radius: 8px;
@@ -249,7 +249,8 @@ h2 {
 
                             .announcementTime {
                                 font-size: 12px;
-                                color: #888888;
+                                color: var(--blackColor);
+                                font-weight: 700;
                                 margin-top: 5px;
                                 display: block;
                             }
@@ -693,6 +694,81 @@ h2 {
 
             .btnBlock {
                 justify-content: center;
+            }
+        }
+    }
+}
+
+// Search result page styling
+.searchResults {
+    .searchResultContainer {
+        margin: 2rem auto;
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1e40af;
+        }
+
+        .resultsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+
+            .resultCard {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                h3 {
+                    color: #1f2937;
+                    font-size: 1.25rem;
+                    margin-bottom: 1rem;
+                }
+
+                p {
+                    margin-bottom: 0.5rem;
+                    color: #6b7280;
+                }
+
+                .seatClass {
+                    font-weight: bold;
+                    padding: 5px;
+                    border-radius: 5px;
+                    margin-left: 5px;
+                    text-transform: capitalize;
+                }
+
+                .economy {
+                    background-color: #f0f8ff;
+                    color: #000080;
+                }
+
+                .business {
+                    background-color: #fffacd;
+                    color: #8b4513;
+                }
+
+                .first {
+                    background-color: #ffe4e1;
+                    color: #b22222;
+                }
+
+                .btn {
+                    background-color: #2563eb;
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #1e3a8a;
+                    }
+                }
             }
         }
     }
@@ -1613,6 +1689,1003 @@ h2 {
                 border: 1px solid #f5c6cb;
             }
         }
+    }
+}
+
+// About us page styling
+.about {
+    .header {
+        text-align: center;
+        margin-bottom: 3em;
+
+        .title {
+            font-size: 2.5rem;
+            color: #1e40af;
+            font-weight: bold;
+            margin-top: 7rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    }
+
+    /* Content Grid */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+
+        /* Card Styles */
+        .card {
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+
+            .card-content {
+                p {
+                    color: #4b5563;
+                    margin-bottom: 1rem;
+                    line-height: 1.6;
+                    text-align: justify;
+                }
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1rem;
+
+                .icon {
+                    font-size: 2.5rem;
+                    margin-right: 1rem;
+                }
+
+                .card-title {
+                    font-size: 1.5rem;
+                    color: #1f2937;
+                    font-weight: 600;
+                }
+            }
+
+            /* Mission Section */
+            .mission-description {
+                color: #4b5563;
+                margin-bottom: 1rem;
+            }
+
+            .mission-list {
+                list-style: none;
+                padding: 0;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    color: #4b5563;
+                    margin-bottom: 0.5rem;
+
+                    .check-icon {
+                        color: #10b981;
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    /* Achievements Section */
+    .achievements-section {
+        background-color: #dbeafe;
+        border-radius: 0.75rem;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 3rem;
+
+        .achievements-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+
+            .achievement-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .achievement-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 0.5rem;
+                }
+
+                .achievement-number {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #1e40af;
+                }
+
+                .achievement-label {
+                    color: #6b7280;
+                }
+            }
+        }
+
+        .achievements-description {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #4b5563;
+        }
+    }
+
+    /* Call to Action */
+    .cta-section {
+        text-align: center;
+        margin-bottom: 1rem;
+
+        .cta-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            color: #4b5563;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .cta-button {
+            background: var(--PrimaryColor);
+            color: var(--whiteColor);
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: background 0.3s ease, color 0.3s ease;
+            border-radius: 3rem;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+                background: var(--HoverColor);
+                color: white;
+            }
+        }
+    }
+}
+
+// Destination page styling
+.destination {
+    .destinationContainer {
+        margin: 3rem auto;
+        padding: 2rem;
+        max-width: 1200px;
+
+        .destinationTitle {
+            text-align: center;
+            font-size: 2.8rem;
+            color: #1e293b;
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+        }
+
+        .destinationContent {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+
+            .destinationList {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                .destinationCard {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    background: #ffffff;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    padding: 1rem;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    cursor: pointer;
+
+                    &:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+                    }
+
+                    &.active {
+                        border: 2px solid #3498db;
+                    }
+
+                    .destinationImage {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 3px solid #3498db;
+                    }
+
+                    .destinationInfo {
+                        display: flex;
+                        flex-direction: column;
+
+                        .destinationName {
+                            font-size: 1.2rem;
+                            font-weight: bold;
+                            color: #1f2937;
+                        }
+
+                        .destinationDescription {
+                            font-size: 0.95rem;
+                            color: #6b7280;
+                        }
+                    }
+                }
+            }
+
+            .mapContainer {
+                height: 650px;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: #f8f9fa;
+            }
+        }
+
+        .destinationCta {
+            text-align: center;
+            margin-top: 3rem;
+            background: var(--greyBg);
+            padding: 2rem;
+            border-radius: 8px;
+            color: var(--blackColor);
+
+            h3 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                letter-spacing: 0.5px;
+            }
+
+            .btnBookFlight {
+                background: var(--PrimaryColor);
+                color: var(--whiteColor);
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                border: none;
+                border-radius: 3rem;
+                cursor: pointer;
+                transition: background 0.3s ease, color 0.3s ease;
+
+                &:hover {
+                    background: var(--HoverColor);
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+// Flight list page styling
+.flightList {
+    .flightContainer {
+        padding: 2rem;
+        background-color: var(--greyBg);
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 1200px;
+        margin: 2rem auto;
+        font-family: 'Spartan', sans-serif;
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--PrimaryColor);
+            margin-bottom: 1.5rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+
+            .flights-table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: var(--whiteColor);
+                border-radius: 10px;
+                overflow: hidden;
+
+                thead {
+                    background-color: var(--PrimaryColor);
+                    color: var(--whiteColor);
+
+                    th {
+                        text-align: left;
+                        padding: 1rem;
+                        font-size: .8rem;
+                        text-align: center;
+                    }
+                }
+
+                tbody {
+                    tr {
+                        transition: background-color 0.3s;
+
+                        // &:hover {
+                        //     background-color: var(--HoverColor);
+                        //     color: var(--whiteColor);
+                        // }
+
+                        &:nth-child(even) {
+                            background-color: var(--SecondaryColor);
+                        }
+                    }
+
+                    td {
+                        padding: 1rem;
+                        font-size: .9rem;
+                        text-align: left;
+                        color: var(--textColor);
+                        border-bottom: 1px solid var(--borderColor);
+                    }
+
+                    td:last-child {
+                        text-align: center;
+                    }
+
+                    td:first-child {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Airplane detail page styling
+.airplaneDetail {
+    h2 {
+        text-align: center;
+        margin: 2rem auto;
+        color: var(--PrimaryColor);
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .airplaneDetailContainer {
+        margin: 2rem auto;
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        .basicInfo {
+            margin-bottom: 2rem;
+
+            h3 {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+                color: #555;
+            }
+
+            .infoContainer {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 2rem;
+                align-items: center;
+                margin-top: 1rem;
+
+                .avatarSection {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    .airplaneAvatar {
+                        width: 17.5rem;
+                        height: 150px;
+                        border-radius: 10px;
+                        object-fit: cover;
+                        border: 2px solid var(--PrimaryColor);
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
+                }
+
+                .infoColumns {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1.5rem;
+
+                    .infoColumn {
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+
+                            li {
+                                font-size: .95rem;
+                                color: #555;
+                                margin: 0.5rem 0;
+                                line-height: 1.6;
+
+                                .statusLabel {
+                                    font-weight: bold;
+                                    padding: 0.3rem 0.6rem;
+                                    margin-left: .3rem;
+                                    border-radius: 8px;
+                                    font-size: 0.9rem;
+                                    color: #fff;
+                                }
+
+                                .active {
+                                    background-color: #28a745;
+                                }
+
+                                .maintenance {
+                                    background-color: #ffc107;
+                                }
+
+                                .retired {
+                                    background-color: #dc3545;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // /* Responsive Design */
+        // @media (max-width: 768px) {
+        //     .info-container {
+        //         grid-template-columns: 1fr; /* Chuyển thành một cột */
+        //     }
+
+        //     .info-columns {
+        //         grid-template-columns: 1fr; /* Chuyển thông tin thành một cột */
+        //     }
+
+        //     .avatar-section {
+        //         margin-bottom: 1rem;
+        //     }
+        // }
+
+        .seatsInfo {
+            margin-bottom: 2rem;
+
+            h3 {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+                color: #555;
+            }
+
+            .seatsGrid {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 0.5rem;
+                justify-content: center;
+                margin: 1rem 0;
+
+                .seat {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    border-radius: 5px;
+                    font-size: 0.9rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-align: center;
+                    transition: transform 0.2s, box-shadow 0.2s;
+
+                    &:hover {
+                        transform: scale(1.1);
+                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                    }
+                }
+
+                .economy {
+                    background-color: #f0f8ff;
+                    color: #000080;
+                }
+
+                .business {
+                    background-color: #fffacd;
+                    color: #8b4513;
+                }
+
+                .first {
+                    background-color: #ffe4e1;
+                    color: #b22222;
+                }
+
+                .occupied {
+                    background-color: #dcdcdc;
+                    color: #808080;
+                    cursor: not-allowed;
+                    opacity: 0.6;
+                }
+
+                .available:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            .customModal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+
+                .modalContent {
+                    position: relative;
+                    background: #ffffff;
+                    border-radius: 12px;
+                    padding: 2rem;
+                    max-width: 500px;
+                    width: 90%;
+                    z-index: 1000;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+                    transform: scale(0.9);
+                    animation: scaleIn 0.3s ease-in-out forwards;
+
+                    @keyframes scaleIn {
+                        0% {
+                            transform: scale(0.9);
+                            opacity: 0;
+                        }
+
+                        100% {
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+
+                    .closeButton {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background: transparent;
+                        color: #555;
+                        font-size: 1.5rem;
+                        border: none;
+                        cursor: pointer;
+                        transition: color 0.3s ease;
+
+                        &:hover {
+                            color: #ff0000;
+                        }
+                    }
+
+                    h3 {
+                        margin-bottom: 1rem;
+                        font-size: 1.5rem;
+                        color: #333;
+                        text-align: center;
+                    }
+
+                    .seatPreview {
+                        width: 50px;
+                        height: 50px;
+                        margin: 1rem auto;
+                        border-radius: 4px;
+                        border: 1px solid var(--greyText);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+                    }
+
+                    .economy {
+                        background-color: #f0f8ff;
+                        color: #000080;
+                    }
+
+                    .business {
+                        background-color: #fffacd;
+                        color: #8b4513;
+                    }
+
+                    .first {
+                        background-color: #ffe4e1;
+                        color: #b22222;
+                    }
+
+                    .occupied {
+                        background-color: gray;
+                        cursor: not-allowed;
+                    }
+
+                    ul {
+                        list-style: none;
+                        padding: 0;
+
+                        li {
+                            margin-bottom: 0.5rem;
+                            font-size: 1rem;
+                        }
+                    }
+
+                    .flightsList {
+                        margin-top: 1rem;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+
+                        .flightOption {
+                            padding: 1rem;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+
+                            &:hover {
+                                background-color: #f0f8ff;
+                                border-color: #007bff;
+                            }
+                        }
+
+                        .selected {
+                            background-color: #007bff;
+                            border-color: #0056b3;
+
+                            p {
+                                color: white;
+                            }
+                        }
+                    }
+
+                    .bookButton {
+                        margin-top: 1rem;
+                        padding: 0.7rem 1.5rem;
+                        background: #007bff;
+                        color: white;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: background 0.3s ease;
+                        width: 100%;
+                        text-align: center;
+
+                        &:hover {
+                            background: #0056b3;
+                        }
+
+                        &:disabled {
+                            background: #ccc;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
+
+                .modalOverlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    z-index: 999;
+                    backdrop-filter: blur(1px);
+                }
+            }
+        }
+
+        .flightsInfo {
+            h3 {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+                color: #555;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: left;
+                font-size: 0.95rem;
+                color: #555;
+                background: #ffffff;
+
+                th,
+                td {
+                    padding: 0.8rem;
+                    border: 1px solid #ddd;
+                }
+
+                th {
+                    background-color: #f5f5f5;
+                    font-weight: bold;
+                }
+
+                tbody {
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+
+                    tr>td {
+                        .status {
+                            font-weight: 500;
+                            padding: 0.5rem;
+                            text-align: center;
+                            border-radius: 5px;
+                        }
+
+                        .status.scheduled {
+                            color: white;
+                            background-color: hsl(210, 80%, 50%);
+                        }
+
+                        .status.delayed {
+                            color: white;
+                            background-color: hsl(39, 100%, 50%);
+                        }
+
+                        .status.canceled {
+                            color: white;
+                            background-color: hsl(0, 70%, 50%);
+                        }
+
+                        .status.completed {
+                            color: white;
+                            background-color: hsl(120, 50%, 40%);
+                        }
+
+                        .status:hover {
+                            opacity: 0.9;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Ticket list page styling
+.ticketList {
+    background-color: var(--greyBg);
+
+    .ticketListContainer {
+        margin: 2rem auto;
+
+        .ticketsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+
+            .ticketCard {
+                background-color: var(--whiteColor);
+                border-radius: 10px;
+                padding: 1.5rem;
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+                transition: var(--transition);
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                .ticketHeader {
+                    border-bottom: 1px solid var(--borderColor);
+                    padding-bottom: 1rem;
+                    margin-bottom: 1rem;
+
+                    h4 {
+                        color: var(--PrimaryColor);
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .ticketDetails {
+                    p {
+                        margin: 0.5rem 0;
+                        color: var(--textColor);
+
+                        .seatClass {
+                            font-weight: bold;
+                            padding: 5px;
+                            border-radius: 5px;
+                            margin-left: 5px;
+                            text-transform: capitalize;
+                        }
+
+                        .economy {
+                            background-color: #f0f8ff;
+                            color: #000080;
+                        }
+
+                        .business {
+                            background-color: #fffacd;
+                            color: #8b4513;
+                        }
+
+                        .first {
+                            background-color: #ffe4e1;
+                            color: #b22222;
+                        }
+                    }
+                }
+
+                .btn {
+                    margin-top: 1rem;
+                    width: 100%;
+                    text-align: center;
+                    padding: 0.7rem;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+}
+
+// Booking ticket page styling
+.bookTicket {
+    .bookTicketContainer {
+        margin: 3rem auto;
+
+        .message {
+            margin: 1rem auto;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+
+            &.success {
+                background-color: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+
+            &.error {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        .ticketDetails {
+            padding: 2rem;
+            margin-bottom: .9rem;
+            border-radius: 3rem;
+            background: var(--SecondaryColor);
+            box-shadow: 0 4px 8px var(--boxShadow);
+
+            .ticketHeader {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 1rem;
+
+                h4 {
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .flightDuration {
+                    font-size: 14px;
+                    color: #777;
+                }
+            }
+
+            .ticketContent {
+                display: flex;
+                justify-content: space-between;
+                margin: 1rem 0;
+
+                .flightInfo {
+                    flex: 1;
+
+                    p {
+                        margin: 0.5rem 0;
+                    }
+
+                    .seatClass {
+                        font-weight: bold;
+                        padding: 5px;
+                        border-radius: 5px;
+                        margin-left: 5px;
+                        text-transform: capitalize;
+                    }
+
+                    .economy {
+                        background-color: #f0f8ff;
+                        color: #000080;
+                    }
+
+                    .business {
+                        background-color: #fffacd;
+                        color: #8b4513;
+                    }
+
+                    .first {
+                        background-color: #ffe4e1;
+                        color: #b22222;
+                    }
+                }
+
+                .ticketPrice {
+                    flex: 0.3;
+                    text-align: right;
+
+                    p {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: #333;
+                    }
+                }
+            }
+
+            .ticketActions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+
+                .btn {
+                    padding: 0.7rem 1.5rem;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    border: none;
+                    color: #fff;
+                    font-weight: 500;
+
+                    &.confirmBtn {
+                        background: #28a745;
+
+                        &:hover {
+                            background: #218838;
+                        }
+                    }
+
+                    &.cancelBtn {
+                        background: #dc3545;
+
+                        &:hover {
+                            background: #c82333;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Email verify page styling
+.emailVerify {
+    .emailVerifyContainer {
+        margin: 4rem auto;
     }
 }
 
@@ -2762,57 +3835,6 @@ h2 {
         }
     }
 
-    .searchResults {
-        .searchResultContainer {
-            margin: 2rem auto;
-
-            h2 {
-                text-align: center;
-                font-size: 2rem;
-                margin-bottom: 2rem;
-                color: #1e40af;
-            }
-
-            .resultsGrid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 1.5rem;
-
-                .resultCard {
-                    background-color: #fff;
-                    border: 1px solid #ddd;
-                    border-radius: 8px;
-                    padding: 1.5rem;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-                    h3 {
-                        color: #1f2937;
-                        font-size: 1.25rem;
-                        margin-bottom: 1rem;
-                    }
-
-                    p {
-                        margin-bottom: 0.5rem;
-                        color: #6b7280;
-                    }
-
-                    .btn {
-                        background-color: #2563eb;
-                        color: white;
-                        padding: 0.5rem 1rem;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
-
-                        &:hover {
-                            background-color: #1e3a8a;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // Support section styling
     .support {
         .sectionContainer {
@@ -2884,1008 +3906,6 @@ h2 {
                     z-index: 2;
                 }
             }
-        }
-    }
-
-    .about {
-        .header {
-            text-align: center;
-            margin-bottom: 3em;
-
-            .title {
-                font-size: 2.5rem;
-                color: #1e40af;
-                font-weight: bold;
-                margin-top: 7rem;
-                margin-bottom: 1rem;
-            }
-
-            .subtitle {
-                font-size: 1.25rem;
-                color: #6b7280;
-                max-width: 800px;
-                margin: 0 auto;
-            }
-        }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-
-            /* Card Styles */
-            .card {
-                background-color: white;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                border-radius: 0.75rem;
-                padding: 1.5rem;
-
-                .card-content {
-                    p {
-                        color: #4b5563;
-                        margin-bottom: 1rem;
-                        line-height: 1.6;
-                        text-align: justify;
-                    }
-                }
-
-                .card-header {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 1rem;
-
-                    .icon {
-                        font-size: 2.5rem;
-                        margin-right: 1rem;
-                    }
-
-                    .card-title {
-                        font-size: 1.5rem;
-                        color: #1f2937;
-                        font-weight: 600;
-                    }
-                }
-
-                /* Mission Section */
-                .mission-description {
-                    color: #4b5563;
-                    margin-bottom: 1rem;
-                }
-
-                .mission-list {
-                    list-style: none;
-                    padding: 0;
-
-                    li {
-                        display: flex;
-                        align-items: center;
-                        color: #4b5563;
-                        margin-bottom: 0.5rem;
-
-                        .check-icon {
-                            color: #10b981;
-                            margin-right: 0.5rem;
-                        }
-                    }
-                }
-            }
-        }
-
-        /* Achievements Section */
-        .achievements-section {
-            background-color: #dbeafe;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-
-            .achievements-grid {
-                display: flex;
-                justify-content: center;
-                gap: 3rem;
-                margin-bottom: 1.5rem;
-
-                .achievement-item {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-
-                    .achievement-icon {
-                        font-size: 2.5rem;
-                        margin-bottom: 0.5rem;
-                    }
-
-                    .achievement-number {
-                        font-size: 2rem;
-                        font-weight: bold;
-                        color: #1e40af;
-                    }
-
-                    .achievement-label {
-                        color: #6b7280;
-                    }
-                }
-            }
-
-            .achievements-description {
-                max-width: 800px;
-                margin: 0 auto;
-                color: #4b5563;
-            }
-        }
-
-        /* Call to Action */
-        .cta-section {
-            text-align: center;
-            margin-bottom: 1rem;
-
-            .cta-title {
-                font-size: 1.5rem;
-                color: #1f2937;
-                font-weight: 600;
-                margin-bottom: 1rem;
-            }
-
-            .cta-description {
-                color: #4b5563;
-                max-width: 600px;
-                margin: 0 auto 1.5rem;
-            }
-
-            .cta-button {
-                background: var(--PrimaryColor);
-                color: var(--whiteColor);
-                padding: 0.8rem 1.5rem;
-                border-radius: 3rem;
-                font-size: 1.1rem;
-                font-weight: 500;
-                transition: background 0.3s ease, color 0.3s ease;
-                border-radius: 3rem;
-                border: none;
-                cursor: pointer;
-
-                &:hover {
-                    background: var(--HoverColor);
-                    color: white;
-                }
-            }
-        }
-    }
-
-    /* Responsive Design */
-    // @media (max-width: 768px) {
-    //     .content-grid {
-    //         grid-template-columns: 1fr;
-    //     }
-
-    //     .achievements-grid {
-    //         flex-direction: column;
-    //         gap: 1.5rem;
-    //     }
-    // }
-
-    .destination {
-        .destinationContainer {
-            margin: 3rem auto;
-            padding: 2rem;
-            max-width: 1200px;
-
-            .destinationTitle {
-                text-align: center;
-                font-size: 2.8rem;
-                color: #1e293b;
-                font-weight: bold;
-                margin-bottom: 2.5rem;
-                text-transform: capitalize;
-                letter-spacing: 1px;
-            }
-
-            .destinationContent {
-                display: grid;
-                grid-template-columns: 1fr 2fr;
-                gap: 2rem;
-                align-items: start;
-
-                .destinationList {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.5rem;
-
-                    .destinationCard {
-                        display: flex;
-                        align-items: center;
-                        gap: 1rem;
-                        background: #ffffff;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        padding: 1rem;
-                        transition: transform 0.3s ease, box-shadow 0.3s ease;
-                        cursor: pointer;
-
-                        &:hover {
-                            transform: scale(1.05);
-                            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-                        }
-
-                        &.active {
-                            border: 2px solid #3498db;
-                        }
-
-                        .destinationImage {
-                            width: 80px;
-                            height: 80px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                            border: 3px solid #3498db;
-                        }
-
-                        .destinationInfo {
-                            display: flex;
-                            flex-direction: column;
-
-                            .destinationName {
-                                font-size: 1.2rem;
-                                font-weight: bold;
-                                color: #1f2937;
-                            }
-
-                            .destinationDescription {
-                                font-size: 0.95rem;
-                                color: #6b7280;
-                            }
-                        }
-                    }
-                }
-
-                .mapContainer {
-                    height: 650px;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    background-color: #f8f9fa;
-                }
-            }
-
-            .destinationCta {
-                text-align: center;
-                margin-top: 3rem;
-                background: var(--greyBg);
-                padding: 2rem;
-                border-radius: 8px;
-                color: var(--blackColor);
-
-                h3 {
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                }
-
-                p {
-                    font-size: 1rem;
-                    margin-bottom: 1.5rem;
-                    letter-spacing: 0.5px;
-                }
-
-                .btnBookFlight {
-                    background: var(--PrimaryColor);
-                    color: var(--whiteColor);
-                    padding: 0.8rem 2rem;
-                    font-size: 1.1rem;
-                    font-weight: 500;
-                    border: none;
-                    border-radius: 3rem;
-                    cursor: pointer;
-                    transition: background 0.3s ease, color 0.3s ease;
-
-                    &:hover {
-                        background: var(--HoverColor);
-                        color: white;
-                    }
-                }
-            }
-        }
-    }
-
-    .flightList {
-        .flightContainer {
-            padding: 2rem;
-            background-color: var(--greyBg);
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-            margin: 2rem auto;
-            font-family: 'Spartan', sans-serif;
-
-            h2 {
-                text-align: center;
-                font-size: 1.8rem;
-                color: var(--PrimaryColor);
-                margin-bottom: 1.5rem;
-            }
-
-            .table-wrapper {
-                overflow-x: auto;
-
-                .flights-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    background-color: var(--whiteColor);
-                    border-radius: 10px;
-                    overflow: hidden;
-
-                    thead {
-                        background-color: var(--PrimaryColor);
-                        color: var(--whiteColor);
-
-                        th {
-                            text-align: left;
-                            padding: 1rem;
-                            font-size: .8rem;
-                            text-align: center;
-                        }
-                    }
-
-                    tbody {
-                        tr {
-                            transition: background-color 0.3s;
-
-                            // &:hover {
-                            //     background-color: var(--HoverColor);
-                            //     color: var(--whiteColor);
-                            // }
-
-                            &:nth-child(even) {
-                                background-color: var(--SecondaryColor);
-                            }
-                        }
-
-                        td {
-                            padding: 1rem;
-                            font-size: .9rem;
-                            text-align: left;
-                            color: var(--textColor);
-                            border-bottom: 1px solid var(--borderColor);
-                        }
-
-                        td:last-child {
-                            text-align: center;
-                        }
-
-                        td:first-child {
-                            font-weight: bold;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .airplaneDetail {
-        h2 {
-            text-align: center;
-            margin: 2rem auto;
-            color: var(--PrimaryColor);
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .airplaneDetailContainer {
-            margin: 2rem auto;
-            background: #ffffff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-            .basicInfo {
-                margin-bottom: 2rem;
-
-                h3 {
-                    margin-bottom: 1rem;
-                    font-size: 1.5rem;
-                    color: #555;
-                }
-
-                .infoContainer {
-                    display: grid;
-                    grid-template-columns: 1fr 2fr;
-                    gap: 2rem;
-                    align-items: center;
-                    margin-top: 1rem;
-
-                    .avatarSection {
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-
-                        .airplaneAvatar {
-                            width: 17.5rem;
-                            height: 150px;
-                            border-radius: 10px;
-                            object-fit: cover;
-                            border: 2px solid var(--PrimaryColor);
-                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        }
-                    }
-
-                    .infoColumns {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 1.5rem;
-
-                        .infoColumn {
-                            ul {
-                                list-style: none;
-                                padding: 0;
-                                margin: 0;
-
-                                li {
-                                    font-size: .95rem;
-                                    color: #555;
-                                    margin: 0.5rem 0;
-                                    line-height: 1.6;
-
-                                    .statusLabel {
-                                        font-weight: bold;
-                                        padding: 0.3rem 0.6rem;
-                                        margin-left: .3rem;
-                                        border-radius: 8px;
-                                        font-size: 0.9rem;
-                                        color: #fff;
-                                    }
-
-                                    .active {
-                                        background-color: #28a745;
-                                    }
-
-                                    .maintenance {
-                                        background-color: #ffc107;
-                                    }
-
-                                    .retired {
-                                        background-color: #dc3545;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // /* Responsive Design */
-            // @media (max-width: 768px) {
-            //     .info-container {
-            //         grid-template-columns: 1fr; /* Chuyển thành một cột */
-            //     }
-
-            //     .info-columns {
-            //         grid-template-columns: 1fr; /* Chuyển thông tin thành một cột */
-            //     }
-
-            //     .avatar-section {
-            //         margin-bottom: 1rem;
-            //     }
-            // }
-
-            .seatsInfo {
-                margin-bottom: 2rem;
-
-                h3 {
-                    margin-bottom: 1rem;
-                    font-size: 1.5rem;
-                    color: #555;
-                }
-
-                .seatsGrid {
-                    display: grid;
-                    grid-template-columns: repeat(6, 1fr);
-                    gap: 0.5rem;
-                    justify-content: center;
-                    margin: 1rem 0;
-
-                    .seat {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding: 1rem;
-                        border-radius: 5px;
-                        font-size: 0.9rem;
-                        font-weight: bold;
-                        cursor: pointer;
-                        text-align: center;
-                        transition: transform 0.2s, box-shadow 0.2s;
-
-                        &:hover {
-                            transform: scale(1.1);
-                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-                        }
-                    }
-
-                    .economy {
-                        background-color: #f0f8ff;
-                        color: #000080;
-                    }
-
-                    .business {
-                        background-color: #fffacd;
-                        color: #8b4513;
-                    }
-
-                    .first {
-                        background-color: #ffe4e1;
-                        color: #b22222;
-                    }
-
-                    .occupied {
-                        background-color: #dcdcdc;
-                        color: #808080;
-                        cursor: not-allowed;
-                        opacity: 0.6;
-                    }
-
-                    .available:hover {
-                        transform: scale(1.1);
-                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-                    }
-                }
-
-                .customModal {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100vw;
-                    height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 1000;
-
-                    .modalContent {
-                        position: relative;
-                        background: #ffffff;
-                        border-radius: 12px;
-                        padding: 2rem;
-                        max-width: 500px;
-                        width: 90%;
-                        z-index: 1000;
-                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-                        transform: scale(0.9);
-                        animation: scaleIn 0.3s ease-in-out forwards;
-
-                        @keyframes scaleIn {
-                            0% {
-                                transform: scale(0.9);
-                                opacity: 0;
-                            }
-
-                            100% {
-                                transform: scale(1);
-                                opacity: 1;
-                            }
-                        }
-
-                        .closeButton {
-                            position: absolute;
-                            top: 10px;
-                            right: 10px;
-                            background: transparent;
-                            color: #555;
-                            font-size: 1.5rem;
-                            border: none;
-                            cursor: pointer;
-                            transition: color 0.3s ease;
-
-                            &:hover {
-                                color: #ff0000;
-                            }
-                        }
-
-                        h3 {
-                            margin-bottom: 1rem;
-                            font-size: 1.5rem;
-                            color: #333;
-                            text-align: center;
-                        }
-
-                        .seatPreview {
-                            width: 50px;
-                            height: 50px;
-                            margin: 1rem auto;
-                            border-radius: 4px;
-                            border: 1px solid var(--greyText);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-weight: bold;
-                            text-transform: uppercase;
-                            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-                        }
-
-                        .economy {
-                            background-color: #f0f8ff;
-                            color: #000080;
-                        }
-
-                        .business {
-                            background-color: #fffacd;
-                            color: #8b4513;
-                        }
-
-                        .first {
-                            background-color: #ffe4e1;
-                            color: #b22222;
-                        }
-
-                        .occupied {
-                            background-color: gray;
-                            cursor: not-allowed;
-                        }
-
-                        ul {
-                            list-style: none;
-                            padding: 0;
-
-                            li {
-                                margin-bottom: 0.5rem;
-                                font-size: 1rem;
-                            }
-                        }
-
-                        .flightsList {
-                            margin-top: 1rem;
-                            display: flex;
-                            flex-direction: column;
-                            gap: 1rem;
-
-                            .flightOption {
-                                padding: 1rem;
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-
-                                &:hover {
-                                    background-color: #f0f8ff;
-                                    border-color: #007bff;
-                                }
-                            }
-
-                            .selected {
-                                background-color: #007bff;
-                                border-color: #0056b3;
-
-                                p {
-                                    color: white;
-                                }
-                            }
-                        }
-
-                        .bookButton {
-                            margin-top: 1rem;
-                            padding: 0.7rem 1.5rem;
-                            background: #007bff;
-                            color: white;
-                            font-size: 1rem;
-                            font-weight: 500;
-                            border: none;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            transition: background 0.3s ease;
-                            width: 100%;
-                            text-align: center;
-
-                            &:hover {
-                                background: #0056b3;
-                            }
-
-                            &:disabled {
-                                background: #ccc;
-                                cursor: not-allowed;
-                            }
-                        }
-                    }
-
-                    .modalOverlay {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: rgba(0, 0, 0, 0.7);
-                        z-index: 999;
-                        backdrop-filter: blur(1px);
-                    }
-                }
-            }
-
-            .flightsInfo {
-                h3 {
-                    margin-bottom: 1rem;
-                    font-size: 1.5rem;
-                    color: #555;
-                }
-
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    text-align: left;
-                    font-size: 0.95rem;
-                    color: #555;
-                    background: #ffffff;
-
-                    th,
-                    td {
-                        padding: 0.8rem;
-                        border: 1px solid #ddd;
-                    }
-
-                    th {
-                        background-color: #f5f5f5;
-                        font-weight: bold;
-                    }
-
-                    tbody {
-                        tr:nth-child(even) {
-                            background-color: #f9f9f9;
-                        }
-
-                        tr>td {
-                            .status {
-                                font-weight: 500;
-                                padding: 0.5rem;
-                                text-align: center;
-                                border-radius: 5px;
-                            }
-
-                            .status.scheduled {
-                                color: white;
-                                background-color: hsl(210, 80%, 50%);
-                            }
-
-                            .status.delayed {
-                                color: white;
-                                background-color: hsl(39, 100%, 50%);
-                            }
-
-                            .status.canceled {
-                                color: white;
-                                background-color: hsl(0, 70%, 50%);
-                            }
-
-                            .status.completed {
-                                color: white;
-                                background-color: hsl(120, 50%, 40%);
-                            }
-
-                            .status:hover {
-                                opacity: 0.9;
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .ticketList {
-        background-color: var(--greyBg);
-
-        .ticketListContainer {
-            margin: 2rem auto;
-
-            .ticketsGrid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 1.5rem;
-
-                .ticketCard {
-                    background-color: var(--whiteColor);
-                    border-radius: 10px;
-                    padding: 1.5rem;
-                    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-                    transition: var(--transition);
-
-                    &:hover {
-                        transform: translateY(-5px);
-                    }
-
-                    .ticketHeader {
-                        border-bottom: 1px solid var(--borderColor);
-                        padding-bottom: 1rem;
-                        margin-bottom: 1rem;
-
-                        h4 {
-                            color: var(--PrimaryColor);
-                            font-size: 1.2rem;
-                        }
-                    }
-
-                    .ticketDetails {
-                        p {
-                            margin: 0.5rem 0;
-                            color: var(--textColor);
-
-                            .seatClass {
-                                font-weight: bold;
-                                padding: 5px;
-                                border-radius: 5px;
-                                margin-left: 5px;
-                                text-transform: capitalize;
-                            }
-
-                            .economy {
-                                background-color: #f0f8ff;
-                                color: #000080;
-                            }
-
-                            .business {
-                                background-color: #fffacd;
-                                color: #8b4513;
-                            }
-
-                            .first {
-                                background-color: #ffe4e1;
-                                color: #b22222;
-                            }
-                        }
-                    }
-
-                    .btn {
-                        margin-top: 1rem;
-                        width: 100%;
-                        text-align: center;
-                        padding: 0.7rem;
-                        border-radius: 5px;
-                    }
-                }
-            }
-        }
-    }
-
-    .bookTicket {
-        .bookTicketContainer {
-            margin: 3rem auto;
-
-            .message {
-                margin: 1rem auto;
-                font-size: 14px;
-                font-weight: 500;
-                padding: 0.8rem;
-                border-radius: 5px;
-                text-align: center;
-                transition: all 0.3s ease-in-out;
-
-                &.success {
-                    background-color: #d4edda;
-                    color: #155724;
-                    border: 1px solid #c3e6cb;
-                }
-
-                &.error {
-                    background-color: #f8d7da;
-                    color: #721c24;
-                    border: 1px solid #f5c6cb;
-                }
-            }
-
-            h2 {
-                margin-bottom: 1rem;
-            }
-
-            .ticketDetails {
-                padding: 2rem;
-                margin-bottom: .9rem;
-                border-radius: 3rem;
-                background: var(--SecondaryColor);
-                box-shadow: 0 4px 8px var(--boxShadow);
-
-                .ticketHeader {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #ccc;
-                    padding-bottom: 1rem;
-
-                    h4 {
-                        font-size: 18px;
-                        font-weight: 700;
-                    }
-
-                    .flightDuration {
-                        font-size: 14px;
-                        color: #777;
-                    }
-                }
-
-                .ticketContent {
-                    display: flex;
-                    justify-content: space-between;
-                    margin: 1rem 0;
-
-                    .flightInfo {
-                        flex: 1;
-
-                        p {
-                            margin: 0.5rem 0;
-                        }
-
-                        .seatClass {
-                            font-weight: bold;
-                            padding: 5px;
-                            border-radius: 5px;
-                            margin-left: 5px;
-                            text-transform: capitalize;
-                        }
-
-                        .economy {
-                            background-color: #f0f8ff;
-                            color: #000080;
-                        }
-
-                        .business {
-                            background-color: #fffacd;
-                            color: #8b4513;
-                        }
-
-                        .first {
-                            background-color: #ffe4e1;
-                            color: #b22222;
-                        }
-                    }
-
-                    .ticketPrice {
-                        flex: 0.3;
-                        text-align: right;
-
-                        p {
-                            font-size: 18px;
-                            font-weight: 700;
-                            color: #333;
-                        }
-                    }
-                }
-
-                .ticketActions {
-                    display: flex;
-                    justify-content: flex-end;
-                    gap: 1rem;
-
-                    .btn {
-                        padding: 0.7rem 1.5rem;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        border: none;
-                        color: #fff;
-                        font-weight: 500;
-
-                        &.confirmBtn {
-                            background: #28a745;
-
-                            &:hover {
-                                background: #218838;
-                            }
-                        }
-
-                        &.cancelBtn {
-                            background: #dc3545;
-
-                            &:hover {
-                                background: #c82333;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .emailVerify {
-        .emailVerifyContainer {
-            margin: 4rem auto;
         }
     }
 

@@ -6,6 +6,7 @@ import axiosInstance from "../../config/axiosInstance";
 const MyTickets = () => {
     const { user } = useContext(AuthContext);
     const [tickets, setTickets] = useState([]);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const fetchTickets = async () => {
@@ -22,12 +23,15 @@ const MyTickets = () => {
 
     const handleCancelTicket = async (ticketId) => {
         try {
-            await axiosInstance.put(`/api/tickets/cancel/${ticketId}`);
+            await axiosInstance.put(`/api/tickets/${ticketId}/cancel`);
             setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));
-            alert("Ticket canceled successfully!");
+            setMessage("Ticket canceled successfully!");
+            setTimeout(() => {
+                setMessage("");
+            }, 2000);
         } catch (error) {
             console.error("Error canceling ticket:", error);
-            alert("Failed to cancel the ticket. Please try again.");
+            setMessage("Failed to cancel the ticket. Please try again.");
         }
     };
 
@@ -37,7 +41,13 @@ const MyTickets = () => {
         <div className="bookTicket section">
             <div className="bookTicketContainer container">
                 <h2>Your Booked Tickets</h2>
-                <button className="btn cancelBtn" onClick={() => navigate(-1)}>Back page</button>
+
+                {message && (
+                    <p className={`message ${message.includes("Failed") ? "error" : "success"}`}>
+                        {message}
+                    </p>
+                )}
+
                 {tickets.length > 0 ? (
                     <>
                         {tickets.map((ticket) => (
@@ -78,12 +88,18 @@ const MyTickets = () => {
                                     </div>
                                 </div>
                                 <div className="ticketActions flex">
-                                    <button
-                                        className="btn cancelBtn"
-                                        onClick={() => handleCancelTicket(ticket.id)}
-                                    >
-                                        Cancel Ticket
-                                    </button>
+                                    {ticket.booking_status === "Canceled" ? (
+                                        <button className="btn confirmBtn" disabled>
+                                            Canceled
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="btn cancelBtn"
+                                            onClick={() => handleCancelTicket(ticket.id)}
+                                        >
+                                            Cancel Ticket
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}

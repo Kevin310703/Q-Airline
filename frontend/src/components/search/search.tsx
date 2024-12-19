@@ -5,7 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi"
 import { RiAccountPinCircleLine } from "react-icons/ri"
 import { RxCalendar } from "react-icons/rx"
 
-import Aos from "aos"
+import Aos from "aos";
 import "aos/dist/aos.css"
 import axiosInstance from "../config/axiosInstance";
 
@@ -102,27 +102,27 @@ const Search = () => {
                     </div>
 
                     <div
-                        className={`singleBtn ${searchData.seatClass === "Business Class" ? "active" : ""}`}
+                        className={`singleBtn ${searchData.seatClass === "Business" ? "active" : ""}`}
                         onClick={() =>
                             setSearchData({
                                 ...searchData,
-                                seatClass: searchData.seatClass === "Business Class" ? "" : "Business",
+                                seatClass: searchData.seatClass === "Business" ? "" : "Business",
                             })
                         }
                     >
-                        <span>Business Class</span>
+                        <span>Business</span>
                     </div>
 
                     <div
-                        className={`singleBtn ${searchData.seatClass === "First Class" ? "active" : ""}`}
+                        className={`singleBtn ${searchData.seatClass === "First" ? "active" : ""}`}
                         onClick={() =>
                             setSearchData({
                                 ...searchData,
-                                seatClass: searchData.seatClass === "First Class" ? "" : "First",
+                                seatClass: searchData.seatClass === "First" ? "" : "First",
                             })
                         }
                     >
-                        <span>First Class</span>
+                        <span>First</span>
                     </div>
                 </div>
 

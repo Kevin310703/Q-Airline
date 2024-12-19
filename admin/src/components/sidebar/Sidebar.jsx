@@ -13,6 +13,7 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import AirlinesIcon from '@mui/icons-material/Airlines';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
@@ -100,15 +101,9 @@ const Sidebar = () => {
           </li>
           <p className="title">SERVICE</p>
           <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
+            <LocalOfferIcon className="icon" />
+            <span>Offer</span>
           </li>
-          <Link to="/logs" style={{ textDecoration: "none" }}>
-            <li>
-              <PsychologyOutlinedIcon className="icon" />
-              <span>Logs</span>
-            </li>
-          </Link>
 
           <li>
             <SettingsApplicationsIcon className="icon" />

@@ -67,7 +67,6 @@ export const getAnnouncementById = async (req, res) => {
 
 export const getUserAnnouncements = async (req, res) => {
     const { user_id } = req.params;
-    console.log(user_id);
 
     try {
         const [notifications] = await pool.query(

@@ -421,6 +421,7 @@ export const getUserTickets = async (req, res) => {
                 f.departure_time,
                 f.arrival_time,
                 f.status AS flight_status,
+                b.status AS booking_status,
                 a1.name AS departure_airport,
                 a1.city AS departure_city,
                 a1.country AS departure_country,
@@ -441,7 +442,7 @@ export const getUserTickets = async (req, res) => {
             JOIN 
                 airplanes ap ON f.airplane_id = ap.airplane_id
             WHERE 
-                b.user_id = ? AND b.status = 'Confirmed'
+                b.user_id = ?
             ORDER BY 
                 b.booking_date DESC, t.ticket_id DESC`,
             [user_id]

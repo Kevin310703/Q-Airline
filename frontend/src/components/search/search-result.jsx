@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axiosInstance";
 
 const SearchResults = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const searchData = location.state || {}; // Lấy dữ liệu từ state được truyền từ `Search`
-    const [results, setResults] = useState([]); // Lưu kết quả tìm kiếm
-    const [loading, setLoading] = useState(true); // Trạng thái tải
-    const [error, setError] = useState(null); // Lưu lỗi nếu có
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchFlights = async () => {
@@ -40,40 +41,21 @@ const SearchResults = () => {
         }
     }, [searchData]);
 
-    const mockResults = [
-        {
-            id: 1,
-            from: "New York",
-            to: "Tokyo",
-            date: "2024-12-01",
-            price: "$750",
-            airline: "Japan Airlines"
-        },
-        {
-            id: 2,
-            from: "New York",
-            to: "Tokyo",
-            date: "2024-12-01",
-            price: "$800",
-            airline: "ANA"
-        },
-        {
-            id: 3,
-            from: "New York",
-            to: "Tokyo",
-            date: "2024-12-01",
-            price: "$720",
-            airline: "United Airlines"
-        }
-    ];
-
-    const filteredResults = mockResults.filter(
-        (result) =>
-            (!searchData.location || result.to.toLowerCase().includes(searchData.location.toLowerCase())) &&
-            (!searchData.date || result.date === searchData.date)
-    );
+    const handleBookNow = (flight, seat) => {
+        navigate("/book-ticket", {
+            state: {
+                airplane: {
+                    model: flight.airplane_model,
+                    registration_number: flight.airplane_registration_number,
+                },
+                selectedFlights: flight,
+                selectedSeat: seat,
+            },
+        });
+    };
 
     console.log(searchData);
+    console.log(results);
     return (
         <div className="searchResults section">
             <div className="searchResultContainer container">
@@ -86,13 +68,30 @@ const SearchResults = () => {
                         {results.map((result, index) => (
                             <div key={index} className="resultCard">
                                 <h3>
-                                    {result.departure_airport_name} → {result.arrival_airport_name}
+                                    {result.departure_city} → {result.arrival_city}
                                 </h3>
                                 <p><strong>Airplane:</strong> {result.airplane_model}</p>
-                                <p><strong>Departure:</strong> {result.departure_time}</p>
-                                <p><strong>Arrival:</strong> {result.arrival_time}</p>
+                                <p>
+                                    <strong>Seat:</strong> {result.seat_number}
+                                    <span className={`seatClass ${result.seat_class.toLowerCase()}`}>
+                                        ({result.seat_class})
+                                    </span>
+                                </p>
+                                <p><strong>Departure airport:</strong> {result.departure_airport}.</p>
+                                <p><strong>Departure time:</strong> {new Date(result.departure_time).toLocaleString()}</p>
+                                <p><strong>Arrival airport:</strong> {result.arrival_airport}.</p>
+                                <p><strong>Arrival time:</strong> {new Date(result.arrival_time).toLocaleString()}</p>
                                 <p><strong>Price:</strong> ${result.seat_price}</p>
-                                <button className="btn">Book Now</button>
+                                <button
+                                    className="btn"
+                                    onClick={() => handleBookNow(result, {
+                                        seat_number: result.seat_number,
+                                        seat_class: result.seat_class,
+                                        price: result.seat_price,
+                                    })}
+                                >
+                                    Book Now
+                                </button>
                             </div>
                         ))}
                     </div>
@@ -100,7 +99,7 @@ const SearchResults = () => {
                     !loading && <p>No flights found. Try adjusting your search criteria.</p>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

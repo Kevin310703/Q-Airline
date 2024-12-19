@@ -6,10 +6,18 @@ import { BsPhoneVibrate } from 'react-icons/bs';
 import { AiOutlineGlobal } from 'react-icons/ai';
 import { CgMenuGridO } from 'react-icons/cg';
 import { FaRegBell } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 
 import { AuthContext } from "../context/AuthContext";
 import axiosInstance from "../config/axiosInstance";
+
+import { formatDistanceToNow } from "date-fns";
+
+const formatTimeAgo = (dateString) => {
+    const date = new Date(dateString);
+    return formatDistanceToNow(date, { addSuffix: true }); // Thêm "ago" hoặc "trước" vào cuối
+};
 
 const Navbar = () => {
     const location = useLocation();
@@ -131,7 +139,11 @@ const Navbar = () => {
                                 e.stopPropagation();
                                 setShowAnnouncements((prev) => !prev);
                             }}>
-                                <FaRegBell className={`icon ${showAnnouncements ? "activeBell" : ""}`} />
+                                {showAnnouncements ? (
+                                    <FaBell className="icon activeBell" />
+                                ) : (
+                                    <FaRegBell className="icon" />
+                                )}
                                 <div className="counter">
                                     {announcements.filter((n) => !n.is_read).length}
                                 </div>
@@ -149,7 +161,7 @@ const Navbar = () => {
                                                     <h4 className="announcementTitle">{noti.title}</h4>
                                                     <p className="announcementMessage">{noti.content}</p>
                                                     <span className="announcementTime">
-                                                        {new Date(noti.created_at).toLocaleString()}
+                                                        {formatTimeAgo(noti.created_at)}
                                                     </span>
                                                 </div>
                                                 {!noti.is_read && (

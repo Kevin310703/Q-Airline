@@ -11,7 +11,8 @@ import {
   userInputs,
   flightInputs,
   airportInputs,
-  ticketInputs
+  ticketInputs,
+  promotionInputs,
 } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
@@ -25,9 +26,9 @@ import {
   airportColumns,
   bookingColumns,
   announcementsColumns,
+  promotionColumns,
 } from "./datatablesource";
 import Account from "./pages/account/Account";
-import Log from "./pages/log/Log";
 import NewNotify from "./pages/newNotify/NewNotify";
 import Edit from "./pages/edit/Edit";
 import NewPlane from "./pages/newPlane/NewPlane";
@@ -36,6 +37,7 @@ import NewSeat from "./pages/newSeat/NewSeat";
 import NewFlight from "./pages/newFlight/NewFlight";
 import NewAirport from "./pages/newAirport/NewAirport";
 import NewTicket from "./pages/newTicket/NewTicket";
+import NewPromotion from "./pages/newPromotion/newPromotion";
 
 
 function App() {
@@ -283,12 +285,30 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="logs">
+          <Route path="promotions">
             <Route
               index
               element={
                 <ProtectedRoute>
-                  <Log />
+                  <List columns={promotionColumns} />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="edit/:promotionId"
+              element={
+                <ProtectedRoute>
+                  <Edit inputs={promotionInputs} title="Edit Promotions" />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="new"
+              element={
+                <ProtectedRoute>
+                  <NewPromotion inputs={promotionInputs} title="Add New Promotions" />
                 </ProtectedRoute>
               }
             />

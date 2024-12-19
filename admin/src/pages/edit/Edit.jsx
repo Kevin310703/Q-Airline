@@ -187,7 +187,7 @@ const Edit = ({ inputs, title }) => {
           const base64 = await toBase64(file);
 
           // Gửi Base64 tới API upload
-          const uploadRes = await axiosInstance.post("/api/upload-avatar", { image: base64, name_folder: "admin_uploads" });
+          const uploadRes = await axiosInstance.post("/api/upload-avatar", { image: base64, name_folder: "user_uploads" });
 
           imageUrl = uploadRes.data.url;
         }
@@ -275,6 +275,40 @@ const Edit = ({ inputs, title }) => {
           console.error("Error updating flight information:", err);
           toast.error("Failed to update flight information.");
         }
+      } else if (path === "promotions") {
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "upload");
+
+        let imageUrl = info.image_url;
+
+        if (file) {
+          // Chuyển đổi file sang Base64
+          const base64 = await toBase64(file);
+
+          // Gửi Base64 tới API upload
+          const uploadRes = await axiosInstance.post("/api/upload-avatar", { image: base64, name_folder: "offer_uploads" });
+
+          imageUrl = uploadRes.data.url;
+        }
+
+        const newPromotions = {
+          ...info,
+          start_date: dayjs(info.start_date).format("YYYY-MM-DD"),
+          end_date: dayjs(info.end_date).format("YYYY-MM-DD"),
+          image_url: imageUrl,
+        };
+
+        const res = await axiosInstance.put(`/api/${path}/${id}`, newPromotions);
+
+        setInfo({
+          ...res.data,
+          last_inspection_date: res.data.last_inspection_date
+            ? dayjs(res.data.last_inspection_date).format("YYYY-MM-DD")
+            : "",
+        });
+
+        toast.success("Infomation promotion updated successfully");
       }
 
       setTimeout(() => {
@@ -445,6 +479,53 @@ const Edit = ({ inputs, title }) => {
       } else if (info.departure_airport_id === info.arrival_airport_id) {
         newErrors.arrival_airport_id = "Departure and arrival airports must be different.";
       }
+    } else if (path === "promotions") {
+      // Validate Title
+      if (!info.title || info.title.trim() === "") {
+        newErrors.title = "Title is required.";
+      }
+
+      // Validate Description
+      if (!info.description || info.description.trim() === "") {
+        newErrors.description = "Description is required.";
+      }
+
+      // Validate Destination
+      if (!info.destination || info.destination.trim() === "") {
+        newErrors.destination = "Destination is required.";
+      }
+
+      // Validate Price
+      if (!info.price || isNaN(info.price) || parseFloat(info.price) <= 0) {
+        newErrors.price = "Price must be a positive number.";
+      }
+
+      // Validate Discount Percentage
+      if (
+        info.discount_percentage &&
+        (isNaN(info.discount_percentage) ||
+          parseFloat(info.discount_percentage) < 0 ||
+          parseFloat(info.discount_percentage) > 100)
+      ) {
+        newErrors.discount_percentage = "Discount percentage must be between 0 and 100.";
+      }
+
+      // Validate Valid Period
+      if (!info.valid_period || info.valid_period.trim() === "") {
+        newErrors.valid_period = "Valid period is required.";
+      }
+
+      // Validate Start Date
+      if (!info.start_date) {
+        newErrors.start_date = "Start date is required.";
+      }
+
+      // Validate End Date
+      if (!info.end_date) {
+        newErrors.end_date = "End date is required.";
+      } else if (new Date(info.end_date) <= new Date(info.start_date)) {
+        newErrors.end_date = "End date must be after the start date.";
+      }
     }
 
     setErrors(newErrors);
@@ -473,7 +554,7 @@ const Edit = ({ inputs, title }) => {
                   src={
                     file
                       ? URL.createObjectURL(file)
-                      : info.avatar || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                      : info.avatar || info.image_url || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                   }
                   alt=""
                 />

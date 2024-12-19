@@ -302,3 +302,14 @@ export const announcementInputs = [
     ],
   },
 ];
+
+export const promotionInputs = [
+  { id: "title", label: "Title", type: "text", placeholder: "Enter promotion title" },
+  { id: "description", label: "Description", type: "textarea", placeholder: "Enter promotion details" },
+  { id: "start_date", label: "Start Date", type: "date" },
+  { id: "end_date", label: "End Date", type: "date" },
+  { id: "discount_percentage", label: "Discount (%)", type: "number", placeholder: "Enter discount percentage" },
+  { id: "destination", label: "Destination", type: "text", placeholder: "Enter destination" },
+  { id: "price", label: "Price", type: "number", placeholder: "Enter price" },
+  { id: "valid_period", label: "Valid Period (days)", type: "text", placeholder: "Enter valid period in days" },
+];

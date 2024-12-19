@@ -100,10 +100,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <p className="title">SERVICE</p>
-          <li>
-            <LocalOfferIcon className="icon" />
-            <span>Offer</span>
-          </li>
+          <Link to="/promotions" style={{ textDecoration: "none" }}>
+            <li>
+              <LocalOfferIcon className="icon" />
+              <span>Offer</span>
+            </li>
+          </Link>
 
           <li>
             <SettingsApplicationsIcon className="icon" />

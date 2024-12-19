@@ -406,3 +406,91 @@ export const announcementsColumns = [
     },
   },
 ];
+
+export const promotionColumns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+  },
+  {
+    field: "image_url",
+    headerName: "Image",
+    width: 150,
+    renderCell: (params) => (
+      <img
+        src={params.row.image_url || "https://i.ibb.co/MBtjqXQ/no-image.png"}
+        alt="promotion"
+        style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
+      />
+    ),
+  },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 250,
+    renderCell: (params) => params.row.title || "N/A",
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 400,
+    renderCell: (params) => params.row.description || "N/A",
+  },
+  {
+    field: "destination",
+    headerName: "Destination",
+    width: 200,
+    renderCell: (params) => params.row.destination || "N/A",
+  },
+  {
+    field: "price",
+    headerName: "Price ($)",
+    width: 120,
+    renderCell: (params) => {
+      const price = parseFloat(params.row.price);
+      return !isNaN(price) ? `$${price.toFixed(2)}` : "N/A";
+    },
+  },
+  {
+    field: "discount_percentage",
+    headerName: "Discount (%)",
+    width: 150,
+    renderCell: (params) =>
+      `${params.row.discount_percentage || 0}%`,
+  },
+  {
+    field: "valid_period",
+    headerName: "Valid Period (days)",
+    width: 200,
+    renderCell: (params) =>
+      params.row.valid_period ? `${params.row.valid_period} days` : "N/A",
+  },
+  {
+    field: "start_date",
+    headerName: "Start Date",
+    width: 190,
+    renderCell: (params) => {
+      const startDate = new Date(params.row.start_date);
+      return startDate.toLocaleDateString();
+    },
+  },
+  {
+    field: "end_date",
+    headerName: "End Date",
+    width: 190,
+    renderCell: (params) => {
+      const endDate = new Date(params.row.end_date);
+      return endDate.toLocaleDateString();
+    },
+  },
+  {
+    field: "created_at",
+    headerName: "Date Created",
+    width: 190,
+    renderCell: (params) => {
+      const createdAt = new Date(params.row.created_at);
+      return createdAt.toLocaleString();
+    },
+  },
+];

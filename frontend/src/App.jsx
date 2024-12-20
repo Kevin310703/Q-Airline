@@ -31,6 +31,7 @@ import EditProfile from './components/auth/profile/edit-profile';
 import NewBookTicket from './components/pages/book-ticket/new-booking-ticket-custom';
 import MyTickets from './components/auth/tickets/my-tickets';
 import AirplanesList from './components/pages/airplane/airplane-list';
+import Contact from './components/pages/contact/contact';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -101,6 +102,17 @@ const App = () => {
             <>
               <Navbar />
               <Destinations />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            <>
+              <Navbar />
+              <Contact />
               <Footer />
             </>
           }

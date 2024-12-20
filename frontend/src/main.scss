@@ -368,6 +368,7 @@ h2 {
                 .slogan {
                     height: 100%;
                     float: right;
+
                     .logoName {
                         font-size: .9rem;
                         font-weight: bold;
@@ -2066,6 +2067,7 @@ h2 {
                         color: var(--PrimaryColor);
                         text-decoration: none;
                         font-weight: 700;
+
                         &:hover {
                             text-decoration: underline;
                         }
@@ -3100,6 +3102,128 @@ h2 {
                     background-color: #3498db;
                     width: 20px;
                     border-radius: 5px;
+                }
+            }
+        }
+    }
+}
+
+// Contact page styling
+.contact {
+    background: var(--SecondaryColor);
+
+    .contactContainer {
+        max-width: 800px;
+        margin: 4rem auto;
+        text-align: center;
+
+        .contactTitle {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a2f4a;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .contactSubtitle {
+            font-size: 1rem;
+            color: var(--greyText);
+            margin-bottom: 2rem;
+        }
+
+        .contactContent {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+
+            .contactForm {
+                .message {
+                    margin: 1rem auto;
+                    font-size: 14px;
+                    font-weight: 500;
+                    padding: 0.8rem;
+                    border-radius: 5px;
+                    text-align: center;
+                    transition: all 0.3s ease-in-out;
+
+                    &.success {
+                        background-color: #d4edda;
+                        color: #155724;
+                        border: 1px solid #c3e6cb;
+                    }
+
+                    &.error {
+                        background-color: #f8d7da;
+                        color: #721c24;
+                        border: 1px solid #f5c6cb;
+                    }
+                }
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+
+                    .formGroup {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+
+                        label {
+                            margin-bottom: 0.5rem;
+                            font-weight: 500;
+                            color: var(--blackColor);
+                        }
+
+                        input,
+                        textarea {
+                            width: 100%;
+                            padding: 0.8rem;
+                            border: 1px solid var(--borderColor);
+                            border-radius: 5px;
+                            background: var(--inputColor);
+                            font-size: 1rem;
+                            color: var(--blackColor);
+                            outline: none;
+                            transition: var(--transition);
+
+                            &:focus {
+                                border-color: var(--PrimaryColor);
+                            }
+                        }
+
+                        textarea {
+                            resize: none;
+                        }
+
+                        .error-message {
+                            color: red;
+                            font-size: 12px;
+                            margin-top: 0.3rem;
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .contactDetails {
+                background: var(--whiteColor);
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: var(--boxShadow);
+
+                h4 {
+                    font-size: 1.5rem;
+                    color: var(--PrimaryColor);
+                }
+
+                p {
+                    font-size: 1rem;
+                    color: var(--textColor);
                 }
             }
         }

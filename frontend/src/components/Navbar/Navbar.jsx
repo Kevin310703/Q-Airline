@@ -266,12 +266,16 @@ const Navbar = () => {
                     </ul>
 
                     <button onClick={removeNavBar} className="btn flex btnOne">
-                        Contact
+                        <Link to="/contact">
+                            Contact
+                        </Link>
                     </button>
                 </div>
 
                 <button className="btn flex btnTwo">
-                    Contact
+                    <Link to="/contact">
+                        Contact
+                    </Link>
                 </button>
 
                 <div onClick={showNavBar} className="toggleIcon">

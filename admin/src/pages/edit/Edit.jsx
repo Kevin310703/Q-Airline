@@ -309,6 +309,40 @@ const Edit = ({ inputs, title }) => {
         });
 
         toast.success("Infomation promotion updated successfully");
+      } else if (path === "destinations") {
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "upload");
+
+        let imageUrl = info.image_url;
+
+        if (file) {
+          // Chuyển đổi file sang Base64
+          const base64 = await toBase64(file);
+
+          // Gửi Base64 tới API upload
+          const uploadRes = await axiosInstance.post("/api/upload-avatar", { image: base64, name_folder: "destination_uploads" });
+
+          imageUrl = uploadRes.data.url;
+        }
+
+        const newDestinations = {
+          ...info,
+          latitude: parseFloat(info.latitude),
+          longitude: parseFloat(info.longitude),
+          image_url: imageUrl,
+        };
+
+        const res = await axiosInstance.put(`/api/${path}/${id}`, newDestinations);
+
+        setInfo({
+          ...res.data,
+          last_inspection_date: res.data.last_inspection_date
+            ? dayjs(res.data.last_inspection_date).format("YYYY-MM-DD")
+            : "",
+        });
+
+        toast.success("Infomation destination updated successfully");
       }
 
       setTimeout(() => {
@@ -525,6 +559,22 @@ const Edit = ({ inputs, title }) => {
         newErrors.end_date = "End date is required.";
       } else if (new Date(info.end_date) <= new Date(info.start_date)) {
         newErrors.end_date = "End date must be after the start date.";
+      }
+    } else if (path === "destinations") {
+      if (!info.name || info.name.trim() === "") {
+        newErrors.name = "Name is required.";
+      }
+
+      if (!info.description || info.description.trim() === "") {
+        newErrors.description = "Description is required.";
+      }
+
+      if (!info.latitude || isNaN(info.latitude)) {
+        newErrors.latitude = "Latitude must be a valid number.";
+      }
+
+      if (!info.longitude || isNaN(info.longitude)) {
+        newErrors.longitude = "Longitude must be a valid number.";
       }
     }
 

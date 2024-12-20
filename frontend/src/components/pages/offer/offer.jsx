@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { Link } from "react-router-dom";
 import axiosInstance from '../../config/axiosInstance';
 
 const Offers = () => {
@@ -86,7 +87,11 @@ const Offers = () => {
                                         <span>Valid: {offer.valid_period}</span>
                                     </div>
                                 </div>
-                                <button className="offer-button">Book Now</button>
+                                <button className="offer-button">
+                                    <Link to="/ticket-list">
+                                        Book Now
+                                    </Link>
+                                </button>
                             </div>
                         ))}
                     </div>

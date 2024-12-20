@@ -313,3 +313,30 @@ export const promotionInputs = [
   { id: "price", label: "Price", type: "number", placeholder: "Enter price" },
   { id: "valid_period", label: "Valid Period (days)", type: "text", placeholder: "Enter valid period in days" },
 ];
+
+export const destinationInputs = [
+  {
+    id: "name",
+    label: "Destination Name",
+    type: "text",
+    placeholder: "Enter the name of the destination",
+  },
+  {
+    id: "description",
+    label: "Description",
+    type: "textarea",
+    placeholder: "Provide a brief description of the destination",
+  },
+  {
+    id: "latitude",
+    label: "Latitude",
+    type: "number",
+    placeholder: "Enter the latitude",
+  },
+  {
+    id: "longitude",
+    label: "Longitude",
+    type: "number",
+    placeholder: "Enter the longitude",
+  },
+];

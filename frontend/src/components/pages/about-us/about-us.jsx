@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const AboutPage = () => {
   return (
@@ -19,13 +20,13 @@ const AboutPage = () => {
           </div>
           <div className="card-content">
             <p>
-              QAirline was founded in 1995 by a group of visionary entrepreneurs who saw the potential 
-              to revolutionize air travel in our region. What started as a small, regional carrier 
+              QAirline was founded in 1995 by a group of visionary entrepreneurs who saw the potential
+              to revolutionize air travel in our region. What started as a small, regional carrier
               has grown into a national airline connecting millions of passengers each year.
             </p>
             <p>
-              In our early years, we operated with just two small aircraft, serving local routes. 
-              By 2005, we had expanded to become a major domestic carrier, and in 2015, we launched 
+              In our early years, we operated with just two small aircraft, serving local routes.
+              By 2005, we had expanded to become a major domestic carrier, and in 2015, we launched
               our first international routes, marking a significant milestone in our journey.
             </p>
           </div>
@@ -38,8 +39,8 @@ const AboutPage = () => {
             <h2 className="card-title">Our Mission</h2>
           </div>
           <p className="mission-description">
-            At QAirline, we are committed to connecting people, cultures, and opportunities. 
-            Our mission is to provide safe, reliable, and comfortable air travel that makes 
+            At QAirline, we are committed to connecting people, cultures, and opportunities.
+            Our mission is to provide safe, reliable, and comfortable air travel that makes
             the world more accessible to everyone.
           </p>
           <ul className="mission-list">
@@ -76,7 +77,7 @@ const AboutPage = () => {
           </div>
         </div>
         <p className="achievements-description">
-          Our commitment to excellence has been recognized through numerous industry awards 
+          Our commitment to excellence has been recognized through numerous industry awards
           and the trust of millions of passengers who choose QAirline for their travel needs.
         </p>
       </div>
@@ -85,15 +86,15 @@ const AboutPage = () => {
       <div className="cta-section">
         <h3 className="cta-title">Join Us in the Skies</h3>
         <p className="cta-description">
-          Whether you're traveling for business or leisure, QAirline is your trusted partner 
+          Whether you're traveling for business or leisure, QAirline is your trusted partner
           in making your journey memorable and comfortable.
         </p>
-        <button className="cta-button">
+        <Link to="/ticket-list" className="cta-button">
           Book Your Flight
-        </button>
+        </Link>
       </div>
     </div>
   );
 };
-  
+
 export default AboutPage;

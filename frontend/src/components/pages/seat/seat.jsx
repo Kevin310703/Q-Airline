@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 // Sample seat data
 const seatData = [
@@ -89,7 +90,9 @@ const Seats = () => {
                             <p>You have selected {selectedClass.class} with a price of {selectedClass.price}</p>
                         </div>
                         <div className="book-now-section">
-                            <button className="book-now-btn">Book Now</button>
+                            <Link to="/ticket-list" className="book-now-btn">
+                                Book Now
+                            </Link>
                         </div>
                     </div>
                 )}

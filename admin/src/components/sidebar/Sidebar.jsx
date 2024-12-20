@@ -11,6 +11,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import AirlinesIcon from '@mui/icons-material/Airlines';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import PlaceIcon from '@mui/icons-material/Place';
 
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
@@ -101,6 +102,13 @@ const Sidebar = () => {
             <li>
               <LocalOfferIcon className="icon" />
               <span>Offer</span>
+            </li>
+          </Link>
+
+          <Link to="/destinations" style={{ textDecoration: "none" }}>
+            <li>
+              <PlaceIcon className="icon" />
+              <span>Destination</span>
             </li>
           </Link>
 

@@ -494,3 +494,50 @@ export const promotionColumns = [
     },
   },
 ];
+
+export const destinationColumns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 70,
+  },
+  {
+    field: "image_url",
+    headerName: "Image",
+    width: 150,
+    renderCell: (params) => (
+      <img
+        src={params.row.image_url || "https://via.placeholder.com/150"}
+        alt={params.row.name}
+        style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
+      />
+    ),
+  },
+  {
+    field: "name",
+    headerName: "Destination Name",
+    width: 200,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 400,
+    renderCell: (params) => (
+      <span>
+        {params.row.description.length > 100
+          ? `${params.row.description.slice(0, 100)}...`
+          : params.row.description}
+      </span>
+    ),
+  },
+  {
+    field: "latitude",
+    headerName: "Latitude",
+    width: 120,
+  },
+  {
+    field: "longitude",
+    headerName: "Longitude",
+    width: 120,
+  },
+];

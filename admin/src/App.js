@@ -13,6 +13,7 @@ import {
   airportInputs,
   ticketInputs,
   promotionInputs,
+  destinationInputs,
 } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
@@ -27,6 +28,7 @@ import {
   bookingColumns,
   announcementsColumns,
   promotionColumns,
+  destinationColumns
 } from "./datatablesource";
 import Account from "./pages/account/Account";
 import NewNotify from "./pages/newNotify/NewNotify";
@@ -38,6 +40,7 @@ import NewFlight from "./pages/newFlight/NewFlight";
 import NewAirport from "./pages/newAirport/NewAirport";
 import NewTicket from "./pages/newTicket/NewTicket";
 import NewPromotion from "./pages/newPromotion/newPromotion";
+import NewDestination from "./pages/newDestination/newDestination";
 
 
 function App() {
@@ -309,6 +312,35 @@ function App() {
               element={
                 <ProtectedRoute>
                   <NewPromotion inputs={promotionInputs} title="Add New Promotions" />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+
+          <Route path="destinations">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <List columns={destinationColumns} />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="edit/:destinationId"
+              element={
+                <ProtectedRoute>
+                  <Edit inputs={destinationInputs} title="Edit Destination" />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="new"
+              element={
+                <ProtectedRoute>
+                  <NewDestination inputs={destinationInputs} title="Add New Destination" />
                 </ProtectedRoute>
               }
             />

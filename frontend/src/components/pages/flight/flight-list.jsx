@@ -23,7 +23,7 @@ const FlightsList = () => {
     return (
         <div className="flightList section">
             <div className="flightContainer container">
-                <h2>Airplane Flight List</h2>
+                <h2>Flight List</h2>
                 <div className="table-wrapper">
                     <table className="flights-table">
                         <thead>
@@ -40,7 +40,7 @@ const FlightsList = () => {
                             {flights.map((flight) => (
                                 <tr key={flight.id}>
                                     <td>
-                                        <Link to={`/airplane-information/${flight.airplane_id}`} className="">
+                                        <Link to={`/airplane-information/${flight.airplane_id}`} className="link">
                                             {flight.airplane_registration}
                                         </Link>
                                     </td>

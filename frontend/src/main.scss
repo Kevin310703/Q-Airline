@@ -365,9 +365,13 @@ h2 {
 
                 .Logo {
                     width: 20%;
+                    height: 100%;
+                    float: left;
                 }
 
                 .slogan {
+                    height: 100%;
+                    float: right;
                     .logoName {
                         font-size: .9rem;
                         font-weight: bold;
@@ -2041,7 +2045,7 @@ h2 {
                     td {
                         padding: 1rem;
                         font-size: .9rem;
-                        text-align: left;
+                        text-align: center;
                         color: var(--textColor);
                         border-bottom: 1px solid var(--borderColor);
                     }
@@ -2052,6 +2056,23 @@ h2 {
 
                     td:first-child {
                         font-weight: bold;
+                    }
+
+                    .airplane-avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 5px;
+                        object-fit: cover;
+                        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .link {
+                        color: var(--PrimaryColor);
+                        text-decoration: none;
+                        font-weight: 700;
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
@@ -3786,6 +3807,18 @@ h2 {
                                 margin: 0.7rem 0;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        .navBarTwo {
+            .logoDiv {
+                width: 15%;
+
+                .logoLink {
+                    .Logo {
+                        width: 30%;
                     }
                 }
             }

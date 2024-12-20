@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from './components/navbar/navbar';
 import Home from './components/home/home';
@@ -30,6 +30,7 @@ import Seats from './components/pages/seat/seat';
 import EditProfile from './components/auth/profile/edit-profile';
 import NewBookTicket from './components/pages/book-ticket/new-booking-ticket-custom';
 import MyTickets from './components/auth/tickets/my-tickets';
+import AirplanesList from './components/pages/airplane/airplane-list';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -161,33 +162,22 @@ const App = () => {
         />
 
         <Route
-          path="/book-ticket/:id"
+          path="/airplane-list"
           element={
             <>
               <Navbar />
-              <BookTicket />
+              <AirplanesList />
               <Footer />
             </>
           }
         />
 
         <Route
-          path="/book-ticket"
+          path="/airplane-information/:id"
           element={
             <>
               <Navbar />
-              <NewBookTicket />
-              <Footer />
-            </>
-          }
-        />
-
-        <Route
-          path="/my-ticket"
-          element={
-            <>
-              <Navbar />
-              <MyTickets />
+              <AirplaneDetails />
               <Footer />
             </>
           }
@@ -230,9 +220,11 @@ const App = () => {
           path="/profile"
           element={
             <>
-              <Navbar />
-              <Profile />
-              <Footer />
+              <ProtectedRoute>
+                <Navbar />
+                <Profile />
+                <Footer />
+              </ProtectedRoute>
             </>
           }
         />
@@ -241,25 +233,55 @@ const App = () => {
           path="/edit-profile"
           element={
             <>
-              <Navbar />
-              <EditProfile />
-              <Footer />
+              <ProtectedRoute>
+                <Navbar />
+                <EditProfile />
+                <Footer />
+              </ProtectedRoute>
             </>
           }
         />
 
         <Route
-          path="/airplane-information/:id"
+          path="/book-ticket/:id"
           element={
             <>
-              <Navbar />
-              <AirplaneDetails />
-              <Footer />
+              <ProtectedRoute>
+                <Navbar />
+                <BookTicket />
+                <Footer />
+              </ProtectedRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/book-ticket"
+          element={
+            <>
+              <ProtectedRoute>
+                <Navbar />
+                <NewBookTicket />
+                <Footer />
+              </ProtectedRoute>
+            </>
+          }
+        />
+
+        <Route
+          path="/my-ticket"
+          element={
+            <>
+              <ProtectedRoute>
+                <Navbar />
+                <MyTickets />
+                <Footer />
+              </ProtectedRoute>
             </>
           }
         />
       </Routes>
-    </Router>
+    </Router >
   )
 }
 

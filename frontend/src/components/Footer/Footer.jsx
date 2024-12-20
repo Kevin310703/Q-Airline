@@ -87,7 +87,7 @@ const Footer = () => {
                 <div data-aos='fade-up' data-aos-duration='2500' className="footerLinks">
                     <span className="linkTitle">Qick Guide</span>
                     <li>
-                        <a href="/flight-list">Flight</a>
+                        <a href="/airplane-list">Airplane</a>
                     </li>
 
                     <li>
@@ -95,7 +95,7 @@ const Footer = () => {
                     </li>
 
                     <li>
-                        <a href="">Features</a>
+                    <a href="/flight-list">Flight</a>
                     </li>
 
                     <li>

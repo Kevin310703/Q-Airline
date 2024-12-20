@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Globe, Target, Award } from 'lucide-react';
+import { Globe, Target, Award } from 'lucide-react';
 import './about_us.css';
 
 const About = () => {

@@ -454,3 +454,33 @@ export const getUserTickets = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+export const earningCalculator = async (req, res) => {
+    try {
+        // Thực hiện truy vấn
+        const [rows] = await pool.query(`
+            SELECT SUM(t.price) as total 
+            FROM tickets t
+            JOIN bookings b ON t.booking_id = b.booking_id
+            WHERE b.status = 'Confirmed'
+        `);
+
+        // Kiểm tra nếu không có kết quả
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Không có dữ liệu earnings" });
+        }
+
+        // Lấy tổng earnings
+        const totalEarnings = rows[0].total || 0; // Đảm bảo không bị null hoặc undefined
+
+        // Tính toán % thay đổi (ví dụ bạn cần thêm logic thực tế)
+        const percentageChange = 10;
+
+        // Trả về kết quả
+        res.status(200).json({ total: totalEarnings, percentageChange });
+    } catch (error) {
+        console.error("Error calculating earnings:", error);
+        res.status(500).json({ message: "Error calculating earnings" });
+    }
+};
+

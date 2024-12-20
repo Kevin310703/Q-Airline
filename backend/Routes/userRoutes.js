@@ -8,7 +8,6 @@ import { getUsers,
 
 const router = express.Router();
 
-// Route: Lấy danh sách người dùng
 router.get("/users", getUsers);
 router.get("/users/:id", getUserById);
 router.put("/users/:id", updateUser);

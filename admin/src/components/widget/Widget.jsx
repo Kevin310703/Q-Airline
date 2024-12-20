@@ -1,19 +1,53 @@
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import AirlinesIcon from '@mui/icons-material/Airlines';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
+import axiosInstance from "../../config/axiosInstance";
 
 const Widget = ({ type }) => {
+  const [amount, setAmount] = useState(0);
+  const [diff, setDiff] = useState(0);
   let data;
 
-  //temporary
-  const amount = 100;
-  const diff = 20;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        switch (type) {
+          case "user":
+            const usersRes = await axiosInstance.get("/api/users");
+            console.log(usersRes);
+            setAmount(usersRes.data.length);
+            setDiff(usersRes.data.percentageChange || 0);
+            break;
+          case "booking":
+            const bookingsRes = await axiosInstance.get("/api/booking-tickets");
+            setAmount(bookingsRes.data.length);
+            setDiff(bookingsRes.data.percentageChange || 0);
+            break;
+          case "earning":
+            const earningsRes = await axiosInstance.get("/api/tickets/booking/earnings");
+            setAmount(Math.round(earningsRes.data.total));
+            setDiff(earningsRes.data.percentageChange || 0);
+            break;
+          case "airplane":
+            const airplanesRes = await axiosInstance.get("/api/airplanes");
+            setAmount(airplanesRes.data.length);
+            setDiff(airplanesRes.data.percentageChange || 0);
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error("Error fetching data for widget:", error);
+      }
+    };
+
+    fetchData();
+  }, [type]);
 
   switch (type) {
     case "user":
@@ -33,11 +67,12 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "order":
+    case "booking":
       data = {
-        title: "ORDERS",
+        title: "BOOKING",
         isMoney: false,
-        link: "View all orders",
+        linkto: "/booking-tickets",
+        link: "View all bookings",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -53,6 +88,7 @@ const Widget = ({ type }) => {
       data = {
         title: "EARNINGS",
         isMoney: true,
+        linkto: "/earnings",
         link: "View net earnings",
         icon: (
           <MonetizationOnOutlinedIcon
@@ -62,13 +98,14 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
+    case "airplane":
       data = {
-        title: "BALANCE",
-        isMoney: true,
+        title: "AIRPLANE",
+        isMoney: false,
+        linkto: "/airplanes",
         link: "See details",
         icon: (
-          <AccountBalanceWalletOutlinedIcon
+          <AirlinesIcon
             className="icon"
             style={{
               backgroundColor: "rgba(128, 0, 128, 0.2)",
@@ -81,6 +118,9 @@ const Widget = ({ type }) => {
     default:
       break;
   }
+
+  console.log(amount);
+  console.log(diff);
 
   return (
     <div className="widget">

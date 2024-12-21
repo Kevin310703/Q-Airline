@@ -189,6 +189,13 @@ export const deleteUser = async (req, res) => {
             return res.status(404).json({ message: "Người dùng không tồn tại." });
         }
 
+        await pool.query(
+            "DELETE t FROM tickets t INNER JOIN bookings b ON t.booking_id = b.booking_id WHERE b.user_id = ?",
+            [id]
+        );
+        
+        await pool.query("DELETE FROM bookings WHERE user_id = ?", [id]);
+
         // Xóa vai trò liên kết với người dùng
         await pool.query("DELETE FROM user_roles WHERE user_id = ?", [id]);
 

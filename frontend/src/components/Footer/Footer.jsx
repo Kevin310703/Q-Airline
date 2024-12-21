@@ -41,7 +41,7 @@ const Footer = () => {
                     </li>
 
                     <li>
-                        <a href="">Flight status</a>
+                        <a href="/flight-list">Flight status</a>
                     </li>
 
                     <li>
@@ -53,12 +53,12 @@ const Footer = () => {
                     </li>
 
                     <li>
-                        <a href="">Manage your booking</a>
+                        <a href="/my-ticket">Manage your booking</a>
                     </li>
                 </div>
 
                 <div data-aos='fade-up' data-aos-duration='2500' className="footerLinks">
-                    <span className="linkTitle">Qick Guide</span>
+                    <span className="linkTitle">Services</span>
                     <li>
                         <a href="">FAQ</a>
                     </li>
@@ -96,18 +96,6 @@ const Footer = () => {
 
                     <li>
                     <a href="/flight-list">Flight</a>
-                    </li>
-
-                    <li>
-                        <a href="">Baggage</a>
-                    </li>
-
-                    <li>
-                        <a href="">Route Map</a>
-                    </li>
-
-                    <li>
-                        <a href="">Our communities</a>
                     </li>
                 </div>
             </div>

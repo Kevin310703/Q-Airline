@@ -33,7 +33,7 @@ const FlightsList = () => {
                                 <th>Arrival Airport</th>
                                 <th>Departure Time</th>
                                 <th>Arrival Time</th>
-                                <th>Aircraft Model</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@ const FlightsList = () => {
                                     <td>{flight.arrival_airport}</td>
                                     <td>{new Date(flight.departure_time).toLocaleString()}</td>
                                     <td>{new Date(flight.arrival_time).toLocaleString()}</td>
-                                    <td>{flight.airplane_model}</td>
+                                    <td>{flight.status}</td>
                                 </tr>
                             ))}
                         </tbody>

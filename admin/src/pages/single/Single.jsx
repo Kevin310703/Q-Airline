@@ -120,15 +120,11 @@ const Single = () => {
                 ) : path === "airplane-flights" ? (
                   <>
                     <h1 className="itemTitle">{info?.airplane_model
-                          ? `${info.airplane_model} (${info.registration_number})`
+                          ? `${info.airplane_model} (${info.airplane_registration_number})`
                           : "N/A"}</h1>
                     <div className="detailItem">
                       <span className="itemKey">Departure Airport:</span>
                       <span className="itemValue">{info?.departure_airport || "N/A"}</span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">Arrival Airport:</span>
-                      <span className="itemValue">{info?.arrival_airport || "N/A"}</span>
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Departure Time:</span>
@@ -137,6 +133,10 @@ const Single = () => {
                           ? dayjs(info.departure_time).format("DD/MM/YYYY HH:mm")
                           : "N/A"}
                       </span>
+                    </div>
+                    <div className="detailItem">
+                      <span className="itemKey">Arrival Airport:</span>
+                      <span className="itemValue">{info?.arrival_airport || "N/A"}</span>
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Arrival Time:</span>

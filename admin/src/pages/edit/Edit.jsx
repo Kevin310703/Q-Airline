@@ -115,26 +115,6 @@ const Edit = ({ inputs, title }) => {
     if (path === "airplane-flights" && data) {
       setInfo({
         ...data,
-        airplane_id: airplaneRes.find(
-          (airplane) =>
-            airplane.model === data.airplane_model &&
-            airplane.registration_number === data.registration_number
-        )?.id || "",
-
-        departure_airport_id: airportRes.find(
-          (airport) =>
-            airport.name === data.departure_airport &&
-            airport.city === data.departure_city &&
-            airport.country === data.departure_country
-        )?.id || "",
-
-        arrival_airport_id: airportRes.find(
-          (airport) =>
-            airport.name === data.arrival_airport &&
-            airport.city === data.arrival_city &&
-            airport.country === data.arrival_country
-        )?.id || "",
-
         status: data.status,
       });
     } else if (path === "announcements" && data) {
@@ -163,8 +143,6 @@ const Edit = ({ inputs, title }) => {
       [id]: !prev[id],
     }));
   };
-
-  console.log(info);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -481,20 +459,9 @@ const Edit = ({ inputs, title }) => {
         newErrors.arrival_time = "Arrival time must be after departure time.";
       }
 
-      // Validate giá vé
-      if (!info.ticket_price || isNaN(info.ticket_price)) {
-        newErrors.ticket_price = "Ticket price is required and must be a valid number.";
-      } else if (info.ticket_price <= 0) {
-        newErrors.ticket_price = "Ticket price must be greater than 0.";
-      }
-
       // Validate trạng thái
       if (!info.status || info.status.trim() === "") {
         newErrors.status = "Status is required.";
-      }
-
-      if (!info.ticket_class || info.ticket_class.trim() === "") {
-        newErrors.ticket_class = "Ticket class is required.";
       }
 
       // Validate máy bay
@@ -581,6 +548,8 @@ const Edit = ({ inputs, title }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  console.log(info);
 
   return (
     <div className="new">

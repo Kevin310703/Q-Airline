@@ -57,23 +57,25 @@
 
               .itemValue {
                 font-weight: 300;
+                padding: .2rem .4rem;
+                border-radius: 2rem;
 
-                &.Active {
+                &.Active, &.Completed, &.Scheduled {
                   font-weight: 700;
                   color: green;
                   background-color: rgba(0, 128, 0, 0.151);
                 }
 
-                &.Maintenance {
+                &.Maintenance, &.Delayed {
                   font-weight: 700;
                   color: goldenrod;
                   background-color: rgba(189, 189, 3, 0.103);
                 }
 
-                &.Retired {
+                &.Retired, &.Canceled {
                   font-weight: 700;
                   color: red;
-                  background-color: rgba(189, 189, 3, 0.103);
+                  background-color: rgba(239, 47, 47, 0.103);
                 }
               }
             }

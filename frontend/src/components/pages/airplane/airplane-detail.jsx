@@ -27,7 +27,7 @@ const AirplaneDetails = () => {
                 setSeats(seatsRes.data);
 
                 // Fetch danh sách chuyến bay
-                const flightsRes = await axiosInstance.get(`/api/airplane-flights/${airplaneId}`);
+                const flightsRes = await axiosInstance.get(`/api/airplane-flights/airplane/${airplaneId}`);
                 setFlights(flightsRes.data);
             } catch (error) {
                 console.error("Error fetching airplane details:", error);
@@ -71,7 +71,7 @@ const AirplaneDetails = () => {
             alert("Please select a flight and a seat before booking.");
             return;
         }
-    
+
         navigate(`/book-ticket`, {
             state: {
                 airplane,
@@ -92,7 +92,7 @@ const AirplaneDetails = () => {
     return (
         <div className="airplaneDetail section">
             <h2>Airplane Details</h2>
-            
+
             <div className="airplaneDetailContainer container">
                 <section className="basicInfo">
                     <h3>Basic Information</h3>
@@ -201,34 +201,38 @@ const AirplaneDetails = () => {
 
                 <section className="flightsInfo">
                     <h3>Flights</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Airplane</th>
-                                <th>Departure Airport</th>
-                                <th>Arrival Airport</th>
-                                <th>Departure Time</th>
-                                <th>Arrival Time</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {flights.map((flight, index) => (
-                                <tr key={flight.id || index}>
-                                    <td>{flight.airplane_registration_number}</td>
-                                    <td>{flight.departure_airport}</td>
-                                    <td>{flight.arrival_airport}</td>
-                                    <td>{new Date(flight.departure_time).toLocaleString()}</td>
-                                    <td>{new Date(flight.arrival_time).toLocaleString()}</td>
-                                    <td>
-                                        <span className={`status ${flight.status.toLowerCase()}`}>
-                                            {flight.status}
-                                        </span>
-                                    </td>
+                    {flights.length > 0 ? (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Airplane</th>
+                                    <th>Departure Airport</th>
+                                    <th>Arrival Airport</th>
+                                    <th>Departure Time</th>
+                                    <th>Arrival Time</th>
+                                    <th>Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {flights.map((flight, index) => (
+                                    <tr key={flight.id || index}>
+                                        <td>{flight.airplane_registration_number}</td>
+                                        <td>{flight.departure_airport}</td>
+                                        <td>{flight.arrival_airport}</td>
+                                        <td>{new Date(flight.departure_time).toLocaleString()}</td>
+                                        <td>{new Date(flight.arrival_time).toLocaleString()}</td>
+                                        <td>
+                                            <span className={`status ${flight.status.toLowerCase()}`}>
+                                                {flight.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>No flights available for this airplane.</p>
+                    )}
                 </section>
             </div>
         </div>

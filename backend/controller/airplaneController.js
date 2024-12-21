@@ -470,6 +470,9 @@ export const getFlightsByAirplaneId = async (req, res) => {
         const [rows] = await pool.query(
             `SELECT 
                 f.flight_id AS id,
+                f.airplane_id,
+                f.departure_airport_id,
+                f.arrival_airport_id,
                 f.departure_time,
                 f.arrival_time,
                 TIMESTAMPDIFF(MINUTE, f.departure_time, f.arrival_time) AS duration_minutes,
@@ -507,6 +510,9 @@ export const getFlightById = async (req, res) => {
         const [flights] = await pool.query(`
             SELECT 
                 f.flight_id,
+                f.airplane_id,
+                f.departure_airport_id,
+                f.arrival_airport_id,
                 f.departure_time,
                 f.arrival_time,
                 f.status,

@@ -121,7 +121,7 @@ const Datatable = ({ columns }) => {
         console.log(params);
         return (
           <div className="cellAction">
-            {path === "announcements" || path === "promotions" || path === "destinations" ? (
+            {path === "announcements" || path === "promotions" || path === "destinations" || path === "airplane-flights" ? (
               <Link to={`/${path}/edit/${params.row.id}`} style={{ textDecoration: "none" }}>
                 <div className="viewButton">Edit</div>
               </Link>

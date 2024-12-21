@@ -60,36 +60,42 @@ const Sidebar = () => {
               <span>Users</span>
             </li>
           </Link>
+
           <Link to="/airplanes" style={{ textDecoration: "none" }}>
             <li>
               <AirlinesIcon className="icon" />
               <span>Planes</span>
             </li>
           </Link>
+
           <Link to="/airplane-flights" style={{ textDecoration: "none" }}>
             <li>
               <AirplanemodeActiveIcon className="icon" />
               <span>Flights</span>
             </li>
           </Link>
+
           <Link to="/airports" style={{ textDecoration: "none" }}>
             <li>
               <ConnectingAirportsIcon className="icon" />
               <span>Airport</span>
             </li>
           </Link>
+
           <Link to="/tickets" style={{ textDecoration: "none" }}>
             <li>
               <AirplaneTicketIcon className="icon" />
               <span>Tickets</span>
             </li>
           </Link>
+
           <Link to="/booking-tickets" style={{ textDecoration: "none" }}>
             <li>
               <MdOutlineAirlineSeatReclineExtra className="icon" />
               <span>Booking</span>
             </li>
           </Link>
+
           <p className="title">USEFUL</p>
           <li>
             <NotificationsNoneIcon className="icon" />
@@ -97,6 +103,7 @@ const Sidebar = () => {
               <span>Announcemens</span>
             </Link>
           </li>
+
           <p className="title">SERVICE</p>
           <Link to="/promotions" style={{ textDecoration: "none" }}>
             <li>
@@ -116,6 +123,7 @@ const Sidebar = () => {
             <SettingsApplicationsIcon className="icon" />
             <span>Settings</span>
           </li>
+
           <p className="title">USER</p>
           <Link to="/account" style={{ textDecoration: "none" }}>
             <li>
@@ -123,20 +131,22 @@ const Sidebar = () => {
               <span>Profile</span>
             </li>
           </Link>
+
           <li onClick={handleLogout}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
+
           {showConfirmation && (
             <div className="modal-overlay">
               <div className="modal">
-                <p>Bạn có chắc chắn muốn đăng xuất?</p>
+                <p>Are you sure you want to log out?</p>
                 <div className="modal-buttons">
                   <button className="btn-accept" onClick={confirmLogout}>
-                    Đồng ý
+                    Yes
                   </button>
                   <button className="btn-denied" onClick={cancelLogout}>
-                    Hủy
+                    Cancel
                   </button>
                 </div>
               </div>

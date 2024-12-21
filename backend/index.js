@@ -4,19 +4,19 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 
-import authRoutes from './Routes/authRoutes.js';
-import userRoutes from "./Routes/userRoutes.js";
-import uploadRoutes from "./Routes/uploadRoute.js";
-import roleRoutes from "./Routes/roleRouters.js";
-import airplaneRoutes from "./Routes/airplaneRoutes.js";
-import airportRoutes from "./Routes/airportRoutes.js";
-import ticketRoutes from "./Routes/ticketRoutes.js";
-import bookingRoutes from "./Routes/bookingRoutes.js";
-import searchRoutes from ".//Routes/searchRoutes.js";
-import announcementRoutes from "./Routes/announcementRoutes.js";
-import promotionRoutes from "./Routes/promotionRoutes.js";
-import destinationRoutes from "./Routes/destinationRoutes.js";
-import sendMessageRoutes from "./Routes/sendMessageRoutes.js";
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from "./routes/userRoutes.js";
+import uploadRoutes from "./routes/uploadRoute.js";
+import roleRoutes from "./routes/roleRouters.js";
+import airplaneRoutes from "./routes/airplaneRoutes.js";
+import airportRoutes from "./routes/airportRoutes.js";
+import ticketRoutes from "./routes/ticketRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import searchRoutes from ".//routes/searchRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
+import promotionRoutes from "./routes/promotionRoutes.js";
+import destinationRoutes from "./routes/destinationRoutes.js";
+import sendMessageRoutes from "./routes/sendMessageRoutes.js";
 
 dotenv.config();
 

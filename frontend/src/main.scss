@@ -3302,6 +3302,165 @@ h2 {
     }
 }
 
+:root {
+    --primary-color: #3d5cb8;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --background-color: #f4f5f7;
+    --text-color: #333;
+    --light-primary: #405972;
+}
+
+.airline-about-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.about-hero {
+    margin-top: 4rem;
+    color: #3d5cb8;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.hero-content h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #3d5cb8;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+}
+
+.about-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    margin-top: -5.5rem;
+}
+
+.about-section {
+    margin-bottom: 4rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border: 2px solid #3d5cb8
+}
+
+.about-section:hover {
+    transform: translateY(-10px);
+}
+
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+}
+
+.section-icon-container {
+    background-color: #3d5cb8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem;
+}
+
+.section-icon {
+    color: white;
+    stroke-width: 2;
+
+}
+
+.section-content {
+    padding: 2rem;
+}
+
+.section-content h2 {
+    margin-bottom: 1rem;
+    color: #3d5cb8;
+}
+
+.commitment-list {
+    list-style-type: none;
+}
+
+.commitment-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.about-cta {
+    text-align: center;
+    background-color: #3d5cb8;
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 8px;
+}
+
+.cta-button {
+    background-color: white;
+    color: #3d5cb8;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    margin-bottom: -1rem;
+}
+
+.cta-content h2,
+.cta-content p {
+    color: #ffffff;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(74, 104, 134, 0.2);
+    background-color: var(--background-color);
+}
+
+@media (max-width: 768px) {
+    .section-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-icon-container {
+        padding: 1rem;
+    }
+
+    .about-hero {
+        margin-top: 5rem;
+        padding: 3rem 1rem;
+    }
+}
+
+/* Additional hover states and interactions */
+.section-content h2:hover {
+    color: var(--light-primary);
+}
+
+.commitment-list li:hover::before {
+    color: var(--accent-color);
+}
+
+/* Smooth transitions */
+.section-content h2,
+.commitment-list li::before,
+.cta-button {
+    transition: all 0.3s ease;
+}
+
 // Media sreen styling
 @media screen and (min-width: 480px) {
 

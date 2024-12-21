@@ -199,13 +199,6 @@ export const deleteUser = async (req, res) => {
             return res.status(400).json({ message: "Không thể xóa người dùng." });
         }
 
-        await createAnnouncement({
-            title: "Account deletion",
-            content: "Your account has been deleted from the system.",
-            user_ids: [id],
-            sender_id: null,
-        });
-
         res.status(200).json({ message: "Xóa người dùng thành công." });
     } catch (error) {
         console.error("Lỗi khi xóa người dùng:", error);

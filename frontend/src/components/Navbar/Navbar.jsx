@@ -105,9 +105,8 @@ const Navbar = () => {
     const markAsRead = async (id) => {
         try {
             await axiosInstance.put(`/api/announcements/mark-read/${id}`);
-            setAnnouncements((prev) =>
-                prev.map((noti) => (noti.id === id ? { ...noti, is_read: true } : noti))
-            );
+            const res = await axiosInstance.get(`/api/announcements/user/${user.id}`);
+            setAnnouncements(res.data);
         } catch (error) {
             console.error("Error marking notification as read:", error);
         }

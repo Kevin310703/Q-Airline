@@ -52,8 +52,9 @@ const Profile = () => {
             setConfirmNewPassword("");
             setMessage("Password changed successfully!. Please sign in again.");
             setTimeout(() => {
+                axiosInstance.post("/auth/logout");
+                logout();
                 navigate("/");
-                handleLogout;
             }, 2000);
         } catch (error) {
             setMessage("Failed to change password. Please try again.");
@@ -94,16 +95,6 @@ const Profile = () => {
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0;
-    };
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            await axiosInstance.post("/auth/logout");
-            logout();
-        } catch (error) {
-            toast.error("Failed to logout. Please try again.");
-        }
     };
 
     const handleKeyDown = (e, nextInputId) => {

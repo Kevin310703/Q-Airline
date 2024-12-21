@@ -28,6 +28,10 @@ export const findUserById = async (id) => {
 
 // Tạo người dùng mới
 export const createUser = async (fullName, email, hashedPassword, phone, address, country, gender, dob, avatar) => {
+    avatar = (gender === "Male") 
+    ? "https://res.cloudinary.com/df3yjnxi2/image/upload/v1734775750/default-male-2_mzh741.jpg"
+    : "https://res.cloudinary.com/df3yjnxi2/image/upload/v1734775750/default-female-3_uvpoqa.jpg";
+
     const [result] = await pool.query(
         `INSERT INTO users (full_name, email, password_hash, phone_number, address, country, gender, birth_date, avatar) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,

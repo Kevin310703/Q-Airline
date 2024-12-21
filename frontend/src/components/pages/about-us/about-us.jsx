@@ -1,100 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Globe, Target, Award } from 'lucide-react';
 
-const AboutPage = () => {
+const handleClick = () => {
+  if (localStorage.getItem('isLoggedIn')) {
+    window.location.href = '/ticket-list';  // Chuyển đến trang đặt vé
+  } else {
+    window.location.href = '/signin';    // Chuyển đến trang đăng nhập 
+  }
+}
+
+const About = () => {
   return (
-    <div className="about container section">
-      <div className="sectionContainer header">
-        <h1 className="title">About QAirline</h1>
-        <p className="subtitle">
-          A journey of innovation, connection, and excellence in the skies
-        </p>
-      </div>
-
-      <div className="content-grid">
-        {/* History Section */}
-        <div className="card history-card">
-          <div className="card-header">
-            <span className="icon">✈️</span>
-            <h2 className="card-title">Our History</h2>
-          </div>
-          <div className="card-content">
-            <p>
-              QAirline was founded in 1995 by a group of visionary entrepreneurs who saw the potential
-              to revolutionize air travel in our region. What started as a small, regional carrier
-              has grown into a national airline connecting millions of passengers each year.
-            </p>
-            <p>
-              In our early years, we operated with just two small aircraft, serving local routes.
-              By 2005, we had expanded to become a major domestic carrier, and in 2015, we launched
-              our first international routes, marking a significant milestone in our journey.
-            </p>
-          </div>
+    <div className="airline-about-wrapper">
+      <header className="about-hero">
+        <div className="hero-content">
+            <h1>QAirLine Story</h1>
+            <p>Euphoria in Every Flight</p>
         </div>
+      </header>
 
-        {/* Mission Section */}
-        <div className="card mission-card">
-          <div className="card-header">
-            <span className="icon">🌐</span>
-            <h2 className="card-title">Our Mission</h2>
+      <main className="about-main">
+        <section className="about-section history-section">
+          <div className="section-grid">
+            <div className="section-icon-container">
+              <Globe className="section-icon" />
+            </div>
+            <div className="section-content">
+              <h2>Our History</h2>
+              <p>
+                Founded in 2010, QAirline emerged from a vision to connect people across 
+                continents. What began as a modest fleet with a handful of routes has transformed 
+                into a dynamic international carrier, bridging cultures and creating opportunities.
+              </p>
+            </div>
           </div>
-          <p className="mission-description">
-            At QAirline, we are committed to connecting people, cultures, and opportunities.
-            Our mission is to provide safe, reliable, and comfortable air travel that makes
-            the world more accessible to everyone.
-          </p>
-          <ul className="mission-list">
-            <li>
-              <span className="check-icon">✓</span> Safety First
-            </li>
-            <li>
-              <span className="check-icon">✓</span> Customer Satisfaction
-            </li>
-            <li>
-              <span className="check-icon">✓</span> Sustainable Travel
-            </li>
-          </ul>
-        </div>
-      </div>
+        </section>
 
-      {/* Achievements Section */}
-      <div className="achievements-section">
-        <div className="achievements-grid">
-          <div className="achievement-item">
-            <span className="achievement-icon">🏆</span>
-            <span className="achievement-number">25+</span>
-            <span className="achievement-label">Years of Service</span>
+        <section className="about-section mission-section">
+          <div className="section-grid">
+            <div className="section-icon-container">
+              <Target className="section-icon" />
+            </div>
+            <div className="section-content">
+              <h2>Mission & Vision</h2>
+              <p>
+                We are committed to delivering world-class travel experiences that go beyond transportation. 
+                Our mission is to create seamless, innovative journeys that connect people, cultures, and 
+                possibilities, while maintaining the highest standards of safety and customer satisfaction.
+              </p>
+            </div>
           </div>
-          <div className="achievement-item">
-            <span className="achievement-icon">👥</span>
-            <span className="achievement-number">5M+</span>
-            <span className="achievement-label">Passengers Annually</span>
-          </div>
-          <div className="achievement-item">
-            <span className="achievement-icon">✈️</span>
-            <span className="achievement-number">50+</span>
-            <span className="achievement-label">Destinations</span>
-          </div>
-        </div>
-        <p className="achievements-description">
-          Our commitment to excellence has been recognized through numerous industry awards
-          and the trust of millions of passengers who choose QAirline for their travel needs.
-        </p>
-      </div>
+        </section>
 
-      {/* Call to Action */}
-      <div className="cta-section">
-        <h3 className="cta-title">Join Us in the Skies</h3>
-        <p className="cta-description">
-          Whether you're traveling for business or leisure, QAirline is your trusted partner
-          in making your journey memorable and comfortable.
-        </p>
-        <Link to="/ticket-list" className="cta-button">
-          Book Your Flight
-        </Link>
-      </div>
+        <section className="about-section commitment-section">
+          <div className="section-grid">
+            <div className="section-icon-container">
+              <Award className="section-icon" />
+            </div>
+            <div className="section-content">
+              <h2>Our Commitment</h2>
+              <ul className="commitment-list">
+                <li>Ensure passenger safety as our highest priority</li>
+                <li>Minimize our environmental footprint</li>
+                <li>Provide personalized, memorable travel experiences</li>
+                <li>Continuously innovate and improve our services</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-cta">
+          <div className="cta-content">
+            <h2>Join Our Journey</h2>
+            <p>Discover a new way of traveling. Experience the SkyConnect difference.</p>
+            <button className="cta-button" onClick={handleClick}>Book Your Flight</button>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };
 
-export default AboutPage;
+export default About;

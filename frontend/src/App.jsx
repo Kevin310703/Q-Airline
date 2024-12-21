@@ -148,6 +148,7 @@ const App = () => {
             <>
               <Navbar />
               <SearchResults />
+              <OnTopButton />
               <Footer />
             </>
           }

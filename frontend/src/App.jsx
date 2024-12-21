@@ -32,6 +32,7 @@ import NewBookTicket from './components/pages/book-ticket/new-booking-ticket-cus
 import MyTickets from './components/auth/tickets/my-tickets';
 import AirplanesList from './components/pages/airplane/airplane-list';
 import Contact from './components/pages/contact/contact';
+import OnTopButton from './components/opTopButton/OnTopButton';
 
 const App = () => {
   const ProtectedRoute = ({ children }) => {
@@ -58,6 +59,7 @@ const App = () => {
               <Lounge />
               <Travelers />
               <Subscribe />
+              <OnTopButton />
               <Footer />
             </div>
           }

@@ -18,8 +18,8 @@ const travelers = [
         destinationImage: "/dubai.jpg",
         destinationName: "Dubai, UAE",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "Vu Thi Ngoc Thanh",
+        socialLink: "@vuthingocthanh"
     },
 
     {
@@ -27,8 +27,8 @@ const travelers = [
         destinationImage: "/london.jpg",
         destinationName: "London, England",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "Pham Mai Anh",
+        socialLink: "@phammaianh"
     },
 
     {
@@ -36,45 +36,45 @@ const travelers = [
         destinationImage: "/tokyo.jpg",
         destinationName: "Tokyo, Japan",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "John Smith",
+        socialLink: "@johnsmith_jp"
     },
-
+    
     {
         id: 5,
         destinationImage: "/new-york.jpg",
         destinationName: "New York, USA",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "Emma Brown",
+        socialLink: "@em_brown_ny"
     },
-
+    
     {
         id: 6,
         destinationImage: "/hanoi.jpg",
         destinationName: "Hanoi, Vietnam",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "Olivia Davis",
+        socialLink: "@oliviad_hn"
     },
-
+    
     {
         id: 7,
         destinationImage: "/seoul.jpg",
-        destinationName: "Seoul, Kroea",
+        destinationName: "Seoul, Korea",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
+        travelerName: "Liam Kim",
+        socialLink: "@liamkorea"
     },
-
+    
     {
         id: 8,
         destinationImage: "/berlin.jpg",
         destinationName: "Berlin, Germany",
         travelerImage: "/user.jpg",
-        travelerName: "Chu Viet Kien",
-        socialLink: "@chuvietkien"
-    },
+        travelerName: "Sophia Müller",
+        socialLink: "@sophia_berlin"
+    },    
 ]
 
 const Travelers = () => {

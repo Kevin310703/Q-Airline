@@ -23,6 +23,8 @@ const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
+    const navbarRef = useRef(null);
+    const toggleButtonRef = useRef(null);
 
     const { user, dispatch } = useContext(AuthContext);
     const { logout } = useContext(AuthContext);
@@ -64,6 +66,15 @@ const Navbar = () => {
                 // Nếu click nằm ngoài dropdown, ẩn dropdown
                 setShowAnnouncements(false);
             }
+
+            if (
+                navbarRef.current && 
+                !navbarRef.current.contains(event.target) &&
+                toggleButtonRef.current &&
+                !toggleButtonRef.current.contains(event.target)
+            ) {
+                removeNavBar(); // Đóng navbar
+            }
         };
 
         document.addEventListener("click", handleClickOutside);
@@ -72,7 +83,8 @@ const Navbar = () => {
 
     // Remove the navbar in the small width screens
     const [active, setActive] = useState('navBarMenu');
-    const showNavBar = () => {
+    const showNavBar = (e) => {
+        e.stopPropagation();
         setActive('navBarMenu showNavBar');
     };
 
@@ -245,7 +257,7 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                <div className={active}>
+                <div ref={navbarRef} className={active}>
                     <ul className="menu flex">
                         <li onClick={removeNavBar} className={`listItem ${isActive("/") ? "active" : ""}`}>
                             <Link to="/">Home</Link>
@@ -277,7 +289,7 @@ const Navbar = () => {
                     </Link>
                 </button>
 
-                <div onClick={showNavBar} className="toggleIcon">
+                <div onClick={showNavBar} className="toggleIcon" ref={toggleButtonRef}>
                     <CgMenuGridO className="icon" />
                 </div>
             </div>

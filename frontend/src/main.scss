@@ -1127,22 +1127,26 @@ h2 {
         gap: 2.5rem;
 
         .gridOne {
-            .logoLink {
-                display: flex;
-                align-items: center;
+            .logoDiv {
+                width: 50%;
 
-                .Logo {
-                    width: 30%;
-                }
+                .logoLink {
+                    display: flex;
+                    align-items: center;
 
-                .logoName {
-                    font-size: 20px;
-                    font-weight: bold;
-                    color: var(--PrimaryColor);
-                    text-align: left;
-                    text-transform: uppercase;
-                    letter-spacing: .2rem;
-                    margin-left: 0;
+                    .Logo {
+                        width: 30%;
+                    }
+
+                    .logoName {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: var(--PrimaryColor);
+                        text-align: left;
+                        text-transform: uppercase;
+                        letter-spacing: .2rem;
+                        margin-left: 0;
+                    }
                 }
             }
         }
@@ -1694,170 +1698,133 @@ h2 {
 }
 
 // About us page styling
-.about {
-    .header {
+.airline-about-wrapper {
+    .about-hero {
+        color: #3d5cb8;
         text-align: center;
-        margin-bottom: 3em;
 
-        .title {
-            font-size: 2.5rem;
-            color: #1a2f4a;
-            font-weight: bold;
-            margin-top: 7rem;
-            margin-bottom: 1rem;
-        }
+        .hero-content {
+            h1 {
+                text-align: center;
+                font-size: 2.5rem;
+                color: #2c3e50;
+                font-weight: bold;
+                margin-bottom: 1.5rem;
+            }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: #6b7280;
-            max-width: 800px;
-            margin: 0 auto;
+            p {
+                font-size: 1.2rem;
+                color: var(--blackColor);
+            }
         }
     }
 
-    /* Content Grid */
-    .content-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        margin-bottom: 3rem;
+    .about-main {
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        margin-top: -5.5rem;
 
-        /* Card Styles */
-        .card {
+        .about-section {
+            margin-bottom: 4rem;
             background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid #3d5cb8;
 
-            .card-content {
-                p {
-                    color: #4b5563;
-                    margin-bottom: 1rem;
-                    line-height: 1.6;
-                    text-align: justify;
-                }
+            &:hover {
+                transform: translateY(-10px);
             }
 
-            .card-header {
-                display: flex;
+            .section-grid {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
                 align-items: center;
-                margin-bottom: 1rem;
 
-                .icon {
-                    font-size: 2.5rem;
-                    margin-right: 1rem;
-                }
-
-                .card-title {
-                    font-size: 1.5rem;
-                    color: #1f2937;
-                    font-weight: 600;
-                }
-            }
-
-            /* Mission Section */
-            .mission-description {
-                color: #4b5563;
-                margin-bottom: 1rem;
-            }
-
-            .mission-list {
-                list-style: none;
-                padding: 0;
-
-                li {
+                .section-icon-container {
+                    background-color: #3d5cb8;
                     display: flex;
+                    justify-content: center;
                     align-items: center;
-                    color: #4b5563;
-                    margin-bottom: 0.5rem;
+                    padding: 5rem;
 
-                    .check-icon {
-                        color: #10b981;
-                        margin-right: 0.5rem;
+                    .section-icon {
+                        color: white;
+                        stroke-width: 2;
+                    }
+                }
+
+                .section-content {
+                    padding: 2rem;
+
+                    h2 {
+                        margin-bottom: 1rem;
+                        color: #3d5cb8;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            color: var(--light-primary);
+                        }
+                    }
+
+                    .commitment-list {
+                        list-style-type: none;
+
+                        li {
+                            position: relative;
+                            margin-bottom: 0.5rem;
+                            color: var(--blackColor);
+                        }
+                    }
+
+                    p {
+                        text-align: justify;
+                        color: var(--blackColor);
                     }
                 }
             }
         }
-    }
 
-    /* Achievements Section */
-    .achievements-section {
-        background-color: #dbeafe;
-        border-radius: 0.75rem;
-        padding: 2rem;
-        text-align: center;
-        margin-bottom: 3rem;
+        .about-cta {
+            text-align: center;
+            background-color: #3d5cb8;
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 8px;
 
-        .achievements-grid {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 1.5rem;
+            .cta-content {
 
-            .achievement-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                h2,
+                p {
+                    color: #ffffff;
+                }
+            }
 
-                .achievement-icon {
-                    font-size: 2.5rem;
-                    margin-bottom: 0.5rem;
+            .cta-button {
+                background-color: white;
+                border: none;
+                padding: 20px 40px;
+                border-radius: 50px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 2rem;
+                transition: all 0.3s ease;
+                font-size: 20px;
+                margin-bottom: -1rem;
+
+                &:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 5px 15px rgba(74, 104, 134, 0.2);
                 }
 
-                .achievement-number {
-                    font-size: 2rem;
-                    font-weight: bold;
-                    color: #1e40af;
-                }
-
-                .achievement-label {
-                    color: #6b7280;
+                a {
+                    text-decoration: none;
+                    color: #000000;
                 }
             }
         }
 
-        .achievements-description {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #4b5563;
-        }
-    }
-
-    /* Call to Action */
-    .cta-section {
-        text-align: center;
-        margin-bottom: 1rem;
-
-        .cta-title {
-            font-size: 1.5rem;
-            color: #1f2937;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .cta-description {
-            color: #4b5563;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
-        }
-
-        .cta-button {
-            background: var(--PrimaryColor);
-            color: var(--whiteColor);
-            padding: 0.8rem 1.5rem;
-            border-radius: 3rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: background 0.3s ease, color 0.3s ease;
-            border-radius: 3rem;
-            border: none;
-            cursor: pointer;
-
-            &:hover {
-                background: var(--HoverColor);
-                color: white;
-            }
-        }
     }
 }
 
@@ -3302,165 +3269,6 @@ h2 {
     }
 }
 
-:root {
-    --primary-color: #3d5cb8;
-    --secondary-color: #34495e;
-    --accent-color: #3498db;
-    --background-color: #f4f5f7;
-    --text-color: #333;
-    --light-primary: #405972;
-}
-
-.airline-about-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.about-hero {
-    margin-top: 4rem;
-    color: #3d5cb8;
-    padding: 6rem 2rem;
-    text-align: center;
-}
-
-.hero-content h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #3d5cb8;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-}
-
-.about-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    margin-top: -5.5rem;
-}
-
-.about-section {
-    margin-bottom: 4rem;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    border: 2px solid #3d5cb8
-}
-
-.about-section:hover {
-    transform: translateY(-10px);
-}
-
-.section-grid {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    align-items: center;
-}
-
-.section-icon-container {
-    background-color: #3d5cb8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5rem;
-}
-
-.section-icon {
-    color: white;
-    stroke-width: 2;
-
-}
-
-.section-content {
-    padding: 2rem;
-}
-
-.section-content h2 {
-    margin-bottom: 1rem;
-    color: #3d5cb8;
-}
-
-.commitment-list {
-    list-style-type: none;
-}
-
-.commitment-list li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-.about-cta {
-    text-align: center;
-    background-color: #3d5cb8;
-    color: white;
-    padding: 4rem 2rem;
-    border-radius: 8px;
-}
-
-.cta-button {
-    background-color: white;
-    color: #3d5cb8;
-    border: none;
-    padding: 20px 40px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 2rem;
-    transition: all 0.3s ease;
-    font-size: 20px;
-    margin-bottom: -1rem;
-}
-
-.cta-content h2,
-.cta-content p {
-    color: #ffffff;
-}
-
-.cta-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(74, 104, 134, 0.2);
-    background-color: var(--background-color);
-}
-
-@media (max-width: 768px) {
-    .section-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .section-icon-container {
-        padding: 1rem;
-    }
-
-    .about-hero {
-        margin-top: 5rem;
-        padding: 3rem 1rem;
-    }
-}
-
-/* Additional hover states and interactions */
-.section-content h2:hover {
-    color: var(--light-primary);
-}
-
-.commitment-list li:hover::before {
-    color: var(--accent-color);
-}
-
-/* Smooth transitions */
-.section-content h2,
-.commitment-list li::before,
-.cta-button {
-    transition: all 0.3s ease;
-}
-
 // Media sreen styling
 @media screen and (min-width: 480px) {
 
@@ -3507,6 +3315,25 @@ h2 {
         .sectionContainer {
             align-items: flex-start;
             grid-template-columns: repeat(2, 1fr);
+
+            .gridOne {
+                .logoDiv {
+                    width: 100%;
+
+                    .logoLink {
+                        display: flex;
+                        align-items: center;
+
+                        .Logo {
+                            width: 30%;
+                        }
+
+                        .logoName {
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
         }
 
         .footerLinks {
@@ -3516,6 +3343,27 @@ h2 {
 }
 
 @media screen and (min-width: 570px) {
+    .navBar {
+        .navBarTwo {
+            .logoDiv {
+                .logoLink {
+                    .Logo {
+                        width: 28%;
+                    }
+
+                    .slogan {
+                        .logoName {
+                            font-size: 1rem;
+                        }
+
+                        .logoSlogan {
+                            font-size: 11px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Home section styling 
     .home {
@@ -3605,6 +3453,25 @@ h2 {
         .sectionContainer {
             padding-top: 2rem;
             grid-template-columns: repeat(2, 1fr);
+
+            .gridOne {
+                .logoDiv {
+                    width: 100%;
+
+                    .logoLink {
+                        display: flex;
+                        align-items: center;
+
+                        .Logo {
+                            width: 25%;
+                        }
+
+                        .logoName {
+                            font-size: 17px;
+                        }
+                    }
+                }
+            }
         }
 
         .footerLinks {
@@ -3700,6 +3567,25 @@ h2 {
     .footer {
         .sectionContainer {
             grid-template-columns: repeat(4, 1fr);
+
+            .gridOne {
+                .logoDiv {
+                    width: 100%;
+
+                    .logoLink {
+                        display: flex;
+                        align-items: center;
+
+                        .Logo {
+                            width: 28%;
+                        }
+
+                        .logoName {
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -3734,7 +3620,7 @@ h2 {
 
             .logoDiv {
                 .Logo {
-                    max-width: 80%;
+                    max-width: 60%;
                 }
             }
 
@@ -3940,6 +3826,45 @@ h2 {
             }
         }
     }
+
+    // Footer section styling
+    .footer {
+        .sectionContainer {
+            grid-template-columns: repeat(4, 1fr);
+
+            .gridOne {
+                .logoDiv {
+                    width: 100%;
+
+                    .logoLink {
+                        display: flex;
+                        align-items: center;
+
+                        .Logo {
+                            width: 32%;
+                        }
+
+                        .logoName {
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .section-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-icon-container {
+        padding: 1rem;
+    }
+
+    .about-hero {
+        margin-top: 5rem;
+        padding: 3rem 1rem;
+    }
 }
 
 @media screen and (min-width: 960px) {
@@ -4021,16 +3946,12 @@ h2 {
                         .icon {
                             position: relative;
                             font-size: 1.4rem;
-                            /* Tăng kích thước icon */
                             color: var(--textColor);
-                            /* Sử dụng màu văn bản nhẹ */
                             cursor: pointer;
                             transition: color 0.3s ease-in-out;
-                            /* Thêm hiệu ứng hover */
 
                             &:hover {
                                 color: var(--PrimaryColor);
-                                /* Đổi màu khi hover */
                             }
                         }
 
@@ -4120,18 +4041,6 @@ h2 {
                                 margin: 0.7rem 0;
                             }
                         }
-                    }
-                }
-            }
-        }
-
-        .navBarTwo {
-            .logoDiv {
-                width: 15%;
-
-                .logoLink {
-                    .Logo {
-                        width: 30%;
                     }
                 }
             }
@@ -4255,12 +4164,26 @@ h2 {
         }
     }
 
+    // Footer section styling
     .footer {
         .sectionContainer {
+            grid-template-columns: repeat(4, 1fr);
+
             .gridOne {
-                .logoLink {
-                    .logoName {
-                        font-size: 17px;
+                .logoDiv {
+                    width: 100%;
+
+                    .logoLink {
+                        display: flex;
+                        align-items: center;
+
+                        .Logo {
+                            width: 32%;
+                        }
+
+                        .logoName {
+                            font-size: 13px;
+                        }
                     }
                 }
             }

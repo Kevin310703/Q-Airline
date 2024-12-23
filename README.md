@@ -1,15 +1,23 @@
-# Q-Airline
+# Q-Airline (Euphoria in Every Flight)
 
 ## Introduction
 
-In the fast-paced digital age, the Airplane Ticket Booking and Management System provides a modern solution to the limitations of traditional ticketing methods. By leveraging the MERN stack (MongoDB, Express.js, React.js, Node.js), this application offers a streamlined and secure platform for users to search, book, and manage flight tickets with ease.
+Q-Airline is a modern platform designed to manage and book airplane tickets, providing a convenient and efficient experience for both users and administrators. Built with Node.js, React.js (Vite), and MySQL, this application offers outstanding features to meet the diverse needs of the aviation industry.
 
 ## Features
 
 - **User Management**: Register, log in, and manage user profiles securely.
-- **Flight Search and Booking**: Search for flights based on various criteria, book tickets securely, and make payments through PCI-compliant gateways.
+- **Flight Search and Ticket Booking**:Search for flights based on criteria such as destination, time, and airline, quickly book tickets and manage booked ticket details.
 - **Admin Panel**: Manage flight listings, user information, and system configurations efficiently.
+- **Notifications and Promotions**: Receive updates about system changes and the latest promotional offers.
 - **Responsive Design**: Enjoy a seamless experience across different devices, including desktops, laptops, tablets, and smartphones.
+
+## Technology Stack
+
+- **Frontend**: React.js with Vite.
+- **Backend**: Node.js and Express.js.
+- **Database**: MySQL.
+- **Cloud Services**: Cloudinary for image management.
 
 ## Installation
 
@@ -27,7 +35,7 @@ git clone https://github.com/Kevin310703/Q-Airline.git
 cd Q-Airline
 ```
 
-3. There are 2 directories Frontend and backend
+3. There are 3 directories frontend, backend and adminadmin
 for frontend
 ```bash
 cd frontend
@@ -38,6 +46,11 @@ for backend
 cd backend
 ```
 
+for admin
+```bash
+cd admin
+```
+
 3. Install dependencies:
 
 ```bash
@@ -45,7 +58,7 @@ npm install
 ```
 
 4. Set up environment variables:
-   - Create a `.env` file in the root directory.
+   - Using a `.env` file in the root directory.
    - Add environment variables for MySQL connection, Cloudinary, and other sensitive information.
 
 5. Start the development frontend server:
@@ -73,12 +86,23 @@ And open your browser and visit `http://localhost:3000` to access the applicatio
 
 Once the application is running, users can:
 
-- Register or log in to their accounts.
+- Register, log in or reset password to their accounts.
 - Search for flights based on their preferences.
-- Book tickets securely and make payments.
-- Manage booked tickets, including viewing QR codes for verification.
+- Book tickets securely.
+- Update user infomation.
+- Manage booked tickets.
 
-Admin users can access additional functionalities through the admin panel, such as managing flight listings and user information.
+Admin users can access additional functionalities through the admin panel, such as managing flight listings, airplane listings, ticket listing, notification or promotion, user information.
+
+## About Us (Author)
+We are a team of three students from The VNU University of Engineering and Technology (VNU-UET). Together, we developed Q-Airline as a project to apply our knowledge and skills in software development, aiming to create a practical and user-friendly solution for managing flight tickets.
+
+- Chu Viet Kien (The Faculty of Agricultural Technology).
+- Pham Mai Anh (The Faculty of Information Technology).
+- Vu Thi Ngoc Thanh (The Faculty of Information Technology).
+
+## Contact
+Email: 21020830@vnu.edu.vn/kiencv.3107@gmail.com
 
 ## License
 

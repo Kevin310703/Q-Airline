@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import Navbar from './components/navbar/navbar';
 import Home from './components/home/home';
@@ -263,7 +264,9 @@ const App = () => {
             <>
               <ProtectedRoute>
                 <Navbar />
-                <BookTicket />
+                <PayPalScriptProvider options={{ "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID, currency: "USD" }}>
+                  <BookTicket />
+                </PayPalScriptProvider>
                 <Footer />
               </ProtectedRoute>
             </>
@@ -276,7 +279,9 @@ const App = () => {
             <>
               <ProtectedRoute>
                 <Navbar />
-                <NewBookTicket />
+                <PayPalScriptProvider options={{ "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID, currency: "USD" }}>
+                  <NewBookTicket />
+                </PayPalScriptProvider>
                 <Footer />
               </ProtectedRoute>
             </>

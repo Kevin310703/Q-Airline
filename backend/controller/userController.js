@@ -199,6 +199,9 @@ export const deleteUser = async (req, res) => {
         // Xóa vai trò liên kết với người dùng
         await pool.query("DELETE FROM user_roles WHERE user_id = ?", [id]);
 
+        // Xóa các bản ghi trong airplane_seats liên quan đến người dùng
+        await pool.query("DELETE FROM airplane_seats WHERE passenger_id = ?", [id]);
+
         // Xóa người dùng
         const [result] = await pool.query("DELETE FROM users WHERE user_id = ?", [id]);
 

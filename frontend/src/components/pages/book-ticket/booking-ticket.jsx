@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
 import axiosInstance from "../../config/axiosInstance";
 import { AuthContext } from "../../context/AuthContext";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const BookTicket = () => {
     const { id } = useParams();
-    const { user, dispatch, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const [ticket, setTicket] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState("");
+    const [showPaypal, setShowPaypal] = useState(false);
 
     useEffect(() => {
         const fetchTicketDetails = async () => {
@@ -28,9 +29,14 @@ const BookTicket = () => {
         fetchTicketDetails();
     }, [id]);
 
-    const handleConfirmBooking = async (e) => {
+    // Khi người dùng nhấn nút Confirm Booking, hiển thị nút PayPal
+    const handleConfirmBooking = (e) => {
         e.preventDefault();
+        setShowPaypal(true);
+    };
 
+    // Hàm gọi API backend để lưu thông tin đặt vé sau khi thanh toán thành công
+    const handleBookingAfterPayment = async (paypalOrderId) => {
         setIsSubmitting(true);
         try {
             await axiosInstance.post("/api/tickets-booking", {
@@ -38,11 +44,11 @@ const BookTicket = () => {
                 flight_id: ticket.flight_id,
                 seat_number: ticket.seat_number,
                 seat_class: ticket.seat_class,
-                price: ticket.price
+                price: ticket.price,
+                payment_method: "Paypal",
+                paypal_order_id: paypalOrderId,
             });
-
             setMessage("Booking ticket confirmed successfully!");
-
             window.setTimeout(() => {
                 navigate("/my-ticket");
             }, 2000);
@@ -57,8 +63,6 @@ const BookTicket = () => {
     if (loading) {
         return <p>Loading ticket details...</p>;
     }
-
-    console.log(ticket);
 
     return (
         <div className="bookTicket section">
@@ -104,14 +108,48 @@ const BookTicket = () => {
                                 <p><strong>Arrival:</strong> {ticket.arrival_airport}, {ticket.arrival_country}</p>
                             </div>
                             <div className="ticketPrice">
-                                <p><strong>Total price:</strong> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ticket.price)}</p>
+                                <p>
+                                    <strong>Total price:</strong> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ticket.price)}
+                                </p>
                             </div>
                         </div>
                         <div className="ticketActions flex">
-                            <button className="btn confirmBtn" onClick={handleConfirmBooking}>
-                                {isSubmitting ? "Confirming..." : " Confirm Booking"}
-                            </button>
-                            <button className="btn cancelBtn" onClick={() => navigate(-1)}>Cancel</button>
+                            {!showPaypal && (
+                                <>
+                                    <button className="btn confirmBtn" onClick={handleConfirmBooking}>
+                                        {isSubmitting ? "Processing..." : "Confirm Booking"}
+                                    </button>
+                                    <button className="btn cancelBtn" onClick={() => navigate(-1)}>Cancel</button>
+                                </>
+                            )}
+
+                            {showPaypal && (
+                                <div className="paypalContainer">
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [{
+                                                    amount: {
+                                                        // Lưu ý: Giá trị nên được chuyển đổi sang đơn vị phù hợp (ví dụ: USD)
+                                                        // value: (ticket.price / 23000).toFixed(2)
+                                                        value: parseFloat(ticket.price).toFixed(2)
+                                                    },
+                                                }],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            return actions.order.capture().then(function(details) {
+                                                const paypalOrderId = data.orderID;
+                                                handleBookingAfterPayment(paypalOrderId);
+                                            });
+                                        }}
+                                        onError={(err) => {
+                                            console.error("PayPal Checkout onError", err);
+                                            setMessage("Payment failed. Please try again.");
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 ) : (

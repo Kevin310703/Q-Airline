@@ -64,6 +64,7 @@ export const getTicketById = async (req, res) => {
                 t.seat_number,
                 t.seat_class,
                 t.price,
+                b.booking_id,
                 IFNULL(b.status, 'N/A') AS booking_status,
                 IFNULL(b.booking_date, 'N/A') AS booking_date,
                 IFNULL(u.full_name, 'N/A') AS customer_name,
@@ -138,115 +139,145 @@ export const addTicket = async (req, res) => {
 };
 
 export const addTicketAndBooking = async (req, res) => {
-    const { user_id, flight_id, seat_number, seat_class, price } = req.body;
+    const { user_id, flight_id, seat_number, seat_class, price, payment_method, paypal_order_id } = req.body;
 
     try {
-        // Truy vết thông tin chuyến bay và máy bay
-        const [flightInfo] = await pool.query(
-            `
-            SELECT 
-                f.departure_time, 
-                f.arrival_time,
-                a1.name AS departure_airport,
-                a1.city AS departure_city,
-                a2.name AS arrival_airport,
-                a2.city AS arrival_city,
-                ap.model AS airplane_model,
-                ap.registration_number AS airplane_registration
-            FROM 
-                flights f
-            JOIN 
-                airports a1 ON f.departure_airport_id = a1.airport_id
-            JOIN 
-                airports a2 ON f.arrival_airport_id = a2.airport_id
-            JOIN 
-                airplanes ap ON f.airplane_id = ap.airplane_id
-            WHERE 
-                f.flight_id = ?
-            `,
-            [flight_id]
-        );
+        // Bắt đầu transaction để đảm bảo tính toàn vẹn dữ liệu
+        const connection = await pool.getConnection();
+        await connection.beginTransaction();
 
-        if (flightInfo.length === 0) {
-            return res.status(404).json({ message: "Flight not found" });
+        try {
+            // Truy vết thông tin chuyến bay và máy bay
+            const [flightInfo] = await connection.query(
+                `
+                SELECT 
+                    f.departure_time, 
+                    f.arrival_time,
+                    a1.name AS departure_airport,
+                    a1.city AS departure_city,
+                    a2.name AS arrival_airport,
+                    a2.city AS arrival_city,
+                    ap.model AS airplane_model,
+                    ap.registration_number AS airplane_registration
+                FROM 
+                    flights f
+                JOIN 
+                    airports a1 ON f.departure_airport_id = a1.airport_id
+                JOIN 
+                    airports a2 ON f.arrival_airport_id = a2.airport_id
+                JOIN 
+                    airplanes ap ON f.airplane_id = ap.airplane_id
+                WHERE 
+                    f.flight_id = ?
+                `,
+                [flight_id]
+            );
+
+            if (flightInfo.length === 0) {
+                throw new Error("Flight not found");
+            }
+
+            const {
+                departure_time,
+                arrival_time,
+                departure_airport,
+                departure_city,
+                arrival_airport,
+                arrival_city,
+                airplane_model,
+                airplane_registration,
+            } = flightInfo[0];
+
+            // Tạo booking
+            const [bookingResult] = await connection.query(
+                `
+                INSERT INTO bookings (user_id, flight_id, booking_date, status)
+                VALUES (?, ?, NOW(), 'Confirmed')
+                `,
+                [user_id, flight_id]
+            );
+            const booking_id = bookingResult.insertId;
+
+            // Kiểm tra ghế đã được đặt hay chưa
+            const [seatCheck] = await connection.query(
+                `
+                SELECT is_occupied FROM airplane_seats 
+                WHERE seat_number = ? AND airplane_id = (SELECT airplane_id FROM flights WHERE flight_id = ?)
+                `,
+                [seat_number, flight_id]
+            );
+
+            if (seatCheck.length > 0 && seatCheck[0].is_occupied) {
+                throw new Error("Seat already occupied");
+            }
+
+            // Tạo ticket
+            const [ticketResult] = await connection.query(
+                `
+                INSERT INTO tickets (booking_id, flight_id, seat_number, price, seat_class)
+                VALUES (?, ?, ?, ?, ?)
+                `,
+                [booking_id, flight_id, seat_number, price, seat_class]
+            );
+            const ticket_id = ticketResult.insertId;
+
+            // Cập nhật trạng thái ghế
+            await connection.query(
+                `
+                UPDATE airplane_seats
+                SET is_occupied = true, passenger_id = ?
+                WHERE seat_number = ? AND airplane_id = (SELECT airplane_id FROM flights WHERE flight_id = ?)
+                `,
+                [user_id, seat_number, flight_id]
+            );
+
+            // Lưu thông tin thanh toán vào bảng payments
+            const [paymentResult] = await connection.query(
+                `
+                INSERT INTO payments (booking_id, amount, payment_method, payment_date, paypal_order_id)
+                VALUES (?, ?, ?, NOW(), ?)
+                `,
+                [booking_id, price, payment_method, paypal_order_id]
+            );
+            const payment_id = paymentResult.insertId;
+
+            // Tạo thông báo
+            const title = "Ticket Booking Confirmation";
+            const content = `
+                Your ticket for flight ${airplane_model} (Registration: ${airplane_registration})
+                departing from ${departure_airport}, ${departure_city} to ${arrival_airport}, ${arrival_city}
+                has been successfully booked. Seat Number: ${seat_number}, Class: ${seat_class}.
+                Departure Time: ${new Date(departure_time).toLocaleString()}, Arrival Time: ${new Date(arrival_time).toLocaleString()}.
+            `;
+
+            await createAnnouncement({
+                title,
+                content,
+                user_ids: [user_id],
+                sender_id: null, // Hệ thống gửi
+            });
+
+            // Commit transaction nếu mọi thứ thành công
+            await connection.commit();
+
+            res.status(201).json({
+                message: "Ticket and payment created successfully",
+                ticket_id,
+                booking_id,
+                payment_id,
+            });
+        } catch (error) {
+            // Rollback transaction nếu có lỗi
+            await connection.rollback();
+            throw error;
+        } finally {
+            connection.release();
         }
-
-        const {
-            departure_time,
-            arrival_time,
-            departure_airport,
-            departure_city,
-            arrival_airport,
-            arrival_city,
-            airplane_model,
-            airplane_registration,
-        } = flightInfo[0];
-
-        // Tạo booking
-        const [bookingResult] = await pool.query(
-            `
-        INSERT INTO bookings (user_id, flight_id, booking_date, status)
-        VALUES (?, ?, NOW(), 'Confirmed')
-        `,
-            [user_id, flight_id]
-        );
-        const booking_id = bookingResult.insertId;
-
-        // Kiểm tra ghế đã được đặt hay chưa
-        const [seatCheck] = await pool.query(
-            `
-        SELECT is_occupied FROM airplane_seats 
-        WHERE seat_number = ? AND airplane_id = (SELECT airplane_id FROM flights WHERE flight_id = ?)
-        `,
-            [seat_number, flight_id]
-        );
-
-        if (seatCheck.length > 0 && seatCheck[0].is_occupied) {
-            return res.status(400).json({ message: "Seat already occupied" });
-        }
-
-        // Tạo ticket
-        const [ticketResult] = await pool.query(
-            `
-        INSERT INTO tickets (booking_id, flight_id, seat_number, price, seat_class)
-        VALUES (?, ?, ?, ?, ?)
-        `,
-            [booking_id, flight_id, seat_number, price, seat_class]
-        );
-
-        // Cập nhật trạng thái ghế
-        await pool.query(
-            `
-        UPDATE airplane_seats
-        SET is_occupied = true, passenger_id = ?
-        WHERE seat_number = ? AND airplane_id = (SELECT airplane_id FROM flights WHERE flight_id = ?)
-        `,
-            [user_id, seat_number, flight_id]
-        );
-
-        const title = "Ticket Booking Confirmation";
-        const content = `
-            Your ticket for flight ${airplane_model} (Registration: ${airplane_registration})
-            departing from ${departure_airport}, ${departure_city} to ${arrival_airport}, ${arrival_city}
-            has been successfully booked. Seat Number: ${seat_number}, Class: ${seat_class}.
-            Departure Time: ${new Date(departure_time).toLocaleString()}, Arrival Time: ${new Date(arrival_time).toLocaleString()}.
-        `;
-
-        await createAnnouncement({
-            title,
-            content,
-            user_ids: [user_id],
-            sender_id: null, // Hệ thống gửi
-        });
-
-        res.status(201).json({
-            message: "Ticket created successfully",
-            ticket_id: ticketResult.insertId,
-            booking_id,
-        });
     } catch (error) {
-        console.error("Error adding ticket:", error);
-        res.status(500).json({ message: "Server error" });
+        console.error("Error adding ticket and payment:", error);
+        res.status(error.message === "Flight not found" ? 404 : error.message === "Seat already occupied" ? 400 : 500).json({
+            message: error.message || "Server error",
+        });
     }
 };
 
@@ -421,6 +452,7 @@ export const getUserTickets = async (req, res) => {
                 f.departure_time,
                 f.arrival_time,
                 f.status AS flight_status,
+                b.booking_id,
                 b.status AS booking_status,
                 a1.name AS departure_airport,
                 a1.city AS departure_city,
@@ -428,7 +460,8 @@ export const getUserTickets = async (req, res) => {
                 a2.name AS arrival_airport,
                 a2.city AS arrival_city,
                 a2.country AS arrival_country,
-                ap.model AS airplane_model
+                ap.model AS airplane_model,
+                ap.registration_number AS airplane_registration
             FROM 
                 tickets t
             JOIN 

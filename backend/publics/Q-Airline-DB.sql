@@ -184,6 +184,7 @@ CREATE TABLE payments (
     amount DECIMAL(10, 2) NOT NULL,
     payment_method ENUM('Credit_card', 'Paypal', 'Bank_transfer') NOT NULL,
     payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    paypal_order_id VARCHAR(100) DEFAULT NULL,
     FOREIGN KEY (booking_id) REFERENCES bookings(booking_id)
 );
 

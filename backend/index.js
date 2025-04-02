@@ -17,6 +17,7 @@ import announcementRoutes from "./routes/announcementRoutes.js";
 import promotionRoutes from "./routes/promotionRoutes.js";
 import destinationRoutes from "./routes/destinationRoutes.js";
 import sendMessageRoutes from "./routes/sendMessageRoutes.js";
+import paymentRoutes from "./Routes/paymentRoutes.js";
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ app.use("/api", announcementRoutes);
 app.use("/api", promotionRoutes);
 app.use("/api", destinationRoutes);
 app.use("/api", sendMessageRoutes);
+app.use("/api", paymentRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
